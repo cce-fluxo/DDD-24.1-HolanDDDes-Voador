@@ -40,33 +40,34 @@ const Perfil = () => {
 
   return (
     <>
+    < meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
       <LoggedHeader />
-      <main className="flex items-center justify-center">
-        <div className="relative top-[30px] flex justify-around w-11/12 h-full">
-          <div className="w-[517px] h-[607px] mt-[40px] mb-[26px] flex flex-col items-center justify-center bg-[#F6F4F4] rounded-[20px] p-[34px_50px_64px_37px]">
-            <div className="flex flex-col items-center w-[575.47px] h-[454px] mt-[-90px]">
-            <Image src="/upload-left.png" width={359.86} height={267.47} className="inline mb-[16px]" alt="Upload" />
-            <h4 className="text-[24px] font-medium leading-[36px] font-poppins text-preto mb-[16px]">Fotos</h4>
-              <div className="w-[454px] h-[240px] mb-[16px]">
-                <h6 className="text-[16px] font-bold leading-[24px] font-poppins text-preto w-full h-[24px] mb-[15px]">
+      <main className="flex items-center justify-center px-4">
+        <div className="relative mt-8 flex flex-col md:flex-row justify-around w-full h-full">
+          <div className="md:w-1/3 lg:w-2/3 xl:w-1/3 mt-8 mb-6 flex flex-col items-center justify-center bg-cinza-0 rounded-[20px] ">
+            <div className="md:shrink-0 flex flex-col items-center md:w-[570px] h-auto">
+            <Image src="/upload-left.png" width={359.86} height={267.47} className="inline mb-4 md:h-full md:w-80" alt="Upload" />
+            <h4 className="text-2xl font-medium leading-[36px] font-poppins text-preto mb-4">Fotos</h4>
+            <div className="w-5/6 mb-4">
+                <h6 className="text-lg font-bold leading-6 font-poppins text-preto mb-4 text-center">
                   Selecione três fotos para compor o seu perfil.
                 </h6>
-                <ul>
-                  <li className="flex gap-2 mb-[15px]">
-                    <span className="w-[27px] h-[27px] bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
-                    <span className="text-[16px] font-normal leading-[24px] font-poppins text-preto">
+                <ul className="space-y-4">
+                  <li className="flex gap-2 mb-4">
+                    <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
+                    <span className="text-base font-normal leading-6 font-poppins text-preto">
                       Vamos começar com a foto principal! Com postura formal e rosto bem aparente.
                     </span>
                   </li>
-                  <li className="flex gap-2 mb-[15px]">
-                    <span className="w-[27px] h-[27px] bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
-                    <span className="text-[16px] font-normal leading-[24px] font-poppins text-preto">
+                  <li className="flex gap-2 mb-4">
+                    <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
+                    <span className="text-base font-normal leading-6 font-poppins text-preto">
                       Que tal uma foto mais descontraída? Experimente postar uma foto sua praticando algum hobby!
                     </span>
                   </li>
                   <li className="flex gap-2">
-                    <span className="w-[27px] h-[27px] bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
-                    <span className="text-[16px] font-normal leading-[24px] font-poppins text-preto">
+                    <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
+                    <span className="text-base font-normal leading-6 font-poppins text-preto">
                       Por último, seria interessante uma foto sua com algum ente querido. Seja um amigo, familiar, ou com seu pet!
                     </span>
                   </li>
@@ -74,13 +75,13 @@ const Perfil = () => {
             </div>
           </div>
           </div>
-          <div className="top-[284px] w-[639px] h-[611px] flex flex-col items-center justify-center mt-[40px] left-[772px]">
-            <div className="border-2 border-dashed border-[#AB9C9F] w-[639px] h-[514px] rounded-[10px] flex items-center mb-[20px] p-[176px_128px_176px_128px]">
+          <div className="w-full md:max-w-2xl  flex flex-col items-center justify-center mt-8 px-4">
+            <div className="border-2 border-dashed border-cinza-2 w-full max-w-2xl  h-[450px] rounded-[10px] flex items-center justify-center mb-5 p-8">
               <Image src="/img.png" alt="Botar fotos" width={340} height={57}  onClick={handleImageClick} className="hover:content-[url('/image_hover.png')]" />
               <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" />
             </div>
             <Link href="/perfil/Editar-perfil">
-              <button className="mt-[20px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around gap-[10px] font-poppins text-[24px] font-normal rounded-[10px] leading-9  hover:bg-[#F42C46] -tracking-2">
+              <button className="mt-5 mb-5 py-6 px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around gap-[10px] font-poppins text-2xl font-normal rounded-[10px] leading-9  hover:bg-rosa-3 -tracking-2">
                 Salvar Alterações
               </button>
             </Link>
