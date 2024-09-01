@@ -12,6 +12,8 @@ const Hotel = () => {
     telefone: '',
     descrição: '',
   });
+  const [phoneError, setPhoneError] = useState<string>('');
+  const MAX_WORDS = 500;
 
   useEffect(() => {
     const nome = localStorage.getItem('nome') || '';
@@ -29,6 +31,52 @@ const Hotel = () => {
   const handleClick = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if (name === 'descrição') {
+      const wordCount = value.trim().split(/\s+/).length;
+      if (wordCount > MAX_WORDS) return;
+    }
+
+    setHotelData(prev => ({ ...prev, [name]: value }));
+    localStorage.setItem(name, value);
+
+    if (name === 'telefone' && !validatePhoneNumber(value)) {
+      setPhoneError('Número de telefone inválido');
+    } else {
+      setPhoneError('');
+    }
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const formData = new FormData();
+      Array.from(event.target.files).forEach((file) => {
+        formData.append('files', file);
+      });
+  
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        console.log('Upload bem-sucedido');
+      } else {
+        console.log('Erro ao fazer upload');
+      }
+    }
+  };
+
+  // Função para validar o número de telefone
+  const validatePhoneNumber = (phoneNumber: string): boolean => {
+    // Expressão regular para verificar um formato de número de telefone básico
+    const phoneRegex = /^[+]?[0-9]{10,15}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+
 
   return (
     <>
@@ -50,9 +98,9 @@ const Hotel = () => {
                   {currentImageIndex + 1}/{images.length}
                 </div>
             </div>
-            <Link href="/hotel">
-            <button className="py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
-              Excluir anúncio
+            <Link href="/hotel/adicionarinfo/editar_foto_hotel">
+            <button className="py-[15px] px-[182px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
+              Editar Fotos
             </button>
             </Link>
           </div>
@@ -164,46 +212,103 @@ const Hotel = () => {
                     </button>
                 </Link>
                 </div>
-                <div className="mt-[60px] flex flex-col">
-                <h3 className=" w-[245px] h-[80px] font-poppins text-preto text-[32px] font-bold leading-[66px]"> Meus dados:</h3>
+              <div className="mt-[60px] flex flex-col">
+                <h3 className=" w-[245px] h-[60px] font-poppins text-preto text-[32px] font-bold leading-[66px]"> Meus dados:</h3>
                 <div className="w-full ml-8">
                   <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">Descrição</h4>
-                  <h5 className="font-poppins font-normal text-[20px] text-cinza-2 whitespace-pre-wrap break-words">{hotelData.descrição} </h5>
+                  <input
+                      type="text"
+                      id="descrição"
+                      name="descrição"
+                      placeholder="/Escreva aqui uma descrição rápida do seu hotel (máx. 500 palavras)"
+                      className="w-full h-full ml-20 border-none bg-transparent font-poppins font-normal text-cinza-2 text-[20px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0 overflow-hidden whitespace-pre-wrap break-words"
+                      value={hotelData.descrição}
+                      onChange={handleInputChange}
+                    />
                 </div>
-              <div className="flex flex-row">
-                <div className="w-[520px] h-[56px] gap-[26px] flex items-center">
-                <div className="mt-[80px] relative w-[400px] h-[66px] font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap">
-                  <h4 className="text-preto inline-block">Nome: </h4>
-                  <h5 className="text-cinza-2 ml-2 inline-bloc">{hotelData.nome}</h5>
-                  <span className="absolute inset-x-0 bottom-0 border-b-2 border-cinza-2"></span>
-                </div>
-                </div>
-              </div>
-              <div className="flex flex-row">
-                <div className="w-[520px] h-[160px] gap-[26px] flex items-center">
-                <div className="mt-[60px] relative w-[400px] h=[66px] font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap">
-                  <h4 className="text-preto inline-block">Endereço: </h4>
-                  <h5 className="text-cinza-2 ml-2 inline-block whitespace-pre-wrap break-words">{hotelData.endereço}</h5>
-                  <span className="absolute inset-x-0 bottom-0 border-b-2 border-cinza-2"></span>           
-                </div>
-                </div>
-              </div>
-              <div className="flex flex-row">
-                <div className="w-[520px] h-[180px] gap-[26px] flex items-center">
-                <div className="mt-[40px] relative w-[400px] h=[66px] font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap mb-[80px]">
-                  <h4 className="text-preto inline-block">Telefone: </h4>
-                  <h5 className="text-cinza-2 ml-2 inline-block">{hotelData.telefone}</h5>
-                  <span className="absolute inset-x-0 bottom-0 border-b-2 border-cinza-2"></span>                 
-                </div>
-                </div>
-              </div>
-              <div className="flex justify-center items-center">
-                <Link href="/hotel/adicionarinfo/postar/confirmar/postado/editar" passHref>
-                    <button className="mb-[30px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center">
-                    Editar Informações
-                    </button>
+                <div className="mt-[20px] ml-8"> 
+                <Link href="/hotel/detalhar_informacao" passHref>
+                  <button className="mt-[32px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center">
+                    Detalhar Informações
+                  </button>
                 </Link>
                 </div>
+                <div className="flex flex-row mt-[60px]">
+                <div className="w-[520px] h-[56px] flex items-center">
+                  <div className="relative w-full peer h-10 border border-cinza-3 rounded-[10px] px-4 placeholder-transparent flex items-center">
+                    <input
+                      type="text"
+                      id="nome"
+                      name="nome"
+                      placeholder="Escreva aqui seu nome"
+                      className="w-full h-full ml-20 border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
+                      value={hotelData.nome}
+                      onChange={handleInputChange}
+                    />
+                    <label
+                      htmlFor="nome"
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 text-preto font-poppins font-medium text-[24px]"
+                    >
+                      Nome:
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row mt-[60px]">
+                <div className="w-[520px] h-[56px] flex items-center">
+                  <div className="relative w-full peer h-10 border border-cinza-3 rounded-[10px] px-4 placeholder-transparent flex items-center">
+                    <input
+                      type="text"
+                      id="endereço"
+                      name="endereço"
+                      placeholder="Escreva aqui seu endereço"
+                      className="w-full h-full ml-[120px] border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
+                      value={hotelData.endereço}
+                      onChange={handleInputChange}
+                    />
+                    <label
+                      htmlFor="endereço"
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 text-preto font-poppins font-medium text-[24px]"
+                    >
+                      Endereço:
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row mt-[60px]">
+                <div className="w-[520px] h-[56px] flex items-center">
+                  <div className="relative w-full peer h-10 border border-cinza-3 rounded-[10px] px-4 placeholder-transparent flex items-center">
+                    <input
+                      type="text"
+                      id="telefone"
+                      name="telefone"
+                      placeholder="Escreva aqui seu telefone"
+                      className="w-full h-full ml-28 border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
+                      value={hotelData.telefone}
+                      onChange={handleInputChange}
+                    />
+                    <label
+                      htmlFor="telefone"
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 text-preto font-poppins font-medium text-[24px]"
+                    >
+                      Telefone:
+                    </label>
+                  </div>
+                </div>
+              </div>
+              {phoneError && <p className="text-rosa-4 mt-2">{phoneError}</p>}
+              <div className="flex flex-row mt-[10px] justify-between mb-[80px]"> 
+                  <Link href="/hotel/adicionarinfo/postar/confirmar/postado" passHref>
+                    <button className="mt-[32px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center">
+                      Confirmar
+                    </button>
+                  </Link>
+                  <Link href="/hotel/adicionarinfo/postar/confirmar/postado" passHref>
+                    <button className="mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
+                      Cancelar
+                    </button>
+                  </Link>
+              </div>
               </div>
             </div>
             </div>

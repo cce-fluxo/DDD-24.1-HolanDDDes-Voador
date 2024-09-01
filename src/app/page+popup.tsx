@@ -3,8 +3,20 @@
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import LoggedHeader from "@/app/LoggedHeader";
+import { useRouter } from 'next/router';
+import Modal from './components/popperfil';
 
 const Perfil = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const router = useRouter();
+
+  const paginaHotel = () => {
+    router.push('/hotel');
+  };
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const links = [
     { href: "/salvar alterações", label: "Salvar Alterações" },
@@ -77,12 +89,13 @@ const Perfil = () => {
           </div>
           <div className="w-full md:max-w-2xl  flex flex-col items-center justify-center mt-8 px-4">
             <div className="border-2 border-dashed border-cinza-2 w-full max-w-2xl  h-[450px] rounded-[10px] flex items-center justify-center mb-5 p-8">
-              <Image src="/img.svg" alt="Botar fotos" width={340} height={57}  onClick={handleImageClick} className="hover:content-[url('/image_hover.png')]" />
+              <Image src="/img.png" alt="Botar fotos" width={340} height={57}  onClick={handleImageClick} className="hover:content-[url('/image_hover.png')]" />
               <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" />
             </div>
-              <button className="mt-5 mb-5 py-6 px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around gap-[10px] font-poppins text-2xl font-normal rounded-[10px] leading-9  hover:bg-rosa-3 -tracking-2">
+              <button onClick={openModal} className="mt-5 mb-5 py-6 px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around gap-[10px] font-poppins text-2xl font-normal rounded-[10px] leading-9  hover:bg-rosa-3 -tracking-2">
                 Salvar Alterações
               </button>
+              <Modal isOpen={isModalOpen} onClose={closeModal} />
           </div>
         </div>
       </main>

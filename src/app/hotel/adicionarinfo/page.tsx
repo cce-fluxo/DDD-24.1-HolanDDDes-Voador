@@ -92,7 +92,7 @@ const Hotel = () => {
               <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" />
             </div>
             <Link href="/hotel/adicionarinfo/editar_foto_hotel" passHref>
-              <button className="mt-[20px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
+              <button className="mt-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
                 Editar Fotos
               </button>
             </Link>
@@ -182,7 +182,7 @@ const Hotel = () => {
               <div className="w-[800px] h-[56px] gap-[26px]">
               <div className="flex justify-center items-center">
               <Link href="/hotel/editar-comodidades" passHref>
-                  <button className="mt-[32px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
+                  <button className="mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
                   Editar Comodidades
                   </button>
               </Link>

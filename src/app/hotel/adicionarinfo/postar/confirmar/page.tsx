@@ -56,7 +56,7 @@ const Hotel = () => {
             </button>
             </Link>
           </div>
-          <div className="ml-[25%] w-[669px] h-[447px] relative top-[60px] flex flex-col">
+          <div className="ml-[30%] w-[669px] h-[447px] relative top-[60px] flex flex-col">
           <div className="w-[816px] h-[698px] gap-[64px]">
             <h2 className="text-rosa-4 text-[36px] font-bold leading-[54px] font-poppins text-center mb-[64px]">Revise seu anúncio</h2>
           <div className="w-[544.11px] h-[470px] gap-[16px]">
@@ -160,7 +160,7 @@ const Hotel = () => {
                 </div>
                 <div className="flex justify-center items-center">
                 <Link href="/hotel/editar-comodidades" passHref>
-                    <button className="mt-[32px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
+                    <button className="mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
                     Editar Comodidades
                     </button>
                 </Link>
@@ -204,7 +204,7 @@ const Hotel = () => {
                       Editar informações
                     </button>
                   </Link>
-                  <Link href="/hotel" passHref>
+                  <Link href="/hotel/adicionarinfo/postar" passHref>
                     <button className="mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
                       Cancelar
                     </button>
