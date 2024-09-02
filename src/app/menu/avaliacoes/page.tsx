@@ -21,7 +21,7 @@ export default function Avaliacoes() {
             <p className="font-[500] text-[24px] leading-[36px] text-[#574A4D] font-sans">Nota geral do hotel</p>
             <div className="flex gap-[24px] justify-between items-center">
               <Image src="/star.svg" alt='star' height={71} width={80}/>
-              <p className="font-[700] text-[36px] leading-[54px] text-[#333333]self-center">4,6</p>
+              <p className="font-[700] text-[36px] leading-[54px] text-[#333333] self-center">4,6</p>
             </div>
           </div>
 
