@@ -1,12 +1,15 @@
 import Image from "next/image";
 import Passaro from "../../../public/passaro.png"
 import Seta from "../../../public/seta.png"
+import LogOffHeader from "../HeaderLogOff";
 
 export default function LogOff(){
     return(
-        <HeaderLogOff/>
+        <>
+        <LogOffHeader/>
+    
         <div className=" w-screen justify-center gap-[13vw] items-center h-screen flex">
-            <div className=" w-[447px] h-[390px]">
+            <div className=" mt-10 w-[447px] h-[390px]">
 
                 <div className=" mb-[72px] ">
                     <p className=" text-[48px] font-semibold">Anunciar seu hotel com a <span className=" text-red-600">BonVoyage</span></p>
@@ -19,11 +22,12 @@ export default function LogOff(){
                         <Image src={Seta} alt=""></Image>
                     </button>
                 </div>
-                
+
             </div>
             <div className=" w-[447px] h-[390px]">
                 <Image src={Passaro} alt=""></Image>
             </div>
         </div>
+        </>
     )
 }
