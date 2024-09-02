@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Porta from "../../public/image (1).png"
+import Porta from "../../../public/image (1).png"
 
 
 export default function Box0quarto() {

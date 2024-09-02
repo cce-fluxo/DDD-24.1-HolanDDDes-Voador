@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Pessoa from "../../public/pessoa.png"
+import Pessoa from "../../../public/pessoa.png"
 
 
 export default function Box0checkin() {
