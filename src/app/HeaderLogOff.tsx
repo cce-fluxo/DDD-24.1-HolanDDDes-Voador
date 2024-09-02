@@ -17,3 +17,6 @@ const LogOffHeader = () => {
       </div>
     </header>
   );
+};
+
+export default LogOffHeader;
