@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from 'next/link';
 import LoggedHeader from "@/app/components/LoggedHeader";
 
 export default function Detalhar() {
@@ -23,7 +24,9 @@ export default function Detalhar() {
             </div>
 
             <div className="self-center">
+              <Link href="/hotel/adicionarinfo" passHref>
                 <button className="bg-[#DC143B] hover:bg-[#F42C46] w-[433px] h-[57px] p-[15px, 182px, 15px, 182px] rounded-[10px] text-[#FFFFFF] font-sans font-[400] text-[24px]">Confirmar Alterações</button>
+              </Link>
             </div>
           </div>
         </div>
