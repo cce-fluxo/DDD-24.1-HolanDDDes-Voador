@@ -11,7 +11,7 @@ import LiteraturaIcon from '../../../public/literatura.svg';
 import MusicaIcon from '../../../public/musica.svg';
 import EsportesIcon from '../../../public/esportes.svg';
 import ArteIcon from '../../../public/arte.svg';
-import CozinhaIcon from '../../../public/cozinha.svg';
+import CozinhaIcon from "../../../public/cozinha.svg"
 
 interface ModalProps {
   isOpen: boolean;
