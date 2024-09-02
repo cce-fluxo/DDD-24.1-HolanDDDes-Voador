@@ -11,7 +11,7 @@ export default function Detalhar() {
       <div className="flex justify-around mt-[110px]">
         <div className="w-[517px] flex flex-col items-center mt-3 gap-[26px] bg-[#F6F4F4] py-[34px] rounded-[20px] ">
           <Image src={"/amico.svg"} height={341.15} width={372} alt="Imagem" className="justify-items-center relative"/>
-          <p className="w-full h-[36px] font-[500] text-[24px] leading-[36px] font-sans text-center">Detalhar Informações</p>
+          <p className="w-full h-[36px] font-[500] text-[24px] leading-[36px] text-[#372F30] font-sans text-center">Detalhar Informações</p>
 
           <div className="w-[454px] gap-[16px] flex flex-col">
             <div className="flex gap-[15px] w-[454px]">

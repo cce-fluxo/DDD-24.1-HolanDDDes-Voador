@@ -13,7 +13,7 @@ export default function Comodidades() {
         <div className="flex flex-col items-center my-20 gap-[26px] bg-[#F6F4F4] px-[50px] py-[34px] rounded-[20px] ">
           <div className="w-[458px] flex flex-col items-center gap-[26px]">
             <Image src="/rafiki.svg" alt='imagem' height={341.15} width={372} className="justify-items-center relative" />
-            <p className="h-[36px] font-[500] text-[24px] leading-[36px] font-sans text-center">Comodidades</p>
+            <p className="h-[36px] font-[500] text-[24px] leading-[36px] text-[#372F30] font-sans text-center">Comodidades</p>
 
             <div className="flex flex-col gap-[20px]">
               <div className="flex gap-[15px]">
