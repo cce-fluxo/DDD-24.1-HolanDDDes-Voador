@@ -9,7 +9,7 @@ export default function Box0reserva() {
                 <Image src={Porta} alt=""></Image>
             </div>
             <div>
-                <p className=" text-[24px] font-sans text-cinza3">Nenhuma reserva</p>
+                <p className=" text-[24px] font-sans text-cinza-4 font-normal font-poppins">Nenhuma reserva</p>
             </div>
         </div>
     )

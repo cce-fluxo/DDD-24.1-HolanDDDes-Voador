@@ -9,7 +9,7 @@ export default function Box0checkout() {
                 <Image src={Pessoa} alt=""></Image>
             </div>
             <div>
-                <p className=" text-[24px] font-sans text-cinza3">Nenhum check out</p>
+                <p className=" text-[24px] font-sans text-cinza-4 font-normal font-poppins">Nenhum check out</p>
             </div>
         </div>
     )
