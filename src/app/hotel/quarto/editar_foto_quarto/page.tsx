@@ -71,7 +71,8 @@ const Perfil = () => {
           <div className="top-[284px] w-[639px] h-[611px] flex flex-col items-center mt-[40px] left-[772px]">
             <div className="border-2 border-dashed border-[#AB9C9F] w-[639px] h-[514px] rounded-[10px] flex items-center mb-[20px] p-[176px_128px_176px_128px]">
               <Image src="/img.svg" alt="Botar fotos" width={340} height={57}  onClick={handleImageClick} className="hover:content-[url('/image_hover.png')]" />
-              <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" />
+              <label htmlFor="file-upload" className="sr-only">Upload File</label>
+              <input id="file-upload" type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" />
             </div>
             <Link href="/perfil/Editar-perfil">
               <button className="mt-[20px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around gap-[10px] font-poppins text-[24px] font-normal rounded-[10px] leading-9  hover:bg-[#F42C46] -tracking-2">
