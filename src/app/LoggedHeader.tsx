@@ -8,7 +8,7 @@ const LoggedHeader = () => {
   const username = "Samira";
 
   const links = [
-    { href: "/", label: "Home" },
+    { href: "/home", label: "Home" },
     { href: "/perfil", label: "Meu Perfil" },
     { href: "/hotel", label: "Meu Hotel" },
     { href: "/menu", label: "Menu" },

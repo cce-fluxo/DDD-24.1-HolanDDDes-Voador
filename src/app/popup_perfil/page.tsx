@@ -3,17 +3,10 @@
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import LoggedHeader from "@/app/LoggedHeader";
-import { useRouter } from 'next/router';
-import Modal from './components/popperfil';
+import Modal from '@/app/components/popperfil';
 
 const Perfil = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-
-  const router = useRouter();
-
-  const paginaHotel = () => {
-    router.push('/hotel');
-  };
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
