@@ -163,14 +163,21 @@ const Hotel = () => {
                     validate={values => {
                       const errors: { [key: string]: string } = {};
                       if (!values.nome) {
-                        errors.nome = 'Nome é obrigatório';
+                        errors.nome = 'Campo obrigatório';
                       }
                       if (!values.endereço) {
-                        errors.endereço = 'Endereço é obrigatório';
+                        errors.endereço = 'Campo obrigatório';
                       }
                       if (!values.telefone) {
-                        errors.telefone = 'Telefone é obrigatório';
+                        errors.telefone = 'Campo obrigatório';
+                      } else {
+                        // Regex para telefone brasileiro no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+                        const telefoneRegex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
+                        if (!telefoneRegex.test(values.telefone)) {
+                          errors.telefone = 'Telefone inválido. Use o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.';
+                        }
                       }
+
                       // descrição é opcional
                       // Validação da descrição com limite de 500 palavras
                       if (values.descrição) {
@@ -181,7 +188,6 @@ const Hotel = () => {
                       }
                       return errors;
                     }}
-                    // Submetendo os valores --> transforma em um JSON
                     onSubmit={(values, { setSubmitting }) => {
                       setTimeout(() => {
                         alert(JSON.stringify(values, null, 2));
@@ -189,88 +195,94 @@ const Hotel = () => {
                       }, 400);
                     }}
                   >
-                    {({ isSubmitting, values }) => (
+                    {({ isSubmitting, isValid, values }) => (
                       <Form>
                         <div className="ml-8">
-                        <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">
-                          Descrição
-                        </h4>
+                          <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">
+                            Descrição
+                          </h4>
                           <Field
                             type="text"
                             name="descrição"
                             className="w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
                             placeholder="/Escreva aqui uma descrição sobre o seu hotel (máx. 500 palavras)"
+                            component="textarea"
                           />
                           <ErrorMessage name="descrição" component="div" className="text-red-500" />
                         </div>
                         {/* Contagem de palavras na descrição */}
                         <div className="text-right text-cinza-2 text-[12px]">
-                        {wordCount(values.descrição)} / 500 palavras
+                          {wordCount(values.descrição)} / 500 palavras
                         </div>
-                        
-                        <Link href='/hotel/detalhar_informacao'>
-                        <button
-                          className="mt-[32px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center"
-                          type="submit"
-                          disabled={isSubmitting}
-                        >
-                          Detalhar Informações
-                        </button>
-                        </Link>
 
                         <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
-                        <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Nome: </h4>
+                          <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Nome: </h4>
                           <Field
                             type="text"
                             name="nome"
                             className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
-                            placeholder="Escreva aqui seu nome"
+                            placeholder="Escreva aqui o nome do hotel"
                           />
-                          <ErrorMessage name="nome" component="div"/>
                         </div>
+
+                        <div className="text-rosa-4 text-xs ml-4 w-[30%]">
+                            <ErrorMessage name="nome" component="div" />
+                          </div>
 
                         <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
-                        <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Endereço: </h4>
+                          <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Endereço: </h4>
                           <Field
                             type="text"
-                            name="Escreva aqui seu endereço"
-                            className="w-full h-full ml-2 border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
-                            placeholder="Escreva aqui seu endereço"
-                          />
-                          <ErrorMessage name="endereço" component="div" />
+                            name="endereço"
+                            className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
+                            placeholder="Escreva aqui o endereço do hotel"
+                          />                      
                         </div>
 
+                        <div className="text-rosa-4 text-xs ml-4 w-[30%]">
+                            <ErrorMessage name="endereço" component="div" />
+                        </div>
+
+                      {/*Campo de telefone */}
                         <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
                           <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Telefone: </h4>
                           <Field
                             type="text"
                             name="telefone"
                             className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
-                            placeholder="Escreva aqui seu telefone"
+                            placeholder="Escreva o telefone no formato (XX) XXXXX-XXXX"
                           />
+                        </div>
+
+                        <div className="text-rosa-4 text-xs ml-4 w-[30%]">
                           <ErrorMessage name="telefone" component="div" />
                         </div>
+
+                        {/* Botão de Confirmar */}
                         <div className='flex flex-row justify-between mb-8'>
-                        <Link href="/hotel/adicionarinfo/postar" passHref>
-                          <button
-                            className="mt-[32px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center"
-                            type="submit"
-                            disabled={isSubmitting}
-                          >
-                            Confirmar
-                          </button>
-                        </Link>
-        
-                        <Link href="/hotel" passHref>
-                          <button className="mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
-                            Cancelar
-                          </button>
-                        </Link>
-                      </div>
+                          <Link href="/hotel/adicionarinfo/postar" passHref>
+                            <button
+                              className={`mt-[32px] py-[15px] px-[20px] text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] flex justify-center items-center
+                                ${isValid ? 'bg-rosa-4 hover:bg-[#F42C46]' : 'bg-gray-300 cursor-not-allowed'}`}
+                              type="submit"
+                              disabled={!isValid || isSubmitting}
+                            >
+                              Confirmar
+                            </button>
+                          </Link>
+
+                          {/* Botão de Cancelar */}
+                          <Link href="/hotel" passHref>
+                            <button className="mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
+                              Cancelar
+                            </button>
+                          </Link>
+                        </div>
                       </Form>
                     )}
                   </Formik>
                 </div>
+
                     
               </div>
             </div>
