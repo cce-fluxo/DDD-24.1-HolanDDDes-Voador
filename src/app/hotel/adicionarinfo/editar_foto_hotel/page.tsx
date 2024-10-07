@@ -24,7 +24,7 @@ const Perfil = () => {
         formData.append('files', file);
       });
   
-      const response = await fetch('/api/upload', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/fotos-hoteis`, {
         method: 'POST',
         body: formData,
       });
@@ -35,8 +35,7 @@ const Perfil = () => {
         console.log('Erro ao fazer upload');
       }
     }
-  };
-  
+  };  
 
   return (
     <>

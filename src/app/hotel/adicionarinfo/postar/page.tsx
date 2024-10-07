@@ -6,22 +6,18 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const Hotel = () => {
-  const [hotelData, setHotelData] = useState({
-    nome: '',
-    endereço: '',
-    telefone: '',
-    descrição: '',
-  });
 
-  useEffect(() => {
-    const nome = localStorage.getItem('nome') || '';
-    const endereço = localStorage.getItem('endereço') || '';
-    const telefone = localStorage.getItem('telefone') || '';
-    const descrição = localStorage.getItem('descrição') || '';
+  const formikDataString = localStorage.getItem('formikData');
+  const hotelData = formikDataString ? JSON.parse(formikDataString) : null;
 
-    setHotelData({ nome, endereço, telefone, descrição });
-  }, []);
+  if (hotelData) {
+    console.log('Dados do formulário:', hotelData);
+    console.log('Nome:', hotelData.nome);
+  } else {
+    console.log('Nenhum dado encontrado');
+  }
 
+  // Mudança da imagem ao clicar
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const images = ["/hotelzinho1.png", "/hotelzinho2.png", "/hotelzinho3.png"];
@@ -44,6 +40,7 @@ const Hotel = () => {
                   width={430}
                   height={466}
                   className="cursor-pointer"
+                  style={{ width: "auto", height: "auto" }}
                   onClick={handleClick}
                 />
                 <div className="absolute bottom-[240px] left-[350px] w-[59px] h-[44px] text-white bg-[#574A4DB2] bg-opacity-70 rounded-[10px] gap-[10px] p-[10px] font-poppins font-bold text-[16px] leading-6 flex items-center justify-center">
@@ -198,7 +195,7 @@ const Hotel = () => {
                 </div>
               </div>
               <div className="flex justify-center items-center">
-                <Link href="/hotel/adicionarinfo/postar/confirmar/editar" passHref>
+                <Link href="/hotel/adicionarinfo" passHref>
                     <button className="mb-[30px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center">
                     Editar Informações
                     </button>
@@ -216,3 +213,10 @@ const Hotel = () => {
 };
 
 export default Hotel;
+
+function setError(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+function useSelector(arg0: (state: any) => any) {
+  throw new Error('Function not implemented.');
+}

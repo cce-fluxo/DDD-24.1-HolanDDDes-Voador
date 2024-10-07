@@ -6,13 +6,6 @@ import Link from "next/link";
 import React, { useState, useEffect, useRef } from 'react';
 import { Field, Formik, ErrorMessage, Form } from 'formik';
 
-// Define o tipo para os dados do hotel
-interface HotelData {
-  nome: string;
-  endereço: string;
-  telefone: string;
-  descrição: string;
-}
 
 // Função para contar as palavras (descrição tem limite)
 const wordCount = (text: string) => {
@@ -20,6 +13,14 @@ const wordCount = (text: string) => {
 };
 
 const Hotel = () => {
+  
+  const [hotelData, setHotelData] = useState(null);
+
+  useEffect(() => {
+    const formikDataString = localStorage.getItem('formikData');
+    const data = formikDataString ? JSON.parse(formikDataString) : null;
+    setHotelData(data);
+  }, []);
 
   // Exportação de imagem
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,10 +36,17 @@ const Hotel = () => {
         formData.append('files', file);
       });
   
-      const response = await fetch('/api/upload', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/fotos-hoteis`, {
         method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          /*'Authorization': `Bearer ${token}`*/
+         },
         body: formData,
       });
+
+      const result = await response.json();
+      console.log('Resultado da resposta:', result);
   
       if (response.ok) {
         console.log('Upload bem-sucedido');
@@ -159,7 +167,7 @@ const Hotel = () => {
                 <div className="w-full">
                 <div>
                   <Formik
-                    initialValues={{ nome: '', endereço: '', telefone: '', descrição: '' }}
+                    initialValues={{ nome: '', endereço: '', telefone: '', descrição: '', pet: 'true', enderecoId: 3, proprietarioId: 6}}
                     validate={values => {
                       const errors: { [key: string]: string } = {};
                       if (!values.nome) {
@@ -188,11 +196,31 @@ const Hotel = () => {
                       }
                       return errors;
                     }}
-                    onSubmit={(values, { setSubmitting }) => {
-                      setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
+                    /*Submentendo valores ao back*/
+                    onSubmit={async (values, { setSubmitting }) => {
+                      try {
+                        // Salva os dados no localStorage
+                        localStorage.setItem('formikData', JSON.stringify(values));
+
+                        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hotels`, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify(values),
+                        });
+                  
+                        if (!response.ok) {
+                          throw new Error('Erro ao enviar dados');
+                        }
+                        
+                        const data = await response.json();
+                        console.log('Sucesso:', data);
+                      } catch (error) {
+                        console.error('Erro:', error);
+                      } finally {
                         setSubmitting(false);
-                      }, 400);
+                      }
                     }}
                   >
                     {({ isSubmitting, isValid, values }) => (
