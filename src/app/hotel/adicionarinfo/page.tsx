@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import LoggedHeader from "@/app/LoggedHeader";
 import Link from "next/link";
-import React, { useState, useEffect, useRef } from 'react';
-import { Field, Formik, ErrorMessage, Form } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { useFormik } from 'formik';
 
 
 // Função para contar as palavras (descrição tem limite)
@@ -12,15 +12,63 @@ const wordCount = (text: string) => {
   return text.trim().split(/\s+/).length;
 };
 
-const Hotel = () => {
-  
-  const [hotelData, setHotelData] = useState(null);
+const validate = (values: { nome: any; endereço: any; telefone: string; descrição: string; pet: string; enderecoId: number; proprietarioId: number; }) => {
+  const errors: { [key: string]: string } = {};
+  if (!values.nome) {
+    errors.nome = 'Campo obrigatório';
+  }
+  if (!values.endereço) {
+    errors.endereço = 'Campo obrigatório';
+  }
+  if (!values.telefone) {
+    errors.telefone = 'Campo obrigatório';
+  } else {
+    // Regex para telefone brasileiro no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+    const telefoneRegex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
+    if (!telefoneRegex.test(values.telefone)) {
+      errors.telefone = 'Telefone inválido. Use o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.';
+    }
+  }
+      // descrição é opcional
+    // Validação da descrição com limite de 500 palavras
+    if (values.descrição) {
+      const descriptionWordCount = wordCount(values.descrição);
+      if (descriptionWordCount > 500) {
+        errors.descrição = `Descrição não pode ter mais de 500 palavras. Atual: ${descriptionWordCount} palavras.`;
+      }
+    }
+    return errors;
+};
 
+const Hotel = () => {
+    
+  const hotelData = useFormik({
+    initialValues:{
+      nome: '', 
+      endereço: '', 
+      telefone: '', 
+      descrição: '', 
+      pet: 'true', 
+      enderecoId: 3, 
+      proprietarioId: 6
+    },
+    validate,
+    onSubmit: (values, { setSubmitting }) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 400);
+    }
+  });
+
+  // UseEffect para armazenar dados no localStorage
   useEffect(() => {
-    const formikDataString = localStorage.getItem('formikData');
-    const data = formikDataString ? JSON.parse(formikDataString) : null;
-    setHotelData(data);
-  }, []);
+    // Armazenar os dados do formulário no localStorage sempre que houver mudanças
+    const formData = hotelData.values;
+    console.log("Dados do formulário:", formData); // Verifique os dados que estão sendo armazenados
+    localStorage.setItem('formData', JSON.stringify(formData));
+  }, [hotelData.values]);
+  
 
   // Exportação de imagem
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -166,149 +214,83 @@ const Hotel = () => {
                 <h3 className=" w-[245px] h-[60px] font-poppins text-preto text-[32px] font-bold leading-[66px]"> Meus dados:</h3>
                 <div className="w-full">
                 <div>
-                  <Formik
-                    initialValues={{ nome: '', endereço: '', telefone: '', descrição: '', pet: 'true', enderecoId: 3, proprietarioId: 6}}
-                    validate={values => {
-                      const errors: { [key: string]: string } = {};
-                      if (!values.nome) {
-                        errors.nome = 'Campo obrigatório';
-                      }
-                      if (!values.endereço) {
-                        errors.endereço = 'Campo obrigatório';
-                      }
-                      if (!values.telefone) {
-                        errors.telefone = 'Campo obrigatório';
-                      } else {
-                        // Regex para telefone brasileiro no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
-                        const telefoneRegex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
-                        if (!telefoneRegex.test(values.telefone)) {
-                          errors.telefone = 'Telefone inválido. Use o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.';
-                        }
-                      }
-
-                      // descrição é opcional
-                      // Validação da descrição com limite de 500 palavras
-                      if (values.descrição) {
-                        const descriptionWordCount = wordCount(values.descrição);
-                        if (descriptionWordCount > 500) {
-                          errors.descrição = `Descrição não pode ter mais de 500 palavras. Atual: ${descriptionWordCount} palavras.`;
-                        }
-                      }
-                      return errors;
-                    }}
-                    /*Submentendo valores ao back*/
-                    onSubmit={async (values, { setSubmitting }) => {
-                      try {
-                        // Salva os dados no localStorage
-                        localStorage.setItem('formikData', JSON.stringify(values));
-
-                        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hotels`, {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify(values),
-                        });
-                  
-                        if (!response.ok) {
-                          throw new Error('Erro ao enviar dados');
-                        }
-                        
-                        const data = await response.json();
-                        console.log('Sucesso:', data);
-                      } catch (error) {
-                        console.error('Erro:', error);
-                      } finally {
-                        setSubmitting(false);
-                      }
-                    }}
-                  >
-                    {({ isSubmitting, isValid, values }) => (
-                      <Form>
-                        <div className="ml-8">
-                          <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">
-                            Descrição
-                          </h4>
-                          <Field
-                            type="text"
-                            name="descrição"
-                            className="w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
-                            placeholder="/Escreva aqui uma descrição sobre o seu hotel (máx. 500 palavras)"
-                            component="textarea"
-                          />
-                          <ErrorMessage name="descrição" component="div" className="text-red-500" />
+                  <form onSubmit={hotelData.handleSubmit}>
+                      <div className="ml-8">
+                        <label htmlFor='descrição' className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">
+                          Descrição
+                        </label>
+                        <input
+                          type="text"
+                          id="descrição"
+                          className="w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
+                          placeholder="/Escreva aqui uma descrição sobre o seu hotel (máx. 500 palavras)"
+                          {...hotelData.getFieldProps('descrição')}
+                        />
+                        {typeof hotelData.errors.descrição === 'string' && <div className="text-red-500">{hotelData.errors.descrição}</div>}
                         </div>
-                        {/* Contagem de palavras na descrição */}
-                        <div className="text-right text-cinza-2 text-[12px]">
-                          {wordCount(values.descrição)} / 500 palavras
-                        </div>
+                      
+                      {/* Contagem de palavras na descrição */}
+                      <div className="text-right text-cinza-2 text-[12px]">
+                        {wordCount(hotelData.values.descrição)} / 500 palavras
+                      </div>
 
-                        <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
-                          <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Nome: </h4>
-                          <Field
-                            type="text"
-                            name="nome"
-                            className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
-                            placeholder="Escreva aqui o nome do hotel"
-                          />
-                        </div>
+                      <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
+                        <label htmlFor='nome'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Nome: </label>
+                        <input
+                          type="text"
+                          id="nome"
+                          className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
+                          placeholder="Escreva aqui o nome do hotel"
+                          {...hotelData.getFieldProps('nome')}
+                        />
+                      </div>
+                      {typeof hotelData.errors.nome === 'string' && <div className="text-rosa-4 text-xs ml-4 w-[30%]">{hotelData.errors.nome}</div>}
 
-                        <div className="text-rosa-4 text-xs ml-4 w-[30%]">
-                            <ErrorMessage name="nome" component="div" />
-                          </div>
+                      <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
+                        <label htmlFor='endereço'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Endereço: </label>
+                        <input
+                          type="text"
+                          id="endereço"
+                          className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
+                          placeholder="Escreva aqui o endereço do hotel"
+                          {...hotelData.getFieldProps('endereço')}
+                        />
+                      </div>
+                      {typeof hotelData.errors.endereço === 'string' && <div className="text-rosa-4 text-xs ml-4 w-[30%]">{hotelData.errors.endereço}</div>}              
 
-                        <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
-                          <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Endereço: </h4>
-                          <Field
-                            type="text"
-                            name="endereço"
-                            className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
-                            placeholder="Escreva aqui o endereço do hotel"
-                          />                      
-                        </div>
+                    {/*Campo de telefone */}
+                      <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
+                        <label htmlFor='telefone'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Telefone: </label>
+                        <input
+                          type="text"
+                          id="telefone"
+                          className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
+                          placeholder="Escreva o telefone no formato (XX) XXXXX-XXXX"
+                          {...hotelData.getFieldProps('telefone')}
+                        />
+                      </div>
+                      {typeof hotelData.errors.telefone === 'string' && <div className="text-rosa-4 text-xs ml-4 w-[30%]">{hotelData.errors.telefone}</div>}
 
-                        <div className="text-rosa-4 text-xs ml-4 w-[30%]">
-                            <ErrorMessage name="endereço" component="div" />
-                        </div>
+                      {/* Botão de Confirmar */}
+                      <div className='flex flex-row justify-between mb-8'>
+                        <Link href="/hotel/adicionarinfo/postar" passHref>
+                          <button
+                            type="submit"
+                            className={`mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 ${!(hotelData.isValid && hotelData.dirty) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={!(hotelData.isValid && hotelData.dirty)}
+                          >
+                            Confirmar
+                          </button>
+                        </Link>
 
-                      {/*Campo de telefone */}
-                        <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
-                          <h4 className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Telefone: </h4>
-                          <Field
-                            type="text"
-                            name="telefone"
-                            className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
-                            placeholder="Escreva o telefone no formato (XX) XXXXX-XXXX"
-                          />
-                        </div>
-
-                        <div className="text-rosa-4 text-xs ml-4 w-[30%]">
-                          <ErrorMessage name="telefone" component="div" />
-                        </div>
-
-                        {/* Botão de Confirmar */}
-                        <div className='flex flex-row justify-between mb-8'>
-                          <Link href="/hotel/adicionarinfo/postar" passHref>
-                            <button
-                              className={`mt-[32px] py-[15px] px-[20px] text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] flex justify-center items-center
-                                ${isValid ? 'bg-rosa-4 hover:bg-[#F42C46]' : 'bg-gray-300 cursor-not-allowed'}`}
-                              type="submit"
-                              disabled={!isValid || isSubmitting}
-                            >
-                              Confirmar
-                            </button>
-                          </Link>
-
-                          {/* Botão de Cancelar */}
-                          <Link href="/hotel" passHref>
-                            <button className="mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
-                              Cancelar
-                            </button>
-                          </Link>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
+                        {/* Botão de Cancelar */}
+                        <Link href="/hotel" passHref>
+                          <button className="mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
+                            Cancelar
+                          </button>
+                        </Link>
+                      </div>
+                    </form>
                 </div>
 
                     

@@ -5,17 +5,25 @@ import LoggedHeader from "@/app/LoggedHeader";
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
+interface FormData {
+  nome: string;
+  descrição: string;
+  endereço: string;
+  telefone: string;
+}
+
 const Hotel = () => {
+  const [formData, setFormData] = useState<FormData | null>(null);
 
-  const formikDataString = localStorage.getItem('formikData');
-  const hotelData = formikDataString ? JSON.parse(formikDataString) : null;
-
-  if (hotelData) {
-    console.log('Dados do formulário:', hotelData);
-    console.log('Nome:', hotelData.nome);
-  } else {
-    console.log('Nenhum dado encontrado');
-  }
+  useEffect(() => {
+    // Recupera os dados do local storage
+    const storedData = localStorage.getItem('formData');
+    if (storedData) {
+      setFormData(JSON.parse(storedData));
+    } else {
+      console.log("Nenhum dado encontrado no localStorage.");
+    }
+  }, []);
 
   // Mudança da imagem ao clicar
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -57,7 +65,11 @@ const Hotel = () => {
           <div className="w-[816px] h-[723px] gap-[64px]">
           <div className="w-[544.11px] h-[470px] gap-[16px]">
             <div className="w-[440px] h-[114px] gap-[16px]">
-              <h1 className="w-[440px] h-[66px] mb-[7px] font-poppins text-preto text-[44px] font-bold leading-[66px] whitespace-nowrap"> {hotelData.nome} </h1>
+              {formData ? (
+              <h1 className="w-[440px] h-[66px] mb-[7px] font-poppins text-preto text-[44px] font-bold leading-[66px] whitespace-nowrap"> {formData.nome} </h1>
+              ) : (
+                <p>Nenhum dado encontrado</p>
+              )}
               <h4 className="w-[255px] h-[48px] font-normal text-[24px] leading-9 text-[#2EC00A] whitespace-nowrap"> À partir de 920$ - diária </h4>
             </div>
             <div className="w-[544.11px] h-[340px] gap-2">
@@ -165,13 +177,21 @@ const Hotel = () => {
                 <h3 className=" w-[245px] h-[80px] font-poppins text-preto text-[32px] font-bold leading-[66px]"> Meus dados:</h3>
                 <div className="w-full ml-8">
                   <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">Descrição</h4>
-                  <h5 className="font-poppins font-normal text-[20px] text-cinza-2 whitespace-pre-wrap break-words">{hotelData.descrição} </h5>
+                  {formData ? (
+                  <h5 className="font-poppins font-normal text-[20px] text-cinza-2 whitespace-pre-wrap break-words">{formData.descrição} </h5>
+                    ) : (
+                    <p>Nenhum dado encontrado</p>
+                  )}
                 </div>
               <div className="flex flex-row">
                 <div className="w-[520px] h-[56px] gap-[26px] flex items-center">
                 <div className="mt-[80px] relative w-[400px] h-[66px] font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap">
                   <h4 className="text-preto inline-block">Nome: </h4>
-                  <h5 className="text-cinza-2 ml-2 inline-bloc">{hotelData.nome}</h5>
+                  {formData ? (
+                  <h5 className="text-cinza-2 ml-2 inline-bloc">{formData.nome}</h5>
+                  ) : (
+                    <p>Nenhum dado encontrado</p>
+                  )}
                   <span className="absolute inset-x-0 bottom-0 border-b-2 border-cinza-2"></span>
                 </div>
                 </div>
@@ -180,7 +200,11 @@ const Hotel = () => {
                 <div className="w-[520px] h-[160px] gap-[26px] flex items-center">
                 <div className="mt-[60px] relative w-[400px] h=[66px] font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap">
                   <h4 className="text-preto inline-block">Endereço: </h4>
-                  <h5 className="text-cinza-2 ml-2 inline-block whitespace-pre-wrap break-words">{hotelData.endereço}</h5>
+                  {formData ? (
+                  <h5 className="text-cinza-2 ml-2 inline-block whitespace-pre-wrap break-words">{formData.endereço}</h5>
+                  ) : (
+                    <p>Nenhum dado encontrado</p>
+                  )}
                   <span className="absolute inset-x-0 bottom-0 border-b-2 border-cinza-2"></span>           
                 </div>
                 </div>
@@ -189,7 +213,11 @@ const Hotel = () => {
                 <div className="w-[520px] h-[180px] gap-[26px] flex items-center">
                 <div className="mt-[40px] relative w-[400px] h=[66px] font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap mb-[80px]">
                   <h4 className="text-preto inline-block">Telefone: </h4>
-                  <h5 className="text-cinza-2 ml-2 inline-block">{hotelData.telefone}</h5>
+                  {formData ? (
+                  <h5 className="text-cinza-2 ml-2 inline-block">{formData.telefone}</h5>
+                  ) : (
+                    <p>Nenhum dado encontrado</p>
+                  )}
                   <span className="absolute inset-x-0 bottom-0 border-b-2 border-cinza-2"></span>                 
                 </div>
                 </div>
@@ -213,10 +241,3 @@ const Hotel = () => {
 };
 
 export default Hotel;
-
-function setError(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
-function useSelector(arg0: (state: any) => any) {
-  throw new Error('Function not implemented.');
-}

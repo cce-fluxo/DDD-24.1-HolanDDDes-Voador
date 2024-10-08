@@ -6,10 +6,6 @@ import LoggedHeader from "@/app/LoggedHeader";
 import Link from "next/link";
 
 const Perfil = () => {
-  const links = [
-    { href: "/salvar alterações", label: "Salvar Alterações" },
-  ];
-
     // Exportação de imagem
   const fileInputRef = useRef<HTMLInputElement>(null);
 

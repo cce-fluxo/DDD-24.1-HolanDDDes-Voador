@@ -4,45 +4,66 @@ import Image from 'next/image';
 import LoggedHeader from "@/app/LoggedHeader";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from 'react';
+import { useFormik } from 'formik';
 
-// Define o tipo para os dados do hotel
-interface QuartoData {
-  preco: string | number | readonly string[] | undefined;
-  nome: string;
-  descrição: string;
-}
+// Função para contar as palavras (descrição tem limite)
+const wordCount = (text: string) => {
+  return text.trim().split(/\s+/).length;
+};
 
-const Hotel = () => {
-  const [quartoData, setQuartoData] = useState<QuartoData>({ nome: '', preco: '', descrição: ''});
-  const MAX_WORDS = 500;
+const validate = (values: { nome: string; preco: string, descrição: string }) => {
+  const errors: { [key: string]: string } = {};
+  if (!values.nome) {
+    errors.nome = 'Campo obrigatório';
+  }
 
+  if (!values.preco) {
+    errors.preco = 'Campo obrigatório';
+  } else if (/^(R$\$)?\d+(\.\d{1,2})?$/.test(values.preco)) {
+    errors.preco = 'O preço deve ser um número válido (ex: 10.00 ou R$10.00)';
+  }
+
+        // descrição é opcional
+    // Validação da descrição com limite de 500 palavras
+    if (values.descrição) {
+      const descriptionWordCount = wordCount(values.descrição);
+      if (descriptionWordCount > 500) {
+        errors.descrição = `Descrição não pode ter mais de 500 palavras. Atual: ${descriptionWordCount} palavras.`;
+      }
+    }
+  return errors;
+};
+
+const Quarto = () => {
+  const quartoData = useFormik({
+    initialValues:{
+      nome: '',
+      preco: '',
+      descrição: ''
+    },
+    validate,
+    onSubmit: (values, { setSubmitting }) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 400);
+    }
+  });
+
+   // UseEffect para armazenar dados no localStorage
+   useEffect(() => {
+    // Armazenar os dados do formulário no localStorage sempre que houver mudanças
+    const QuartoData = quartoData.values;
+    console.log("Dados do formulário:", QuartoData); // Verifique os dados que estão sendo armazenados
+    localStorage.setItem('formData', JSON.stringify(QuartoData));
+  }, [quartoData.values]);
+  
+  
   // Exportação de imagem
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
-  };
-
-  useEffect(() => {
-    // Recupera os dados do localStorage
-    const nome = localStorage.getItem('nome') || '';
-    const preco = localStorage.getItem('preco') || '';
-    const descrição = localStorage.getItem('descrição') || '';
-
-    // Define os dados do hotel
-    setQuartoData({ nome, preco, descrição });
-  }, []); // O array de dependências está vazio, então useEffect será chamado apenas quando preencher
-  
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    if (name === 'descrição') {
-      const wordCount = value.trim().split(/\s+/).length;
-      if (wordCount > MAX_WORDS) return;
-    }
-
-    setQuartoData((prev: any) => ({ ...prev, [name]: value }));
-    localStorage.setItem(name, value);
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,75 +159,75 @@ const Hotel = () => {
                   </button>
               </Link>
               </div>
-              <div className="mt-[60px] flex flex-col">
-                <h3 className=" w-[245px] h-[60px] font-poppins text-preto text-[32px] font-bold leading-[66px]"> Meus dados:</h3>
-                <div className="w-full ml-8">
-                  <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">Descrição</h4>
-                  <input
-                      type="text"
-                      id="descrição"
-                      name="descrição"
-                      placeholder="/Escreva aqui uma descrição rápida do seu quarto (máx. 500 palavras)"
-                      className="w-full h-full ml-20 border-none bg-transparent font-poppins font-normal text-cinza-2 text-[20px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0 overflow-hidden whitespace-pre-wrap break-words"
-                      value={quartoData.descrição}
-                      onChange={handleInputChange}
-                    />
+              <div className="w-full">
+                <div>
+                  <form onSubmit={quartoData.handleSubmit}>
+                      <div className="ml-8">
+                        <label htmlFor='descrição' className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">
+                          Descrição
+                        </label>
+                        <input
+                          type="text"
+                          id="descrição"
+                          className="w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
+                          placeholder="/Escreva aqui uma descrição sobre o seu quarto (máx. 500 palavras)"
+                          {...quartoData.getFieldProps('descrição')}
+                        />
+                        {typeof quartoData.errors.descrição === 'string' && <div className="text-red-500">{quartoData.errors.descrição}</div>}
+                        </div>
+                      
+                      {/* Contagem de palavras na descrição */}
+                      <div className="text-right text-cinza-2 text-[12px]">
+                        {wordCount(quartoData.values.descrição)} / 500 palavras
+                      </div>
+
+                      <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
+                        <label htmlFor='nome'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Nome: </label>
+                        <input
+                          type="text"
+                          id="nome"
+                          className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
+                          placeholder="Escreva aqui o nome do quarto"
+                          {...quartoData.getFieldProps('nome')}
+                        />
+                      </div>
+                      {typeof quartoData.errors.nome === 'string' && <div className="text-rosa-4 text-xs ml-4 w-[30%]">{quartoData.errors.nome}</div>}
+
+                      <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
+                        <label htmlFor='preco'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Preço: </label>
+                        <input
+                          type="text"
+                          id="preco"
+                          className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
+                          placeholder="Escreva aqui o preço mínimo do quarto"
+                          {...quartoData.getFieldProps('preco')}
+                        />
+                      </div>
+                      {typeof quartoData.errors.preco === 'string' && <div className="text-rosa-4 text-xs ml-4 w-[30%]">{quartoData.errors.preco}</div>}              
+
+                      {/* Botão de Confirmar */}
+                      <div className='flex flex-row justify-between mb-8'>
+                        <Link href="/hotel/adicionarinfo" passHref>
+                          <button
+                            type="submit"
+                            className={`mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 ${!(quartoData.isValid && quartoData.dirty) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={!(quartoData.isValid && quartoData.dirty)}
+                          >
+                            Confirmar
+                          </button>
+                        </Link>
+
+                        {/* Botão de Cancelar */}
+                        <Link href="/hotel" passHref>
+                          <button className="mb-4 mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
+                            Cancelar
+                          </button>
+                        </Link>
+                      </div>
+                    </form>
                 </div>
-                <div className="flex flex-row mt-[60px]">
-                <div className="w-[520px] h-[56px] flex items-center">
-                  <div className="relative w-full peer h-10 border border-cinza-3 rounded-[10px] px-4 placeholder-transparent flex items-center">
-                    <input
-                      type="text"
-                      id="nome"
-                      name="nome"
-                      placeholder="Escreva aqui seu nome"
-                      className="w-full h-full ml-20 border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
-                      value={quartoData.nome}
-                      onChange={handleInputChange}
-                    />
-                    <label
-                      htmlFor="nome"
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 text-preto font-poppins font-medium text-[24px]"
-                    >
-                      Nome:
-                    </label>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex flex-row mt-[60px]">
-                <div className="w-[520px] h-[56px] flex items-center">
-                  <div className="relative w-full peer h-10 border border-cinza-3 rounded-[10px] px-4 placeholder-transparent flex items-center">
-                    <input
-                      type="text"
-                      id="preco"
-                      name="preco"
-                      placeholder="Insira o valor mínimo de diária"
-                      className="w-full h-full ml-20 border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
-                      value={quartoData.preco}
-                      onChange={handleInputChange}
-                    />
-                    <label
-                      htmlFor="preco"
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 text-preto font-poppins font-medium text-[24px]"
-                    >
-                      Preço:
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row mt-[10px] justify-between mb-[80px]"> 
-                  <Link href="/hotel/adicionarinfo" passHref>
-                    <button className="mt-[32px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center">
-                      Confirmar
-                    </button>
-                  </Link>
-                  <Link href="/hotel/adicionarinfo" passHref>
-                    <button className="mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
-                      Cancelar
-                    </button>
-                  </Link>
-              </div>
+
+                    
               </div>
             </div>
             </div>
@@ -218,4 +239,4 @@ const Hotel = () => {
   );
 };
 
-export default Hotel;
+export default Quarto;
