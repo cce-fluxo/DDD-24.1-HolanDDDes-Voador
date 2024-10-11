@@ -12,15 +12,16 @@ import MusicaIcon from '../../../public/musica.svg';
 import EsportesIcon from '../../../public/esportes.svg';
 import ArteIcon from '../../../public/arte.svg';
 import CozinhaIcon from "../../../public/cozinha.svg"
+import PopPerfil from './image_popperfil';
+import X_Pop from './x_popperfil';
 
 interface ModalProps {
-  isOpen: boolean;
+  isOpen:  React.ReactNode;
   onClose: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -54,11 +55,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           onClick={onClose}
           className="w-[40px] h-[40px] font-poppins font-bold p-2.5 text-rosa-4 text-[24px]"
         >
-          <img src="/x_pop.png" width={20} height={20} alt="Fechar" />
+          <X_Pop/>
         </button>
         <div className="md:max-w-[797px] md:max-h-[800px] flex flex-col justify-center items-center gap-12">
           <div className="md:min-w-[797px] md:min-h-[676px] flex flex-col justify-center items-center gap-12">
-            <img src="/popperfil.png" width={279.92} height={264.5} alt="Profile" />
+            <PopPerfil/>
             <div className="gap-6 text-center gap-y-10">
               <h4 className="text-[24px] text-preto text-normal leading-9 mb-4">Interesses</h4>
               <p className="text-cinza-3 font-poppins font-normal text-[16px] leading-6 mb-10">

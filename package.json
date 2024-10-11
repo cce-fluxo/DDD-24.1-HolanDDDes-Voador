@@ -11,14 +11,14 @@
   "dependencies": {
     "apexcharts": "^3.53.0",
     "formik": "^2.4.6",
-    "next": "^14.2.7",
+    "next": "^15.0.0-canary.179",
     "react": "^18.3.1",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.3.1",
-    "tailwindcss-filters": "^3.0.0",
-    "yup": "^1.4.0"
+    "tailwindcss-filters": "^3.0.0"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
