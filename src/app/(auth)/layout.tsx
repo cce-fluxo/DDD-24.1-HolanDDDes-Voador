@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderLoginCadastro from "@/components/HeaderLoginCadastro";
+import HeaderLoginCadastro from "../components/HeaderLoginCadastro";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import CustomButton from "./CustomButton";
 import { useRouter } from "next/navigation";
-import { images } from "@/constants";
+import { images } from "../../../constants";
 
 const ModalExcluirConta = () => {
   const router = useRouter();

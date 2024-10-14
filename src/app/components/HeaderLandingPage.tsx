@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
-import { icons } from "@/constants";
+import { icons } from "../../../constants";
 import Image from "next/image";
 
 const HeaderLandingPage = () => {
