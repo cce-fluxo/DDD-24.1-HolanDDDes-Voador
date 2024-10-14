@@ -2,7 +2,6 @@ import Image from "next/image";
 import Passaro from "../../public/passaro.png";
 import Seta from "../../public/seta.png";
 import HeaderLogOff from "@/app/HeaderLogOff";
-import CustomButton from "./components/CustomButton";
 import Link from "next/link";
 
 export default function LogOff() {
