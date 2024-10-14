@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import LoginInput from "@/app/components/LoginInput";
 import Link from "next/link";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import InputText from "@/app/components/InputText";
 
 const Cadastro1 = () => {
   const iconSize: number = 24;
@@ -70,28 +73,43 @@ const Cadastro1 = () => {
             </div>
           </div>
 
-          <form className="flex flex-col gap-2">
-            <LoginInput
-              label="Nome"
-              type="text"
-              id="nome"
-              name="nome"
-              placeholder="Insira seu nome"
-            />
-            <LoginInput
-              label="Sobrenome"
-              type="text"
-              id="sobrenome"
-              name="sobrenome"
-              placeholder="Insira seu sobrenome"
-            />
-            <LoginInput
-              label="Data de nascimento"
-              type="date"
-              id="birthday"
-              name="birthday"
-            />
-          </form>
+          <Formik
+            className="flex flex-col gap-2"
+            initialValues={{ nome: "", sobrenome: "", dataNascimento: "" }}
+            validationSchema={Yup.object({
+              nome: Yup.string().required("Campo obrigatorio"),
+              sobrenome: Yup.string().required("Campo obrigatorio"),
+              dataNascimento: Yup.date()
+                .required("Campo obrigatorio")
+                .min(
+                  new Date(1900, 0, 1),
+                  "Nao é permitido datas anteriores a 1900"
+                )
+                .max(new Date(), "Nao é permitido data futura"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+            }}
+          >
+            <Form className="flex flex-col gap-2 w-full">
+              <InputText
+                label="Nome"
+                name="nome"
+                type="text"
+                placeholder="Insira seu nome"
+              />
+              <InputText
+                label="Sobrenome"
+                name="sobrenome"
+                type="text"
+                placeholder="Insira seu sobrenome"
+              />
+              <InputText label="Data de nascimento" name="senha" type="date" />
+            </Form>
+          </Formik>
 
           <div className="flex flex-col justify-center items-center gap-4 w-full">
             <CustomButton
@@ -100,7 +118,7 @@ const Cadastro1 = () => {
               classnameButton="w-4/5 h-12 bg-rosa-4 rounded-lg"
               classnameText="text-branco text-2xl"
             ></CustomButton>
-            <span className="text-xl font-medium text-laranja-1 ">ou</span>
+            <span className="text-xl font-medium text-laranja-1">ou</span>
             <div className="flex gap-14">
               <Link href={"/google"}>
                 <Image

@@ -37,7 +37,6 @@ const Login = () => {
               <Form className="flex flex-col gap-2 w-full">
                 <InputText name="email" type="email" placeholder="E-mail" />
                 <InputText name="senha" type="password" placeholder="Senha" />
-                <button type="submit">Submit</button>
               </Form>
             </Formik>
             <div className="flex justify-between">
