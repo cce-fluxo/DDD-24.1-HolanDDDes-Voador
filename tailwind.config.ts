@@ -19,6 +19,7 @@ const config: Config = {
         "preto": "#372F30",
         "branco": "#FBFBFB",
         "branco-2": "#F7F3F3",
+        "branco-3": "#D9D9D9",
         "cinza-0": "#F6F4F4",
         "cinza-1": "#CEC6C7",
         "cinza-2": "#AB9C9F",
