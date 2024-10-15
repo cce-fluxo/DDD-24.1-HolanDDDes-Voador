@@ -1,11 +1,12 @@
 "use client";
 
 import AuthPanelFrame from "@/app/components/AuthPanelFrame";
-import React from "react";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/app/components/CustomButton";
 import Link from "next/link";
-import LoginInput from "@/app/components/LoginInput";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import InputText from "@/app/components/InputText";
 
 const RedefinirSenha2 = () => {
   const router = useRouter();
@@ -17,15 +18,32 @@ const RedefinirSenha2 = () => {
           Verifique a caixa de entrada e insira o código de confirmação que
           enviamos no e-mail cadastrado.
         </span>
-        <form className="flex flex-col gap-2 w-full">
-          <LoginInput
-            label="Insira o código"
-            type="text"
-            id="codigo"
-            name="codigo"
-            placeholder="Código"
-          />
-        </form>
+
+        <Formik
+          className="flex flex-col gap-2"
+          initialValues={{
+            codigo: "",
+          }}
+          validationSchema={Yup.object({
+            codigo: Yup.string().required("Campo obrigatorio"),
+          })}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          <Form className="flex flex-col gap-2 w-full">
+            <InputText
+              label="Insira o código"
+              name="codigo"
+              type="text"
+              placeholder="Código"
+            />
+          </Form>
+        </Formik>
+
         <div className="flex flex-col gap-4 w-full items-center">
           <CustomButton
             text="Continuar"

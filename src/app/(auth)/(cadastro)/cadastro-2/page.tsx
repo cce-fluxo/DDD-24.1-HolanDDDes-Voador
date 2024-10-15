@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
 import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import Image from "next/image";
 import CustomButton from "@/app/components/CustomButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { icons, images } from "@/../../constants";
-import LoginInput from "@/app/components/LoginInput";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import InputText from "@/app/components/InputText";
 
 const Cadastro2 = () => {
   const iconSize: number = 24;
@@ -69,29 +70,46 @@ const Cadastro2 = () => {
             </div>
           </div>
 
-          <form className="flex flex-col gap-2">
-            <LoginInput
-              label="Email"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Insira seu email"
-            />
-            <LoginInput
-              label="Senha"
-              type="password"
-              id="senha"
-              name="senha"
-              placeholder="Crie uma senha forte"
-            />
-            <LoginInput
-              label="Confirmar senha"
-              type="password"
-              id="senha"
-              name="senha"
-              placeholder="Redigite sua senha"
-            />
-          </form>
+          <Formik
+            className="flex flex-col gap-2"
+            initialValues={{ email: "", senha: "", confirmarSenha: "" }}
+            validationSchema={Yup.object({
+              email: Yup.string()
+                .email("Email invalido")
+                .required("Campo obrigatorio"),
+              senha: Yup.string().required("Campo obrigatorio"),
+              confirmarSenha: Yup.string()
+                .required("Campo obrigatorio")
+                .oneOf([Yup.ref("senha")], "As senhas devem ser iguais"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+            }}
+          >
+            <Form className="flex flex-col gap-2 w-full">
+              <InputText
+                label="E-mail"
+                name="email"
+                type="email"
+                placeholder="Insira seu e-mail"
+              />
+              <InputText
+                label="Senha"
+                name="senha"
+                type="password"
+                placeholder="Crie uma senha forte"
+              />
+              <InputText
+                label="Confirmar senha"
+                name="senha"
+                type="password"
+                placeholder="Repita sua senha"
+              />
+            </Form>
+          </Formik>
 
           <CustomButton
             text="Continuar"

@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
 import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import Image from "next/image";
 import CustomButton from "@/app/components/CustomButton";
 import { useRouter } from "next/navigation";
 import { icons } from "@/../../constants";
-import LoginInput from "@/app/components/LoginInput";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import InputText from "@/app/components/InputText";
 
 const Cadastro3 = () => {
   const iconSize: number = 24;
@@ -37,36 +38,54 @@ const Cadastro3 = () => {
             </div>
           </div>
 
-          <form className="flex flex-col gap-2 w-full">
-            <LoginInput
-              label="Endereço"
-              type="text"
-              id="endereco"
-              name="email"
-              placeholder="Insira seu endereço"
-            />
-            <LoginInput
-              label="Cidade"
-              type="text"
-              id="cidade"
-              name="cidade"
-              placeholder="Insira sua cidade"
-            />
-            <LoginInput
-              label="País/região"
-              type="text"
-              id="pais/regiao"
-              name="pais/regiao"
-              placeholder="Insira  sua região"
-            />
-            <LoginInput
-              label="Número de celular"
-              type="tel"
-              id="telefone"
-              name="telefone"
-              placeholder="Insira seu telefone de contato"
-            />
-          </form>
+          <Formik
+            className="flex flex-col gap-2"
+            initialValues={{
+              endereco: "",
+              cidade: "",
+              regiao: "",
+              telefone: "",
+            }}
+            validationSchema={Yup.object({
+              endereco: Yup.string().required("Campo obrigatorio"),
+              cidade: Yup.string().required("Campo obrigatorio"),
+              regiao: Yup.string().required("Campo obrigatorio"),
+              telefone: Yup.string().required("Campo obrigatorio"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+            }}
+          >
+            <Form className="flex flex-col gap-2 w-full">
+              <InputText
+                label="Endereço"
+                name="endereco"
+                type="text"
+                placeholder="Insira seu endereço"
+              />
+              <InputText
+                label="Cidade"
+                name="cidade"
+                type="text"
+                placeholder="Insira sua cidade"
+              />
+              <InputText
+                label="País/região"
+                name="pais/regiao"
+                type="text"
+                placeholder="Insira  sua região"
+              />
+              <InputText
+                label="Número de celular"
+                name="telefone"
+                type="tel"
+                placeholder="Insira seu telefone de contato"
+              />
+            </Form>
+          </Formik>
 
           <CustomButton
             text="Concluir"

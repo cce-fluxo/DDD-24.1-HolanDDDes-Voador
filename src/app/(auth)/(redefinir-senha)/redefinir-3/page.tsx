@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import { icons } from "@/../../constants";
 import AuthPanelFrame from "@/app/components/AuthPanelFrame";
-import LoginInput from "@/app/components/LoginInput";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/app/components/CustomButton";
 import Link from "next/link";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import InputText from "@/app/components/InputText";
 
 const RedefinirSenha3 = () => {
   const router = useRouter();
@@ -17,22 +18,39 @@ const RedefinirSenha3 = () => {
       <AuthPanelFrame>
         <span className="text-[26px] font-semibold">Nova senha</span>
         <span className="text-lg">Crie uma senha para a sua nova conta</span>
-        <form className="flex flex-col gap-2 w-full">
-          <LoginInput
-            label="Nova senha"
-            type="password"
-            id="senha"
-            name="senha"
-            placeholder="Crie uma senha forte"
-          />
-          <LoginInput
-            label="Insira o código"
-            type="password"
-            id="senha"
-            name="senha"
-            placeholder="Confirmar senha"
-          />
-        </form>
+
+        <Formik
+          className="flex flex-col gap-2"
+          initialValues={{ senha: "", confirmarSenha: "" }}
+          validationSchema={Yup.object({
+            senha: Yup.string().required("Campo obrigatorio"),
+            confirmarSenha: Yup.string()
+              .required("Campo obrigatorio")
+              .oneOf([Yup.ref("senha")], "As senhas devem ser iguais"),
+          })}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          <Form className="flex flex-col gap-2 w-full">
+            <InputText
+              label="Senha"
+              name="senha"
+              type="password"
+              placeholder="Crie uma senha forte"
+            />
+            <InputText
+              label="Confirmar senha"
+              name="senha"
+              type="password"
+              placeholder="Confirmar senha"
+            />
+          </Form>
+        </Formik>
+
         <div className="flex flex-col items-start w-full">
           <span className="font-medium text-base">
             A senha deve ter, pelo menos:

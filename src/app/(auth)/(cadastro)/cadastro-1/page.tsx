@@ -6,7 +6,6 @@ import React from "react";
 import { icons, images } from "@/../../constants";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import LoginInput from "@/app/components/LoginInput";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
