@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import AuthModal from "@/app/components/authModal";
-import HeaderLoginCadastro from "../components/HeaderLoginCadastro";
 
 export default function AuthLayout ({ children }: { children: ReactNode}){
     return(
