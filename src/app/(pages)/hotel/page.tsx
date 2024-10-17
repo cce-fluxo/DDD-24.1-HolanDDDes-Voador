@@ -8,11 +8,12 @@ const Hotel = () => {
   return (
     <>
       <LoggedHeader />
-      <div className="flex flex-col md:flex-row">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <div className="flex flex-col xl:flex-row">
          
       <div className="w-full h-auto ml-8 flex flex-col items-center justify-around">
-        <div className="flex flex-col items-center justify-center fixed">
-          <div className="bg-branco-3 w-[430px] h-[466px] rounded-[10px] flex items-center justify-center mb-6">
+        <div className="flex flex-col xl:mt-0 mt-36 items-center justify-center xl:fixed max-w-md mx-auto overflow-hidden md:max-w-2xl">
+          <div className="bg-branco-3 w-[430px] h-[400px] rounded-[10px] flex items-center justify-center mb-6">
             <Image src="/hotel_image.png" alt="Botar fotos" width={123.5} height={104.5} />
           </div>
           <button className="py-4 px-8 bg-cinza-2 w-[340px] h-[57px] flex items-center justify-center gap-[10px] text-white whitespace-nowrap font-poppins text-[24px] font-normal rounded-[10px] -tracking-2 leading-9">
@@ -21,7 +22,7 @@ const Hotel = () => {
         </div>
       </div>
 
-          <div className="w-full h-screen mt-24 relative top-[50px] flex flex-col">
+          <div className="w-full xl:ml-0 ml-8 h-screen mt-24 relative top-[50px] flex flex-col">
               <h1 className="mb-2 font-poppins text-preto text-[44px] font-bold leading-[66px]"> Sem Nome</h1>
               <h4 className="font-normal text-[24px] leading-9 text-[#2EC00A]">0$</h4>
 
@@ -96,7 +97,7 @@ const Hotel = () => {
               <div className="items-center justify-center flex">
                 <div className="mt-8 w-[520px] h-12 rounded-[10px] border-[1px] border-cinza-1 p-[10px 32px] bg-branco-2 flex items-center justify-center">
                   <Image src="/x.png" width={26} height={26} className="color-cinza-2" alt="x" />
-                  <h4 className="font-poppins font-medium text-[24px] text-cinza-3">Nenhuma comodidade adicionada</h4>
+                  <h4 className="font-poppins font-medium md:text-[24px] text-18px text-cinza-3">Nenhuma comodidade adicionada</h4>
                 </div>
               </div>
 
