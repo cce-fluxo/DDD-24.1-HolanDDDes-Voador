@@ -4,12 +4,23 @@ import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import CustomButton from "@/app/components/CustomButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 
 const RedefinirSenha1 = () => {
   const router = useRouter();
+
+  const validationSchema = Yup.object({
+      email: Yup.string().email('Email inválido').required('Email é obrigatório'),
+    });
+
+  const sendForm = (values: { email: string}) => {
+    //adicionar requisição aqui
+    console.log('Dados enviados:', values);
+    router.push('/redefinir-2'); // Redireciona após validação bem-sucedida
+  };
+
   return (
     <main className="flex justify-center items-end h-dvh font-poppins">
       <AuthPanelFrame>
@@ -25,28 +36,12 @@ const RedefinirSenha1 = () => {
         <div className="flex flex-col gap-10 items-center">
           <Formik
             className="flex flex-col gap-2"
-            initialValues={{
-              email: "",
-            }}
-            validationSchema={Yup.object({
-              email: Yup.string()
-                .email("Email invalido")
-                .required("Campo obrigatorio"),
-            })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
-            }}
-          >
+            initialValues={{ email: "" }}
+            validationSchema={validationSchema}
+            onSubmit={(values) => sendForm(values)}>
             <Form className="flex flex-col gap-2 w-full">
-              <InputText
-                label="Seu endereço de e-mail"
-                name="email"
-                type="email"
-                placeholder="E-mail"
-              />
+              <Field name="email" placeholder="E-mail" label="Seu endereço de e-mail" type="email" component={InputText} />
+              <ErrorMessage name="email" component="div" className="text-red-500" />
             </Form>
           </Formik>
 

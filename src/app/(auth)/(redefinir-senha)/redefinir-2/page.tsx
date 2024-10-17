@@ -4,12 +4,22 @@ import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/app/components/CustomButton";
 import Link from "next/link";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 
 const RedefinirSenha2 = () => {
   const router = useRouter();
+
+  const validationSchema = Yup.object({
+    code: Yup.string().required('Código é obrigatório'),
+  });
+
+const sendForm = (values: { code: string}) => {
+  //adicionar requisição aqui
+  console.log('Dados enviados:', values);
+  router.push('/redefinir-3'); // Redireciona após validação bem-sucedida
+};
   return (
     <main className="flex justify-center items-end h-dvh font-poppins">
       <AuthPanelFrame>
@@ -21,26 +31,12 @@ const RedefinirSenha2 = () => {
 
         <Formik
           className="flex flex-col gap-2"
-          initialValues={{
-            codigo: "",
-          }}
-          validationSchema={Yup.object({
-            codigo: Yup.string().required("Campo obrigatorio"),
-          })}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
-        >
+          initialValues={{ code: "" }}
+          validationSchema={validationSchema}
+          onSubmit={(values) => sendForm(values)}>
           <Form className="flex flex-col gap-2 w-full">
-            <InputText
-              label="Insira o código"
-              name="codigo"
-              type="text"
-              placeholder="Código"
-            />
+            <Field name="code" placeholder="Código" tittle="Insira o código" component={InputText} />
+            <ErrorMessage name="code" component="div" className="text-red-500" />
           </Form>
         </Formik>
 

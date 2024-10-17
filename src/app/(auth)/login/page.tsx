@@ -3,7 +3,7 @@
 import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import Link from "next/link";
 import Image from "next/image";
-import { icons } from "@/../../constants";
+import { icons } from "../../../../constants/index";
 import LoginInput from "@/app/components/LoginInput";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
