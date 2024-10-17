@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import InputText from "@/app/components/InputText";
+import InputText from "@/app/components/InputField";
 
 const Cadastro1 = () => {
   const iconSize: number = 24;

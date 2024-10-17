@@ -1,73 +1,55 @@
 "use client";
 
-import AuthPanelFrame from "@/app/components/AuthPanelFrame";
+import Button from "@/app/components/button";
+import InputField from "@/app/components/InputField";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { useRouter } from "next/navigation";
-import CustomButton from "@/app/components/CustomButton";
-import Link from "next/link";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import InputText from "@/app/components/InputText";
 
-const RedefinirSenha2 = () => {
-  const router = useRouter();
+export default function SignIn(){
+    const router = useRouter();
 
   const validationSchema = Yup.object({
-    code: Yup.string().required('Código é obrigatório'),
+    code: Yup.string().required('Insira o código'),
   });
 
-const sendForm = (values: { code: string}) => {
-  //adicionar requisição aqui
-  console.log('Dados enviados:', values);
-  router.push('/redefinir-3'); // Redireciona após validação bem-sucedida
-};
-  return (
-    <main className="flex justify-center items-end h-dvh font-poppins">
-      <AuthPanelFrame>
-        <span className="text-[26px] font-semibold">Digite o código</span>
-        <span className="text-lg">
-          Verifique a caixa de entrada e insira o código de confirmação que
-          enviamos no e-mail cadastrado.
-        </span>
+  const sendForm = (values: { code: string }) => {
+    console.log('Dados enviados:', values);
+    router.push("/redefinir-3"); // Redireciona após validação bem-sucedida
+  };
 
-        <Formik
-          className="flex flex-col gap-2"
-          initialValues={{ code: "" }}
-          validationSchema={validationSchema}
-          onSubmit={(values) => sendForm(values)}>
-          <Form className="flex flex-col gap-2 w-full">
-            <Field name="code" placeholder="Código" tittle="Insira o código" component={InputText} />
-            <ErrorMessage name="code" component="div" className="text-red-500" />
-          </Form>
-        </Formik>
+    return(
+        <div className="flex flex-col items-center gap-[42px]">
 
-        <div className="flex flex-col gap-4 w-full items-center">
-          <CustomButton
-            text="Continuar"
-            handleClick={() => router.push("/redefinir-3")}
-            classnameButton="w-4/5 h-12 bg-rosa-4 rounded-lg"
-            classnameText="text-branco text-2xl"
-          />
-          <CustomButton
-            text="Reenviar código"
-            handleClick={() => {}}
-            classnameButton="w-4/5 h-12 bg-rosa-1 rounded-lg"
-            classnameText="text-laranja-2 text-2xl"
-          />
+            <span className="text-[30px] font-semibold leading-[37.5px] font-poppins text-[#3ea59f]">Digite o código</span>
+
+            <Formik 
+                initialValues={{ code: ''}}
+                validationSchema={validationSchema}
+                onSubmit={(values) => sendForm(values)}>
+                    {({ handleSubmit }) => (
+                        <Form className="flex flex-col items-center gap-[42px]">
+                            <div className=" w-full flex flex-col gap-[16px]">
+                                <p className="text-[18px] font-normal leading-[27px] font-poppins text-[#333333]">
+                                    Verifique a caixa de entrada e insira o código de confirmação que enviamos no e-mail cadastrado.
+                                </p>
+                                <div>
+                                    <Field name="code" placeholder="Código" tittle="Insira o código" component={InputField} />
+                                    <ErrorMessage name="code" component="div" className="text-red-500" />
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col w-[80%] gap-[16px]">
+                                <Button text="Continuar" variant="primary" type="submit"/>
+                                <Button href="./redefinir-2" text="Reenviar Código" variant="secundary"/>
+                            </div>
+
+                        </Form>
+                    )}
+            </Formik>
         </div>
-        <span className="text-center font-light text-[13px]">
-          Ao fazer login ou criar uma conta, você concorda com nossos{" "}
-          <Link href={""} className="text-link-ativo">
-            Termos e Condições
-          </Link>{" "}
-          e
-          <Link href={""} className="text-link-ativo">
-            {" "}
-            Declaração de Privacidade
-          </Link>
-        </span>
-      </AuthPanelFrame>
-    </main>
-  );
-};
+        
 
-export default RedefinirSenha2;
+        
+    )
+}

@@ -1,99 +1,63 @@
 "use client";
 
-import AuthPanelFrame from "@/app/components/AuthPanelFrame";
-import Link from "next/link";
-import Image from "next/image";
-import { icons } from "../../../../constants/index";
-import LoginInput from "@/app/components/LoginInput";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputText from "@/app/components/InputText";
+import Link from 'next/link';
+import InputField from '@/app/components/InputField';
+import Button from '@/app/components/button';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { useRouter } from "next/navigation";
 
-const Login = () => {
-  const iconSize = 55;
+export default function auth() {
+  const router = useRouter();
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email('Email inválido').required('Email é obrigatório'),
+    password: Yup.string().min(6, 'A senha deve ter pelo menos 6 caracteres').required('Senha é obrigatória'),
+  });
+
+  const sendForm = (values: { email: string; password: string }) => {
+    console.log('Dados enviados:', values);
+    router.push('./home'); // Redireciona após validação bem-sucedida
+  };
+
   return (
-    <main className="flex justify-center items-end bg-gradient-to-b from-rosa-4 to-laranja-gradiente h-dvh font-poppins">
-      <AuthPanelFrame>
-        <div className="flex flex-col gap-7 w-full">
-          <span className="text-preto text-[26px] font-semibold text-center">
-            Faça o login ou crie uma conta
-          </span>
-          <div className="flex flex-col gap-3">
-            <Formik
-              initialValues={{ email: "", senha: "" }}
-              validationSchema={Yup.object({
-                email: Yup.string()
-                  .email("Email invalido")
-                  .required("Campo obrigatorio"),
-                senha: Yup.string().required("Campo obrigatorio"),
-              })}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                }, 400);
-              }}
-            >
-              <Form className="flex flex-col gap-2 w-full">
-                <InputText name="email" type="email" placeholder="E-mail" />
-                <InputText name="senha" type="password" placeholder="Senha" />
-              </Form>
-            </Formik>
-            <div className="flex justify-between">
-              <span className="">Lembrar-me</span>
-              <Link
-                href={"/redefinir-1"}
-                className="underline hover:text-link-ativo"
-              >
-                Esqueceu sua senha?
-              </Link>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 items-center w-full">
-            <Link
-              href={"/home"}
-              className="w-4/5 h-12 bg-rosa-4 rounded-[10px]"
-            >
-              <span className="text-branco text-2xl">Entrar</span>
-            </Link>
-            <Link
-              href={"/cadastro-1"}
-              className="w-4/5 h-12 bg-rosa-1 rounded-[10px]"
-            >
-              <span className="text-laranja-2 text-2xl">Cadastre-se</span>
-            </Link>
-            <span className="text-xl font-medium text-laranja-1 ">ou</span>
-            <div className="flex gap-14">
-              <Link href={"/google"}>
-                <Image
-                  src={icons.google}
-                  width={iconSize}
-                  height={iconSize}
-                  alt="google logo"
-                />
-              </Link>
-              <Link href={"/facebook"}>
-                <Image
-                  src={icons.facebook}
-                  width={iconSize}
-                  height={iconSize}
-                  alt="facebook logo"
-                />
-              </Link>
-              <Link href={"/x"}>
-                <Image
-                  src={icons.x}
-                  width={iconSize}
-                  height={iconSize}
-                  alt="x logo"
-                />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </AuthPanelFrame>
-    </main>
-  );
-};
+    <div className='w-full h-full flex flex-col items-center gap-[32px] mb-[10%]'>
+      <h1 className="text-2xl font-medium leading-[36px] font-poppins text-[#333333]">Faça seu login ou crie uma conta</h1>
 
-export default Login;
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => sendForm(values)}>
+        {({ handleSubmit }) => (
+          <Form className="w-full flex flex-col items-center gap-[40px]" onSubmit={handleSubmit}>
+            <div className="w-full flex flex-col gap-[12px]">
+                <div>
+                    <Field name="email" placeholder="E-mail" component={InputField} />
+                    <ErrorMessage name="email" component="div" className="text-red-500" />
+                </div>
+
+                <div>
+                    <Field name="password" type="password" placeholder="Senha" component={InputField} />
+                    <ErrorMessage name="password" component="div" className="text-red-500" />
+                </div>
+              <div className="flex justify-between w-full">
+                <div className="flex gap-2">
+                  <input type="checkbox" className="accent-[#589b97a1]" />
+                  <p className="text-[#372F30]">Lembrar-me</p>
+                </div>
+                <Link href='/redefinir-1' passHref className='text-[#372F30] underline'>
+                    Esqueceu sua senha?
+                </Link>
+              </div>
+            </div>
+
+            <div className="w-[80%] flex flex-col  gap-[16px]">
+              <Button text="Entrar" variant="primary" type="submit" />
+              <Button href="/cadastro-1" text="Cadastre-se" variant="secundary" />
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+}

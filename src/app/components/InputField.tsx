@@ -1,5 +1,4 @@
-
-type InputTextProps = {
+type InputFieldProps = {
   field: any;
   form: any; 
   placeholder: string;
@@ -7,7 +6,7 @@ type InputTextProps = {
   type?: string;
 };
 
-export default function InputText({ field, placeholder, tittle = '', type = 'text' }: InputTextProps) {
+export default function InputField({ field, placeholder, tittle = '', type = 'text' }: InputFieldProps) {
   return (
     <div className="flex flex-col gap-[8px]">
       {tittle ? <p className="text-[20px] font-medium leading-[30px] font-poppins text-[#333333]">{tittle}</p> : null}
@@ -20,4 +19,3 @@ export default function InputText({ field, placeholder, tittle = '', type = 'tex
     </div>
   );
 }
-

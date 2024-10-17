@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { icons } from "@/../../constants";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import InputText from "@/app/components/InputText";
+import InputText from "@/app/components/InputField";
 
 const Cadastro3 = () => {
   const iconSize: number = 24;
