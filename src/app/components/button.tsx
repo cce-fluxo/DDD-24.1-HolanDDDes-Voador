@@ -13,8 +13,8 @@ type ButtonProps = {
   
     const variantStyle =
       variant === 'primary'
-        ? 'bg-[#3ea59f] hover:bg-[#32847f]'
-        : 'bg-[#589b97a1] hover:bg-[#4e8986a1]';
+        ? 'bg-rosa-4 hover:""'
+        : 'bg-rosa-2 hover:""';
   
 
     if (href) {

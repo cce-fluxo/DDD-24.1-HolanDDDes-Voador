@@ -21,7 +21,7 @@ export default function SignIn(){
     return(
         <div className="flex flex-col items-center gap-[42px]">
 
-            <span className="text-[30px] font-semibold leading-[37.5px] font-poppins text-[#3ea59f]">Digite o código</span>
+            <span className="text-[30px] font-semibold leading-[37.5px] font-poppins text-preto">Digite o código</span>
 
             <Formik 
                 initialValues={{ code: ''}}

@@ -21,8 +21,8 @@ export default function SignIn(){
     return(
         <div className="flex flex-col items-center gap-[42px]">
             <div className="flex flex-col items-center">
-                <span className="text-[30px] font-semibold leading-[37.5px] font-poppins text-[#3ea59f]">Esqueceu a sua senha?</span>
-                <span className="text-[30px] font-semibold leading-[37.5px] font-poppins text-[#3ea59f]">Sem problemas!</span>
+                <span className="text-[30px] font-semibold leading-[37.5px] font-poppins text-preto">Esqueceu a sua senha?</span>
+                <span className="text-[30px] font-semibold leading-[37.5px] font-poppins text-preto">Sem problemas!</span>
             </div>
 
             <Formik 
