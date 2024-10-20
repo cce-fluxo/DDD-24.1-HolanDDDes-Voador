@@ -20,7 +20,7 @@ export default function Home() {
     <>
     <div>
       <LoggedHeader />
-      <div className=" mt-10">
+      <div className=" mt-12">
         <div className="flex justify-center pt-[64px] text-rosa-4 text-[30px]">Bem vindo ao seu hotel</div>
         <div className=" flex justify-center pb-[64px] text-cinza-1 text-[30px] ">Controle totalmente o seu negócio!</div>
       </div>
