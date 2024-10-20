@@ -27,23 +27,13 @@ const Cadastro2 = () => {
           </div>
           <span className="text-preto text-xl font-medium">Aproveite:</span>
           <div className="flex gap-4">
-            <Image
-              src={icons.checkmark}
-              height={iconSize}
-              width={iconSize}
-              alt="checkmark icon"
-            />
+            <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
             <span className="text-preto text-base">
               Anuncie seus lugares de forma mais rápida e sem tarifa.
             </span>
           </div>
           <div className="flex gap-4">
-            <Image
-              src={icons.checkmark}
-              height={iconSize}
-              width={iconSize}
-              alt="checkmark icon"
-            />
+            <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
             <span className="text-preto text-base">
               Você poderá gerenciar seu próprio hotel, adicionado fotos e
               verificando suas reservas.
