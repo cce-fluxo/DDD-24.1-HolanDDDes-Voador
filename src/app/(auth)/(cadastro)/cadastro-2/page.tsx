@@ -43,8 +43,8 @@ const Cadastro2 = () => {
         </div>
       </div>
 
-      <AuthPanelFrame>
-        <div className="flex flex-col items-center gap-6 w-full">
+      <div className="flex flex-col justify-center pt-5 pb-3 pr-5 pl-5 items-center w-2/5 rounded-t-3xl bg-branco shadow-custom">
+        <div className="flex flex-col p-5 gap-6 shadow-lg rounded-lg w-full">
           <div className="w-full">
             <div className="flex gap-4 justify-start">
               <button onClick={() => router.back()}>
@@ -77,6 +77,7 @@ const Cadastro2 = () => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
+                router.push('/cadastro-3');
               }, 400);
             }}
           >
@@ -86,28 +87,29 @@ const Cadastro2 = () => {
                 name="email"
                 type="email"
                 placeholder="Insira seu e-mail"
+                style=" border-2 h-14 rounded-xl p-4 border-black "
               />
               <InputText
                 label="Senha"
                 name="senha"
                 type="password"
                 placeholder="Crie uma senha forte"
+                style=" border-2 h-14 rounded-xl p-4 border-black "
               />
               <InputText
                 label="Confirmar senha"
-                name="senha"
+                name="confirmarSenha"
                 type="password"
                 placeholder="Repita sua senha"
+                style=" border-2 h-14 rounded-xl p-4 border-black "
               />
+
+              <button className="w-4/5 h-12 mt-3 bg-rosa-4 rounded-lg place-self-center">
+                <h1 className="text-branco text-2xl"> Continuar</h1>
+              </button>
             </Form>
           </Formik>
 
-          <CustomButton
-            text="Continuar"
-            handleClick={() => router.push("/cadastro-3")}
-            classnameButton="w-4/5 h-12 bg-rosa-4 rounded-lg"
-            classnameText="text-branco text-2xl"
-          ></CustomButton>
           <span className="text-center font-light text-xs">
             Ao fazer login ou criar uma conta, você concorda com nossos{" "}
             <Link href={""} className="text-link-ativo">
@@ -120,7 +122,7 @@ const Cadastro2 = () => {
             </Link>
           </span>
         </div>
-      </AuthPanelFrame>
+      </div>
     </main>
   );
 };

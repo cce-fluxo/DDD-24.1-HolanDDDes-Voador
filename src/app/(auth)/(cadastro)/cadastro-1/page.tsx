@@ -1,6 +1,5 @@
 "use client";
 
-import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import CustomButton from "@/app/components/CustomButton";
 import React from "react";
 import { icons, images } from "@/../../constants";
@@ -14,6 +13,7 @@ import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
+
 
 const Cadastro1 = () => {
   const iconSize: number = 24;
@@ -48,8 +48,8 @@ const Cadastro1 = () => {
         </div>
       </div>
 
-      <AuthPanelFrame>
-        <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-col justify-center pt-5 pb-3 pr-5 pl-5 items-center w-2/5 rounded-t-3xl bg-branco shadow-custom">
+        <div className="flex flex-col p-5 gap-6 shadow-lg rounded-lg w-full">
           <div className="w-full">
             <div className="flex gap-4 justify-start">
               <button onClick={() => router.back()}>
@@ -84,6 +84,7 @@ const Cadastro1 = () => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
+                router.push('/cadastro-2');
               }, 400);
             }}
           >
@@ -93,24 +94,25 @@ const Cadastro1 = () => {
                 name="nome"
                 type="text"
                 placeholder="Insira seu nome"
+                style=" border-2 h-14 rounded-xl p-4 border-black "
               />
               <InputText
                 label="Sobrenome"
                 name="sobrenome"
                 type="text"
                 placeholder="Insira seu sobrenome"
+                style=" border-2 h-14 rounded-xl p-4 border-black "
               />
-              <InputText label="Data de nascimento" name="senha" type="date" />
+              <InputText label="Data de nascimento" name="dataNascimento" type="date"
+              style=" border-2 h-14 rounded-xl p-4 border-black " />
+
+              <button className="w-4/5 h-12 mt-3 bg-rosa-4 rounded-lg place-self-center">
+                <h1 className="text-branco text-2xl"> Continuar</h1>
+              </button>
             </Form>
           </Formik>
 
           <div className="flex flex-col justify-center items-center gap-4 w-full">
-            <CustomButton
-              text="Continuar"
-              handleClick={() => router.push("/cadastro-2")}
-              classnameButton="w-4/5 h-12 bg-rosa-4 rounded-lg"
-              classnameText="text-branco text-2xl"
-            ></CustomButton>
             <span className="text-xl font-medium text-laranja-1">ou</span>
             <div className="flex gap-14">
               <Link href={"/google"}>
@@ -140,7 +142,8 @@ const Cadastro1 = () => {
             </div>
           </div>
         </div>
-      </AuthPanelFrame>
+      </div>
+
     </main>
   );
 };
