@@ -26,6 +26,7 @@ const config: Config = {
         "cinza-3": "#574A4D",
         "cinza-4": "#372F30",
         "laranja": "#FD6944",
+        "laranja-1": "#FD765E",
       },
       fontFamily: {
         poppins: ["var(--font-poppins)"],

@@ -1,12 +1,20 @@
+'use client';
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
+import NotificationIcon from "../../public/notification.svg";
+import Modal from '../app/components/notification'; // Modal de notificação
 
 const LoggedHeader = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   const pathname = usePathname();
   const username = "Samira";
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Controle do dropdown
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const links = [
     { href: "/home", label: "Home" },
@@ -14,7 +22,6 @@ const LoggedHeader = () => {
     { href: "/hotel", label: "Meu Hotel" }
   ];
 
-  // Função para alternar o dropdown
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -65,15 +72,18 @@ const LoggedHeader = () => {
           )}
         </div>
       </nav>
-      <div className="relative flex items-center gap-4">
-        <div className="flex justify-center items-center rounded-full border border-cinza-2 w-[60px] h-[60px]">
-          <Image
-            src='/notifications.png'
-            height={29}
-            width={25}
-            alt="notification"
+      <div className="flex relative items-center justify-center gap-4">
+        <button
+          onClick={openModal}
+          className="relative flex justify-center items-center rounded-full border border-cinza-2 w-[60px] h-[60px] hover:bg-laranja-1 text-preto hover:text-branco"
+        >
+          <NotificationIcon
+            className="transition-colors"
           />
-        </div>
+        </button>
+
+        <Modal isOpen={isModalOpen} onClose={closeModal} />
+
         <p className="text-xl">Olá, {username}</p>
 
         {/* Botão de imagem de perfil */}

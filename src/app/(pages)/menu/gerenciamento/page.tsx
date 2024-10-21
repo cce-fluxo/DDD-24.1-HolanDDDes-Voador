@@ -1,5 +1,6 @@
+"use client";
 import LineChart from '@/app/components/LineChart';
-import LoggedHeader from "@/app/components/LoggedHeader";
+import LoggedHeader from "@/app/LoggedHeader";
 
 export default function Gerenciamento() {
   return (
