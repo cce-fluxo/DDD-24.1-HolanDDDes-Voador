@@ -5,18 +5,19 @@ interface InputTextProps {
   name: string;
   type?: string;
   placeholder?: string;
+  style?: string;
 }
 
-const InputText = ({ label, ...props }: InputTextProps) => {
+const InputText = ({ label,style="", ...props }: InputTextProps) => {
   const [field, meta] = useField(props);
   return (
     <>
       <label htmlFor={props.name} className="">
         {label}
       </label>
-      <input className="text-input" {...field} {...props} />
+      <input className= {`text-input ${style}`} {...field} {...props} />
       {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
+        <div className="error text-red-700">{meta.error}</div>
       ) : null}
     </>
   );
