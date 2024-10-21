@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const LetreiroAnimado = () => {
-  const palavras = ["Fácil", "Eficiente", "Rápido"];
+  const palavras = ["Fácil!", "Eficiente!", "Rápido!", "Seguro!"];
   const [palavraAtual, setPalavraAtual] = useState(palavras[0]);
   let indice = 0;
 
@@ -9,9 +9,9 @@ const LetreiroAnimado = () => {
     const intervalo = setInterval(() => {
       indice = (indice + 1) % palavras.length;
       setPalavraAtual(palavras[indice]);
-    }, 2000); // Muda a cada 2 segundos
+    }, 2000); 
 
-    return () => clearInterval(intervalo); // Limpa o intervalo ao desmontar
+    return () => clearInterval(intervalo); 
   }, []);
 
   return (

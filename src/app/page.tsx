@@ -19,9 +19,9 @@ export default function LogOff() {
           <div className=" flex justify-center ">
             <Link
               href={"/cadastro-1"}
-              className="flex items-center justify-center gap-[16px] w-[340px] h-[80px] bg-red-700 rounded-2xl"
+              className="flex items-center text-white font-semibold text-[30px] justify-center gap-[16px] w-[340px] h-[80px] bg-red-700 rounded-2xl hover:bg-laranja-1"
             >
-              <span className=" text-white font-semibold text-[30px]">
+              <span className="">
                 Começe Agora!
               </span>
               <Image src={Seta} alt=""></Image>
