@@ -6,6 +6,10 @@ import React from "react";
 import { icons, images } from "@/../../constants";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import twitter from "../../../../../public/twitter.png";
+import google from '../../../../../public/google.png';
+import facebook from '../../../../../public/facebook.png';
+import arrowLeft from "../../../../../public/arrow_left.png";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -50,7 +54,7 @@ const Cadastro1 = () => {
             <div className="flex gap-4 justify-start">
               <button onClick={() => router.back()}>
                 <Image
-                  src={icons.arrowLeft}
+                  src={arrowLeft}
                   width={iconSize / 2}
                   height={iconSize / 2}
                   alt="seta para esquerda"
@@ -111,7 +115,7 @@ const Cadastro1 = () => {
             <div className="flex gap-14">
               <Link href={"/google"}>
                 <Image
-                  src={icons.google}
+                  src={google}
                   width={iconSizeLoginOptions}
                   height={iconSizeLoginOptions}
                   alt="google logo"
@@ -119,7 +123,7 @@ const Cadastro1 = () => {
               </Link>
               <Link href={"/facebook"}>
                 <Image
-                  src={icons.facebook}
+                  src={facebook}
                   width={iconSizeLoginOptions}
                   height={iconSizeLoginOptions}
                   alt="facebook logo"
@@ -127,7 +131,7 @@ const Cadastro1 = () => {
               </Link>
               <Link href={"/x"}>
                 <Image
-                  src={icons.x}
+                  src={twitter}
                   width={iconSizeLoginOptions}
                   height={iconSizeLoginOptions}
                   alt="x logo"

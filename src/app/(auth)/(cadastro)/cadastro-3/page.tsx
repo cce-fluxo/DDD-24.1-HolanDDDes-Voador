@@ -8,6 +8,7 @@ import { icons } from "@/../../constants";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
+import arrowLeft from "../../../../../public/arrow_left.png";
 
 const Cadastro3 = () => {
   const iconSize: number = 24;
@@ -26,7 +27,7 @@ const Cadastro3 = () => {
             <div className="flex gap-4 justify-start">
               <button onClick={() => router.back()}>
                 <Image
-                  src={icons.arrowLeft}
+                  src={arrowLeft}
                   width={iconSize / 2}
                   height={iconSize / 2}
                   alt="seta para esquerda"

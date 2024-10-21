@@ -4,7 +4,9 @@ import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import Link from "next/link";
 import Image from "next/image";
 import { icons } from "@/../../constants";
-import LoginInput from "@/app/components/LoginInput";
+import twitter from "../../../../public/twitter.png";
+import google from '../../../../public/google.png';
+import facebook from '../../../../public/facebook.png';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
@@ -52,9 +54,9 @@ const Login = () => {
           <div className="flex flex-col gap-4 items-center w-full">
             <Link
               href={"/home"}
-              className="w-4/5 h-12 bg-rosa-4 rounded-[10px]"
+              className="flex items-center justify-center text-center w-4/5 h-12 bg-rosa-4 rounded-[10px]"
             >
-              <span className="text-branco text-2xl">Entrar</span>
+              <span className="flex text-branco text-2xl">Entrar</span>
             </Link>
             <Link
               href={"/cadastro-1"}
@@ -66,7 +68,8 @@ const Login = () => {
             <div className="flex gap-14">
               <Link href={"/google"}>
                 <Image
-                  src={icons.google}
+                  src={google}
+                  className="rounded-[30px]"
                   width={iconSize}
                   height={iconSize}
                   alt="google logo"
@@ -74,7 +77,7 @@ const Login = () => {
               </Link>
               <Link href={"/facebook"}>
                 <Image
-                  src={icons.facebook}
+                  src={facebook}
                   width={iconSize}
                   height={iconSize}
                   alt="facebook logo"
@@ -82,7 +85,7 @@ const Login = () => {
               </Link>
               <Link href={"/x"}>
                 <Image
-                  src={icons.x}
+                  src={twitter}
                   width={iconSize}
                   height={iconSize}
                   alt="x logo"
