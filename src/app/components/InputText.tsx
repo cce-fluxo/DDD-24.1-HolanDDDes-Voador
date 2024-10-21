@@ -17,7 +17,7 @@ const InputText = ({ label,style="", ...props }: InputTextProps) => {
       </label>
       <input className= {`text-input ${style}`} {...field} {...props} />
       {meta.touched && meta.error ? (
-        <div className="error text-red-700">{meta.error}</div>
+        <div className="error text-red-800">{meta.error}</div>
       ) : null}
     </>
   );
