@@ -14,8 +14,8 @@ const Cadastro3 = () => {
   const iconSize: number = 24;
   const router = useRouter();
   return (
-    <main className="flex justify-evenly items-end h-dvh font-poppins">
-      <div className="h-full flex justify-center items-center w-2/5">
+    <main className="flex justify-evenly h-full font-poppins">
+      <div className="h-full flex place-self-center text-center items-center w-2/5">
         <span className="text-rosa-4 font-semibold text-5xl">
           Ficou mais fácil de anunciar o seu lugar.
         </span>
@@ -91,7 +91,7 @@ const Cadastro3 = () => {
                 style=" border-2 h-14 rounded-xl p-4 border-black "
               />
 
-              <button className="w-4/5 h-12 mt-5 bg-rosa-4 rounded-lg place-self-center">
+              <button className="w-4/5 h-12 mt-7 mb-5 bg-rosa-4 rounded-lg place-self-center">
                 <h1 className="text-branco text-2xl"> Cocluir</h1>
               </button>
             </Form>
