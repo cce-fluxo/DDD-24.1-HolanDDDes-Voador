@@ -1,5 +1,6 @@
+'use client';
 import Pergunta from '@/app/components/Pergunta';
-import LoggedHeader from '@/app/components/LoggedHeader';
+import LoggedHeader from '@/app/LoggedHeader';
 
 export default function Perguntas() {
   return (

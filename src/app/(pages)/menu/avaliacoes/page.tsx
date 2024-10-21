@@ -1,13 +1,14 @@
+"use client";
 import Image from "next/image";
 import LineChart from '@/app/components/LineChart';
 import Avaliacao from "@/app/components/Avaliacao";
-import LoggedHeader from "@/app/components/LoggedHeader";
+import LoggedHeader from "@/app/LoggedHeader";
 
 export default function Avaliacoes() {
   return (
     // página
     <div> 
-      <LoggedHeader/>
+      <LoggedHeader />
 
       <div className="w-screen flex justify-center pt-[90px] mt-[110px]">
         <div className="w-11/12 gap-[48px] flex flex-col items-center">
