@@ -57,7 +57,7 @@ const Cadastro3 = () => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
-                router.push('/home');
+                router.push("/home");
               }, 400);
             }}
           >
@@ -92,7 +92,7 @@ const Cadastro3 = () => {
               />
 
               <button className="w-4/5 h-12 mt-7 mb-5 bg-rosa-4 rounded-lg place-self-center">
-                <h1 className="text-branco text-2xl"> Cocluir</h1>
+                <h1 className="text-branco text-2xl"> Continuar</h1>
               </button>
             </Form>
           </Formik>

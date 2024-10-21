@@ -42,6 +42,9 @@ const RedefinirSenha2 = () => {
               placeholder="Código"
             />
           </Form>
+          <button className="w-4/5 h-12 mt-7 mb-5 bg-rosa-4 rounded-lg place-self-center">
+            <h1 className="text-branco text-2xl"> Continuar</h1>
+          </button>
         </Formik>
 
         <div className="flex flex-col gap-4 w-full items-center">
