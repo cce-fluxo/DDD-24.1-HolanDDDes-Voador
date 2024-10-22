@@ -14,14 +14,14 @@ const Cadastro3 = () => {
   const iconSize: number = 24;
   const router = useRouter();
   return (
-    <main className="flex justify-evenly h-full font-poppins">
+    <main className="flex justify-evenly h-screen items-end font-poppins">
       <div className="h-full flex place-self-center text-center items-center w-2/5">
         <span className="text-rosa-4 font-semibold text-5xl">
           Ficou mais fácil de anunciar o seu lugar.
         </span>
       </div>
 
-      <div className="flex flex-col justify-center pt-5 pb-3 pr-5 pl-5 items-center w-2/5 rounded-t-3xl bg-branco shadow-custom">
+      <div className="flex flex-col justify-center pt-5 pb-3 pr-5 pl-5 z-50 items-center w-2/5 rounded-t-3xl bg-branco shadow-custom">
         <div className="flex flex-col p-5 gap-6 shadow-lg rounded-lg w-full">
           <div className="w-full">
             <div className="flex gap-4 justify-start">
