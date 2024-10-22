@@ -89,35 +89,36 @@ const Quarto = () => {
   return (
     <>
       <LoggedHeader />
-      <main className="flex pt-[80px]">
-      <div className="flex w-11/12 h-full justify-around">
-      <div className="w-1/4 h-screen fixed left-[88px] top-[30px] flex flex-col items-center justify-center gap-[32px]">
-            <div className="bg-[#D9D9D9]  p-[176px_128px] w-[430px] h-[466px] rounded-[10px] flex items-center justify-center">
-              <Image src="/hotel_image.png" alt="Botar fotos" width={123.5} height={104.5} onClick={handleImageClick}/>
-              <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" title="Upload hotel images" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <div className="flex flex-col xl:flex-row">
+         
+        <div className="w-full h-auto ml-8 flex flex-col items-center justify-around">
+          <div className="flex flex-col xl:mt-0 mt-36 items-center justify-center xl:fixed max-w-md mx-auto overflow-hidden md:max-w-2xl">
+            <div className="bg-branco-3 w-[430px] h-[400px] rounded-[10px] flex items-center justify-center mb-6">
+              <Image src="/hotel_image.png" alt="Botar fotos" width={123.5} height={104.5} />
             </div>
-            <Link href="/hotel/quarto/editar_foto_quarto" passHref>
-              <button className="mt-[20px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
-                Editar Fotos
-              </button>
+            <Link href='/hotel/editar_foto_quarto'>
+            <button className="py-4 px-8 bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
+              Editar Fotos
+            </button>
             </Link>
           </div>
-          <div className="ml-[25%] w-[500px] h-[200px] relative top-[50px] flex flex-col">
-          <div className="w-[816px] h-[200px] gap-[64px]">
-          <div className="w-[669px] h-[358px] gap-[16px]">
-            <div className="w-[245px] h-[118px] gap-[16px]">
-              <h1 className="w-[245px] h=[66px] mb-[7px] font-poppins text-preto text-[44px] font-bold leading-[66px]"> Sem Nome</h1>
-              <h4 className="w-[31px] h-[36px] font-normal text-[24px] leading-9 text-[#2EC00A]">0$</h4>
-            </div>
-            <div className="w-[669px] h-[224px] gap-2">
-              <ul className="gap-[10px]">
-                <li className="flex items-center gap-[10px] mb-[10px] w-[669px] h-[50px] p-[10px] relative">
+        </div>
+
+
+
+        <div className="w-full xl:ml-0 ml-8 h-screen mt-24 relative top-[50px] flex flex-col">
+            <h1 className="w-[245px] h=[66px] mb-[7px] font-poppins text-preto text-[44px] font-bold leading-[66px]"> Sem Nome</h1>
+            <h4 className="w-[31px] h-[36px] font-normal text-[24px] leading-9 text-[#2EC00A]">0$</h4>
+
+              <ul className="gap-2">
+                <li className="flex items-center gap-2 mb-2 p-2 relative">
                   <span className="bg-[url('/x.png')] w-[16px] h-[16px] bg-no-repeat bg-contain inline-block" aria-hidden="true"></span>
                   <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
                     Comece Renomeando seu Quarto.
                   </h5>
                 </li>
-                <li className="flex items-center gap-[10px] mb-[10px] w-[427px] h-[50px] p-[10px] relative">
+                <li className="flex items-center gap-2 mb-2 p-2 relative">
                 <span className="bg-[url('/x.png')] w-[16px] h-[16px] bg-no-repeat bg-contain inline-block" aria-hidden="true"></span>
                   <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
                     Adicione fotos do quarto.
@@ -129,15 +130,16 @@ const Quarto = () => {
                     Selecione suas Comodidades.
                   </h5>
                 </li>
+
                 <li className="flex items-center gap-[10px] w-[320px] h-[50px] p-[10px] relative">
                   <span className="bg-[url('/x.png')] w-[16px] h-[16px] bg-no-repeat bg-contain inline-block" aria-hidden="true"></span>
                   <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
                     Escreva sobre seu Quarto.
                   </h5>
                 </li>
+                
               </ul>
-            </div>
-            </div>
+
             <div className="flex flex-row items-top justify-center">
               <div className="mt-[64px] w-[816px] h-[150px] flex flex-row items-center justify-center">
                 <div className="w-[675px] h-[110px] gap-[40px] flex items-center justify-center">
@@ -233,8 +235,6 @@ const Quarto = () => {
             </div>
             </div>
           </div>
-        </div>
-      </main>
     </>
   );
 };

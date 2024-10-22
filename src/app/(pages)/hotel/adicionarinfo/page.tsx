@@ -50,7 +50,7 @@ const Hotel = () => {
       endereço: '', 
       telefone: '', 
       descrição: '', 
-      pet: 'true', 
+      pet: 'false', 
       enderecoId: 3, 
       proprietarioId: 6
     },
