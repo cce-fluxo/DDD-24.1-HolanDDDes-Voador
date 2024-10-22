@@ -20,9 +20,9 @@ const Cadastro1 = () => {
   const iconSizeLoginOptions: number = 55;
   const router = useRouter();
   return (
-    <main className="flex justify-evenly h-full font-poppins">
+    <main className="flex justify-evenly h-screen items-end font-poppins">
       <div className="h-full flex justify-center place-self-center items-center w-2/5">
-        <div className="flex flex-col bg-fundo-imagem-cadastro h-3/4 rounded-3xl p-10 gap-4">
+        <div className="flex flex-col justify-center bg-fundo-imagem-cadastro h-3/4 rounded-3xl p-10 gap-4">
           <div className="flex justify-center">
             <Image
               src={images.pictureCadastro}

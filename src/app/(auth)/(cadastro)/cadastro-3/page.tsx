@@ -14,7 +14,7 @@ const Cadastro3 = () => {
   const iconSize: number = 24;
   const router = useRouter();
   return (
-    <main className="flex justify-evenly h-full font-poppins">
+    <main className="flex justify-evenly h-screen items-end font-poppins">
       <div className="h-full flex place-self-center text-center items-center w-2/5">
         <span className="text-rosa-4 font-semibold text-5xl">
           Ficou mais fácil de anunciar o seu lugar.
