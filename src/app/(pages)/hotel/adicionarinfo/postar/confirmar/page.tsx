@@ -4,6 +4,7 @@ import Image from 'next/image';
 import LoggedHeader from "@/app/LoggedHeader";
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import ModalAnuncioPostado from '@/app/components/ModalAnuncioPostado';
 
 interface FormData {
   nome: string;
@@ -13,6 +14,16 @@ interface FormData {
 }
 
 const Hotel = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const [formData, setFormData] = useState<FormData | null>(null);
 
   useEffect(() => {
@@ -53,11 +64,12 @@ const Hotel = () => {
                   {currentImageIndex + 1}/{images.length}
                 </div>
             </div>
-            <Link href="/hotel/adicionarinfo/postar/confirmar/postado">
-            <button className="py-[15px] px-[182px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
-              Confirmar
-            </button>
-            </Link>
+     
+              <button onClick={handleOpenModal}
+                className="py-[15px] px-[182px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
+                Confirmar
+              </button>
+
           </div>
           <div className="ml-[30%] w-[669px] h-[447px] relative top-[60px] flex flex-col">
           <div className="w-[816px] h-[698px] gap-[64px]">
@@ -219,6 +231,11 @@ const Hotel = () => {
             </div>
           </div>
         </div>
+        
+        {/* Modal */}
+        {isModalOpen && (
+          <ModalAnuncioPostado setOpen={handleCloseModal} />
+        )}
       </main>
     </>
   );
