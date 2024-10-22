@@ -40,47 +40,47 @@ const Perfil = () => {
 
   return (
     <>
+       < meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
       <LoggedHeader />
-      <main className="flex items-center justify-center">
-        <div className="relative top-[30px] flex justify-around w-11/12 h-full">
-          <div className="w-[517px] h-[549px] mt-[40px] mb-[26px] flex flex-col items-center justify-center bg-[#F6F4F4] rounded-[20px] p-[34px_50px_64px_37px]">
-            <div className="flex flex-col items-center w-[575.47px] h-[454px]">
-            <Image src="/upload-left.png" width={359.86} height={267.47} className="inline mb-[16px]" alt="Upload" />
-            <h4 className="text-[24px] font-medium leading-[36px] font-poppins text-preto mb-[16px]">Fotos</h4>
-              <div className="w-[454px] h-[240px] mb-[16px]">
+      <main className="flex flex-col xl:flex-row justify-around mt-24 items-center">
+          <div className="xl:max-w-xl xl:w-2/3 h-[520px] max-h-full md:max-w-sm mt-8 mb-6 flex flex-col items-center justify-center bg-cinza-0 rounded-[20px] ">
+            <div className="md:shrink-0 flex flex-col items-center md:w-[570px] h-auto">
+            <Image src="/upload-left.png" width={359.86} height={267.47} className="inline mb-4 md:h-full md:w-80" alt="Upload" />
+            <h4 className="text-2xl font-medium leading-[36px] font-poppins text-preto mb-4">Fotos</h4>
+
                 <h6 className="text-[16px] font-bold leading-[24px] font-poppins text-preto w-full h-[24px] mb-[15px]">
                   Selecione no mínimo 5 fotos para seus visitantes verem.
                 </h6>
-                <ul>
-                  <li className="flex gap-2 mb-[15px]">
-                    <span className="w-[27px] h-[27px] bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
-                    <span className="text-[16px] font-normal leading-[24px] font-poppins text-preto">
+
+                <ul className="space-y-4 ml-4 mr-2">
+                <li className="flex gap-2 mb-4 ">
+                    <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
+                    <span className="text-base font-normal leading-6 font-poppins text-preto">
                       Vamos começar com a foto principal! Escolha uma foto interessante!
                     </span>
                   </li>
-                  <li className="flex gap-2 mb-[15px]">
-                    <span className="w-[27px] h-[27px] bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
-                    <span className="text-[16px] font-normal leading-[24px] font-poppins text-preto">
+                  <li className="flex gap-2 mb-4 ">
+                    <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
+                    <span className="text-base font-normal leading-6 font-poppins text-preto">
                       Adicione fotos que valorizem o seu espaço e deixem ele mais atrativo.
                     </span>
                   </li>
                 </ul>
             </div>
           </div>
-          </div>
-          <div className="top-[284px] w-[639px] h-[611px] flex flex-col items-center mt-[40px] left-[772px]">
-            <div className="border-2 border-dashed border-[#AB9C9F] w-[639px] h-[514px] rounded-[10px] flex items-center mb-[20px] p-[176px_128px_176px_128px]">
-              <Image src="/img.svg" alt="Botar fotos" width={340} height={57}  onClick={handleImageClick} className="hover:content-[url('/image_hover.png')]" />
+
+          <div className="xl:max-w-xl xl:w-2/3 h-[520px] max-h-full md:max-w-sm flex flex-col items-center justify-center mt-8 px-4">
+          <div className="border-2 border-dashed border-cinza-2 w-full max-w-2xl  h-[450px] rounded-[10px] flex items-center justify-center mb-5 p-8">
+          <Image src="/img.svg" alt="Botar fotos" width={340} height={57}  onClick={handleImageClick} className="hover:content-[url('/image_hover.png')]" />
               <label htmlFor="file-upload" className="sr-only">Upload File</label>
               <input id="file-upload" type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" />
             </div>
-            <Link href="/perfil/Editar-perfil">
+            <Link href="/quarto">
               <button className="mt-[20px] py-[15px] px-[20px] bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around gap-[10px] font-poppins text-[24px] font-normal rounded-[10px] leading-9  hover:bg-[#F42C46] -tracking-2">
                 Salvar Alterações
               </button>
             </Link>
           </div>
-        </div>
       </main>
     </>
   );
