@@ -43,7 +43,7 @@ const Cadastro2 = () => {
         </div>
       </div>
 
-      <div className="flex flex-col pt-5 pb-3 pr-5 pl-5 items-center w-2/5 rounded-t-3xl bg-branco shadow-custom">
+      <div className="flex flex-col pt-5 pb-3 pr-5 pl-5 z-50 items-center w-2/5 rounded-t-3xl bg-branco shadow-custom">
         <div className="flex flex-col p-5 gap-6 shadow-lg rounded-lg w-full">
           <div className="w-full">
             <div className="flex gap-4 justify-start">

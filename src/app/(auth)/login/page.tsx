@@ -17,8 +17,8 @@ const Login = () => {
   const router = useRouter();
   return (
     <main>
-      <div className="top-0 w-screen z-0 flex justify-center items-end bg-gradient-to-b from-rosa-4 to-laranja-gradiente h-screen font-poppins">
-        <div className="flex flex-col justify-center items-center p-11 w-2/5 rounded-t-3xl bg-branco shadow-custom">
+      <div className=" w-screen z-0 flex justify-center items-end bg-gradient-to-b from-rosa-4 to-laranja-gradiente h-screen font-poppins">
+        <div className="flex flex-col z-50 justify-center items-center p-11 w-2/5 rounded-t-3xl bg-branco shadow-custom">
           <div className="flex flex-col gap-7 w-full">
             <span className="text-preto text-[26px] font-semibold text-center">
               Faça o login ou crie uma conta
