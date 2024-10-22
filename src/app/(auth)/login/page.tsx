@@ -45,7 +45,10 @@ const Login = () => {
                     <InputText name="email" type="email" placeholder="E-mail" style="border-2 h-14 rounded-xl p-4 border-black" />
                     <InputText name="senha" type="password" placeholder="Senha" style="border-2 h-14 rounded-xl p-4 border-black" />
                     <div className="flex justify-between">
-                      <span>Lembrar-me</span>
+                      <div className="flex ">
+                        <input type="checkbox" name="" id="" />
+                        <span className=" ml-2">Lembrar-me</span>
+                      </div>
                       <Link href={"/redefinir-1"} className="underline hover:text-link-ativo">
                         Esqueceu sua senha?
                       </Link>
