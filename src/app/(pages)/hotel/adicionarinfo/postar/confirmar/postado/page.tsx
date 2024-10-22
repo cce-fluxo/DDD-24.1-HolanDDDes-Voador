@@ -4,6 +4,7 @@ import Image from 'next/image';
 import LoggedHeader from "@/app/LoggedHeader";
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import Modal from '@/app/components/ModalExcluirAnuncio';
 
 interface FormData {
   nome: string;
@@ -33,6 +34,22 @@ const Hotel = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    // Lógica para excluir o anúncio
+    console.log('Anúncio excluído');
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <LoggedHeader />
@@ -53,11 +70,15 @@ const Hotel = () => {
                   {currentImageIndex + 1}/{images.length}
                 </div>
             </div>
-            <Link href="/hotel">
-            <button className="py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
+            <button className="py-[15px] px-[20px] border-rosa-4 
+            border-[2px] text-rosa-4 w-[340px] h-[57px] 
+            text-center gap-[10px] font-poppins text-[24px] 
+            font-normal leading-9 rounded-[10px] 
+            hover:bg-[#F42C46] hover:text-white 
+            -tracking-2 flex justify-center items-center
+            " onClick={handleOpenModal}>
               Excluir anúncio
             </button>
-            </Link>
           </div>
           <div className="ml-[30%] w-[669px] h-[447px] relative top-[50px] flex flex-col">
           <div className="w-[816px] h-[723px] gap-[64px]">
@@ -213,6 +234,11 @@ const Hotel = () => {
             </div>
           </div>
         </div>
+        <Modal
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              onConfirm={handleConfirmDelete}
+            />
       </main>
     </>
   );
