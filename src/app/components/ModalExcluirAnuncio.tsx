@@ -2,19 +2,18 @@
 
 import React from "react";
 import Image from "next/image";
-import CustomButton from "./CustomButton";
+import CustomButton from "@/app/components/CustomButton";
 import { useRouter } from "next/navigation";
-import { images } from "../../../constants";
 
-const ModalExcluirConta = () => {
+const ModalExcluirAnuncio = () => {
   const router = useRouter();
   return (
     <div className="flex flex-col gap-8 items-center bg-branco rounded-3xl font-poppins px-6 py-7 w-[740px]">
       <Image
-        src={images.modalExcluirContaImage}
-        height={330}
-        width={344}
-        alt="grafismo"
+        src={"/popup_excluir_anuncio.png"}
+        height={344}
+        width={339}
+        alt="imagem alerta"
       />
       <div className="flex flex-col gap-14">
         <div className="flex flex-col gap-5 items-center">
@@ -22,8 +21,7 @@ const ModalExcluirConta = () => {
             Tem certeza?
           </span>
           <span className="text-preto text-xl font-medium text-center">
-            Ao confirmar você estará excluindo sua conta permanentemente, tem
-            certeza que deseja continuar?
+          Ao confirmar você estará exlcuindo seu anúncio permanentemente, e deverá refazer todos os passos anteriores antes de criar um novo, tem certeza que deseja continuar?
           </span>
         </div>
         <div className="flex gap-8">
@@ -45,4 +43,4 @@ const ModalExcluirConta = () => {
   );
 };
 
-export default ModalExcluirConta;
+export default ModalExcluirAnuncio;
