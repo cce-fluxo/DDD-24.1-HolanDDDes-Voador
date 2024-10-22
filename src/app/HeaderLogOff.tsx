@@ -12,7 +12,7 @@ const LogOffHeader = () => {
 
         <Link
           href={"/login"}
-          className="w-[104px] bg-rosa-4 h-[55px] flex flex-col rounded-[10px] gap-[10px] items-center justify-center text-center"
+          className="w-[104px] bg-rosa-4 h-[55px] flex flex-col rounded-[10px] gap-[10px] items-center justify-center text-center hover:bg-laranja"
         >
           <h2 className="font-work_sans text-branco font-bold text-[20px] leading-[23.46px]">
             Login

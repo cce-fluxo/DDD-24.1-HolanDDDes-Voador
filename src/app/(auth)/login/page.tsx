@@ -17,7 +17,7 @@ const Login = () => {
   const router = useRouter();
   return (
     <main>
-      <div className=" w-screen z-0 flex justify-center items-end bg-gradient-to-b from-rosa-4 to-laranja-gradiente h-screen font-poppins">
+      <div className=" w-screen z-0 flex justify-center items-end bg-gradient-to-b from-rosa-4 to-laranja h-screen font-poppins">
         <div className="flex flex-col z-50 justify-center items-center p-11 w-2/5 rounded-t-3xl bg-branco shadow-custom">
           <div className="flex flex-col gap-7 w-full">
             <span className="text-preto text-[26px] font-semibold text-center">
@@ -45,7 +45,10 @@ const Login = () => {
                     <InputText name="email" type="email" placeholder="E-mail" style="border-2 h-14 rounded-xl p-4 border-black" />
                     <InputText name="senha" type="password" placeholder="Senha" style="border-2 h-14 rounded-xl p-4 border-black" />
                     <div className="flex justify-between">
-                      <span>Lembrar-me</span>
+                      <div className="flex ">
+                        <input type="checkbox" name="" id="" />
+                        <span className=" ml-2">Lembrar-me</span>
+                      </div>
                       <Link href={"/redefinir-1"} className="underline hover:text-link-ativo">
                         Esqueceu sua senha?
                       </Link>
@@ -54,15 +57,15 @@ const Login = () => {
 
                       <button
                         type="submit"
-                        className="flex items-center justify-center text-center w-4/5 h-12 bg-rosa-4 rounded-[10px]"
+                        className="flex items-center mt-3 justify-center text-center w-4/5 h-12 bg-rosa-4 rounded-[10px] hover:bg-laranja"
                       >
                         <span className="flex text-branco text-2xl">Entrar</span>
 
                       </button>
 
-                      <Link href={"/cadastro-1"} className="w-4/5 h-12 bg-rosa-1 rounded-[10px]">
+                      <Link href={"/cadastro-1"} className="flex justify-center text-laranja text-center items-center w-4/5 h-12 bg-rosa-1 rounded-[10px] hover:bg-rosa-2 hover:text-white">
 
-                        <span className="text-laranja-2 text-2xl">Cadastre-se</span>
+                        <span className=" text-2xl">Cadastre-se</span>
 
                       </Link>
 
