@@ -8,7 +8,7 @@ type ModalAnuncioPostadoProps = {
 
 const ModalAnuncioPostado = ({setOpen}: ModalAnuncioPostadoProps) => {
   return (
-    <div className="flex flex-col items-center bg-black rounded-3xl font-poppins w-[880px] h-[688px] p-8">
+    <div className="flex flex-col items-center bg-branco rounded-3xl font-poppins w-[880px] h-[688px] p-8">
         <div className="w-full flex justify-start">
             <CloseButton handleClick={ setOpen }/>
         </div>
