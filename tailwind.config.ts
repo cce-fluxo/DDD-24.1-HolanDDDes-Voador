@@ -12,8 +12,8 @@ const config: Config = {
         right: 'url("/public/right.png")',
       },
       colors: {
-        "rosa 1": "#FFEDF0",
-        "rosa 2": "#F45065",
+        "rosa-1": "#FFEDF0",
+        "rosa-2": "#F45065",
         "rosa-3": "#F42C46",
         "rosa-4": "#DC143B",
         "preto": "#372F30",

@@ -204,6 +204,12 @@ const Hotel = () => {
                         {wordCount(hotelData.values.descrição)} / 500 palavras
                       </div>
 
+                      <Link href="/hotel/detalhar_informacao" passHref>
+                          <button className="mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
+                            Detalhar Informações
+                          </button>
+                      </Link>
+
                       <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
                         <label htmlFor='nome'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Nome: </label>
                         <input
