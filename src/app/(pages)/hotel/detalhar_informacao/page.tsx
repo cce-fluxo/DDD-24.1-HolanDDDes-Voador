@@ -1,10 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import Link from 'next/link';
 import LoggedHeader from "@/app/components/LoggedHeader";
+import { useRouter } from "next/router";
 
 export default function Detalhar() {
+  const router = useRouter()
+
+  const saveInfo = () => {
+    // colocar aqui requisição para mandar os dados pro back
+    router.back()
+  }
+
   return (
-    // página
     <div> 
       <LoggedHeader/>
 
@@ -44,7 +53,7 @@ export default function Detalhar() {
 
             <div className="gap-[24px] grid content-between">
                 <p className="font-sans font-[500] text[20px] leading-[30px] text-[#372F30]">Sobre</p>
-                <p className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]">/ Escreva aqui. (máximo 12 linhas). </p>
+                <input type="text" placeholder="/ Escreva aqui. (máximo 12 linhas)." className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]"/>
             </div>
 
             <div className="gap-[16px] grid content-between">
@@ -52,7 +61,7 @@ export default function Detalhar() {
                     <Image src={"/banheira.svg"} height={42} width={42} alt="Icone"/>
                     <p className="font-sans font-[500] text[16px] leading-[24px] text-[#574A4D]">Título</p> 
                 </div>
-                <p className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]">/ Escreva aqui. (máximo 12 linhas). </p>
+                <input type="text" placeholder="/ Escreva aqui. (máximo 12 linhas)." className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]"/>
             </div>
 
             <div className="gap-[16px] grid content-between">
@@ -60,7 +69,7 @@ export default function Detalhar() {
                   <Image src={"/porta.svg"} height={38} width={38} alt="Icone"/>
                   <p className="font-sans font-[500] text[16px] leading-[24px] text-[#574A4D]">Título</p> 
                 </div>
-                <p className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]">/ Escreva aqui. (máximo 12 linhas). </p>
+                <input type="text" placeholder="/ Escreva aqui. (máximo 12 linhas)." className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]"/>
             </div>
 
             <div className="gap-[16px] grid content-between">
@@ -68,7 +77,7 @@ export default function Detalhar() {
                   <Image src={"/fluent_building-32-filled.svg"} height={48} width={48} alt="Icone"/>
                   <p className="font-sans font-[500] text[16px] leading-[24px] text-[#574A4D]">Título</p> 
                 </div>
-                <p className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]">/ Escreva aqui. (máximo 12 linhas). </p>
+                <input type="text" placeholder="/ Escreva aqui. (máximo 12 linhas)." className="font-sans font-[400] text[16px] leading-[24px] text-[#AB9C9F]"/>
             </div>
           </div>
         </div>
