@@ -9,6 +9,19 @@ import Button from "@/app/components/Button";
 
 const RedefinirSenha1 = () => {
   const router = useRouter();
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Insira um endereço de email válido").required("Campo obrigatorio"),
+  });
+
+  const sendForm = (values: {email: string}) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      router.push('/redefinir-2');
+    }, 400);
+  
+  }
+
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
 
@@ -21,17 +34,8 @@ const RedefinirSenha1 = () => {
           
           <Formik
             initialValues={{ email: "" }}
-            validationSchema={Yup.object({
-              email: Yup.string().email("Insira um endereço de email válido").required("Campo obrigatorio"),
-            })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-                router.push('/redefinir-2');
-              }, 400);
-            }}
-          >
+            validationSchema={validationSchema}
+            onSubmit={(values) => sendForm(values)}>
             <Form className="flex flex-col gap-[40px] w-full items-center">
               <div className="w-full flex flex-col gap-[10px]">
                 <p className="text-preto font-poppins font-normal text-lg leading-7 ">Insira o seu endereço de e-mail para receber um código para redefinir sua senha.</p>

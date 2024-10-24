@@ -10,6 +10,20 @@ import Button from "@/app/components/Button";
 
 const RedefinirSenha3 = () => {
   const router = useRouter();
+
+  const validationSchema = Yup.object({
+    senha: Yup.string().required("Campo obrigatorio"),
+    confirmarSenha: Yup.string().oneOf([Yup.ref('senha'), undefined], 'As senhas precisam ser iguais').required('Campo obrigatório'),
+  });
+
+  const sendForm = (values: {senha: string, confirmarSenha: string}) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      router.push('/home');
+    }, 400);
+  
+  }
+
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
 
@@ -19,18 +33,8 @@ const RedefinirSenha3 = () => {
           
           <Formik
             initialValues={{ senha: "", confirmarSenha: "" }}
-            validationSchema={Yup.object({
-              senha: Yup.string().required("Campo obrigatorio"),
-              confirmarSenha: Yup.string().oneOf([Yup.ref('senha'), undefined], 'As senhas precisam ser iguais').required('Campo obrigatório'),
-            })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-                router.push('/home');
-              }, 400);
-            }}
-          >
+            validationSchema={validationSchema}
+            onSubmit={(values) => sendForm(values)}>
             <Form className="flex flex-col gap-[20px] w-full items-center">
               <div className="w-full flex flex-col gap-[10px]">
                 <p className="text-preto font-poppins font-normal text-lg leading-7 ">Crie uma nova senha para a sua conta.</p>

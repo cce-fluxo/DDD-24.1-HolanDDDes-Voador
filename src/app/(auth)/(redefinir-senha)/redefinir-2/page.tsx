@@ -9,6 +9,19 @@ import Button from "@/app/components/Button";
 
 const RedefinirSenha2 = () => {
   const router = useRouter();
+
+  const validationSchema = Yup.object({
+    code: Yup.string().required("Campo obrigatorio"),
+  });
+
+  const sendForm = (values: {code: string}) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      router.push('/redefinir-3');
+    }, 400);
+  
+  }
+
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
 
@@ -18,17 +31,8 @@ const RedefinirSenha2 = () => {
           
           <Formik
             initialValues={{ code: "" }}
-            validationSchema={Yup.object({
-              code: Yup.string().required("Campo obrigatorio"),
-            })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-                router.push('/redefinir-3');
-              }, 400);
-            }}
-          >
+            validationSchema={validationSchema}
+            onSubmit={(values) => sendForm(values)}>
             <Form className="flex flex-col gap-[40px] w-full items-center">
               <div className="w-full flex flex-col gap-[10px]">
                 <p className="text-preto font-poppins font-normal text-lg leading-7 ">Verifique a caixa de entrada e insira o código de confirmação que enviamos no e-mail cadastrado.</p>
