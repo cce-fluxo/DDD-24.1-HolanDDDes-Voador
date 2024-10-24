@@ -12,7 +12,7 @@ const InputText = ({ label,style="", ...props }: InputTextProps) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label htmlFor={props.name} className="">
+      <label htmlFor={props.name} className="w-full font-poppins font-medium text-xl text-preto">
         {label}
       </label>
       <input className= {`text-input ${style}`} {...field} {...props} />

@@ -45,6 +45,7 @@ import React, {
     const signOut = useCallback(async () => { //remove token e user do localStorage e remove token do useState
       await localStorage.multiRemove(["@BonVoyage:token", "@BonVoyage:user"]);
       setToken("");
+      setUser({});
     }, []);
   
     useEffect(() => {
