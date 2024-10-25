@@ -7,21 +7,34 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import Button from "@/app/components/Button";
+import api from "@/app/services/axios";
+import { useAuth } from "@/app/context/authContext";
 
 const RedefinirSenha3 = () => {
   const router = useRouter();
+
+  // Context para infos do usuário
+  const { user } = useAuth();
 
   const validationSchema = Yup.object({
     senha: Yup.string().required("Campo obrigatorio"),
     confirmarSenha: Yup.string().oneOf([Yup.ref('senha'), undefined], 'As senhas precisam ser iguais').required('Campo obrigatório'),
   });
 
-  const sendForm = (values: {senha: string, confirmarSenha: string}) => {
-    setTimeout(() => {
+  const alterarSenha = async (values: {novaSenha: string, confirmarSenha: string}) => {
+    try {
       alert(JSON.stringify(values, null, 2));
+
+      const response =  await api.patch(`/usuario/${user.Id}`, {
+        ...user,
+        senha: values.novaSenha,
+      });
+      console.log('Senha alterada com sucesso.', response.data);
       router.push('/home');
-    }, 400);
-  
+
+    } catch (error) {
+      console.error('Erro ao alterar senha:', error);
+    }
   }
 
   return (
@@ -32,15 +45,15 @@ const RedefinirSenha3 = () => {
           <span className="text-2xl text-preto font-semibold">Nova senha</span>
           
           <Formik
-            initialValues={{ senha: "", confirmarSenha: "" }}
+            initialValues={{ novaSenha: "", confirmarSenha: "" }}
             validationSchema={validationSchema}
-            onSubmit={(values) => sendForm(values)}>
+            onSubmit={(values) => alterarSenha(values)}>
             <Form className="flex flex-col gap-[20px] w-full items-center">
               <div className="w-full flex flex-col gap-[10px]">
                 <p className="text-preto font-poppins font-normal text-lg leading-7 ">Crie uma nova senha para a sua conta.</p>
                 <InputText
                   label="Nova senha"
-                  name="senha"
+                  name="novaSenha"
                   type="text"
                   placeholder="Crie uma senha forte"
                   style=" border-2 h-14 rounded-xl p-4 border-black w-full text-black "
