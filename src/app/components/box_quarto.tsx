@@ -1,11 +1,16 @@
 import Image from "next/image";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function BoxQuarto() {
-    // Recuperar dados do localStorage e convertê-los para um array de objetos
-    const storedQuartos = localStorage.getItem('quartos');
-    const quartos = storedQuartos ? JSON.parse(storedQuartos) : [];
+    const [quartos, setQuartos] = useState([]);
 
+    useEffect(() => {
+      // Recuperar dados do localStorage e convertê-los para um array de objetos
+      const storedQuartos = localStorage.getItem('quartos');
+      const quartos = storedQuartos ? JSON.parse(storedQuartos) : [];
+      setQuartos(quartos);
+    }, []);
+    
     return (
         <div className="flex flex-wrap gap-[16px]"> {/* Flex wrap para empilhar as boxes */}
             {quartos.map((quarto: any, index: number) => (

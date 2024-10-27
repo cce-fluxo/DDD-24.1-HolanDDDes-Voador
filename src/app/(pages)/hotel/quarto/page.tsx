@@ -4,85 +4,65 @@ import Image from 'next/image';
 import LoggedHeader from "@/app/LoggedHeader";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
+import api from '@/app/services/axios';
+import * as Yup from 'yup';
+import { useRouter } from 'next/navigation';
 
-// Função para contar as palavras (descrição tem limite)
-const wordCount = (text: string) => {
-  return text.trim().split(/\s+/).length;
-};
-
-const validate = (values: { nome: string; preco: string, descrição: string }) => {
-  const errors: { [key: string]: string } = {};
-  if (!values.nome) {
-    errors.nome = 'Campo obrigatório';
-  }
-
-  if (!values.preco) {
-    errors.preco = 'Campo obrigatório';
-  } else if (/^(R$\$)?\d+(\.\d{1,2})?$/.test(values.preco)) {
-    errors.preco = 'O preço deve ser um número válido (ex: 10.00 ou R$10.00)';
-  }
-
-        // descrição é opcional
-    // Validação da descrição com limite de 500 palavras
-    if (values.descrição) {
-      const descriptionWordCount = wordCount(values.descrição);
-      if (descriptionWordCount > 500) {
-        errors.descrição = `Descrição não pode ter mais de 500 palavras. Atual: ${descriptionWordCount} palavras.`;
-      }
-    }
-  return errors;
-};
+const QuartoSchema = Yup.object().shape({
+  titulo: Yup.string().required('Campo obrigatório'),
+  valor_diaria: Yup.number().required('Campo obrigatório').min(0, 'Deve ser no mínimo 0'),
+  descricao: Yup.string().max(500, 'Descrição não pode ter mais de 500 palavras'),
+})
 
 const Quarto = () => {
-  const quartoData = useFormik({
-    initialValues:{
-      nome: '',
-      preco: '',
-      descrição: ''
-    },
-    validate,
-    onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
-    }
-  });
+  const [ isPostBom, setIsPostBom ] = useState(false);
+  const router = useRouter();
 
-   // UseEffect para armazenar dados no localStorage
-   useEffect(() => {
-    // Armazenar os dados do formulário no localStorage sempre que houver mudanças
-    const QuartoData = quartoData.values;
-    console.log("Dados do formulário:", QuartoData); // Verifique os dados que estão sendo armazenados
-    localStorage.setItem('formData', JSON.stringify(QuartoData));
-  }, [quartoData.values]);
-  
-  
-  // Exportação de imagem
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
+  const initialValues = {	
+    titulo: '',
+    valor_diaria: '',
+    descricao: '',
+    banheiros: 0,
+    quartos: 0,
+    camas: 0,
+    valor_pet: 200, // preço qualquer
+    complemento: "quarto bom",
+    tipo_acomodacaoId: 1, // conectei a um tipo de acomodação já existente (são pré-setados pelo admin)
+    hotelId: 4 // conectei a um hotel já existente
   };
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const formData = new FormData();
-      Array.from(event.target.files).forEach((file) => {
-        formData.append('files', file);
-      });
-  
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (response.ok) {
-        console.log('Upload bem-sucedido');
-      } else {
-        console.log('Erro ao fazer upload');
-      }
+  async function postQuarto(data: any) {
+    try {
+      const response = await api.post('acomodacoes', data);
+      console.log('Quarto postado com sucesso!', response.data);
+      setIsPostBom(true);
+      router.push('/hotel/adicionarinfo');
+      return response.data
+    } catch (error) {
+      console.error('Erro ao postar quarto', error);
+      setIsPostBom(false);
+    } finally {
+      console.log('Postagem finalizada');
+    }
+  };
+
+  const [quartoData, setQuartoData] = useState<any>(null);
+
+  const handleSubmit = async (values: any) => {
+    try {
+      // Salvar no banco de dados
+      const savedQuarto = await postQuarto(values);
+
+      // Armazenar localmente no estado
+      setQuartoData(savedQuarto);
+
+      // Armazenar no local storage
+      localStorage.setItem('quartoData', JSON.stringify(savedQuarto));
+
+      console.log('Quarto salvo com sucesso:', savedQuarto);
+    } catch (error) {
+      console.error('Erro ao salvar o quarto:', error);
     }
   };
 
@@ -163,61 +143,67 @@ const Quarto = () => {
               </div>
               <div className="w-full">
                 <div>
-                  <form onSubmit={quartoData.handleSubmit}>
-                      <div className="ml-8">
-                        <label htmlFor='descrição' className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">
-                          Descrição
-                        </label>
-                        <input
-                          type="text"
-                          id="descrição"
-                          className="w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
-                          placeholder="/Escreva aqui uma descrição sobre o seu quarto (máx. 500 palavras)"
-                          {...quartoData.getFieldProps('descrição')}
-                        />
-                        {typeof quartoData.errors.descrição === 'string' && <div className="text-red-500">{quartoData.errors.descrição}</div>}
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={QuartoSchema}
+                    onSubmit={async (values, { setSubmitting }) => {
+                      console.log('Dados do formulário:', values);
+                      setSubmitting(true);      // bloqueia envios múltiplos
+                      await postQuarto(values);  // fazendo o post do hotel no banco de dados
+                      setSubmitting(false);     // finalizando o envio
+                    }}
+                  >
+                    {({ isSubmitting, isValid }) => (
+                      <Form>
+                        {/* Campo de descrição */}
+                        <div className="ml-8">
+                          <label htmlFor='descrição' className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">
+                            Descrição
+                          </label>
+                          <Field
+                            type="textarea"
+                            name="descricao"
+                            className="w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
+                            placeholder="/Escreva aqui uma descrição sobre o seu quarto (máx. 500 palavras)"
+                          />
+                          <ErrorMessage name="descricao" component="div" className="text-rosa-4 text-xs ml-4 w-[30%]" />
                         </div>
-                      
-                      {/* Contagem de palavras na descrição */}
-                      <div className="text-right text-cinza-2 text-[12px]">
-                        {wordCount(quartoData.values.descrição)} / 500 palavras
-                      </div>
 
+                      {/* Campo de nome */}
                       <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
                         <label htmlFor='nome'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Nome: </label>
-                        <input
-                          type="text"
-                          id="nome"
+                        <Field
+                          as="textarea"
+                          name="titulo"
                           className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
                           placeholder="Escreva aqui o nome do quarto"
-                          {...quartoData.getFieldProps('nome')}
                         />
                       </div>
-                      {typeof quartoData.errors.nome === 'string' && <div className="text-rosa-4 text-xs ml-4 w-[30%]">{quartoData.errors.nome}</div>}
+                     <ErrorMessage name="titulo" component="div" className="text-rosa-4 text-xs ml-4 w-[30%]" />
+
+                      {/* Campo de preço */}
 
                       <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
                         <label htmlFor='preco'  className="font-poppins text-preto text-[24px] font-medium leading-[66px]"> Preço: </label>
-                        <input
-                          type="text"
-                          id="preco"
+                        <Field
+                          type="number"
+                          name="valor_diaria"
                           className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
                           placeholder="Escreva aqui o preço mínimo do quarto"
-                          {...quartoData.getFieldProps('preco')}
                         />
                       </div>
-                      {typeof quartoData.errors.preco === 'string' && <div className="text-rosa-4 text-xs ml-4 w-[30%]">{quartoData.errors.preco}</div>}              
+                      <ErrorMessage name="valor_diaria" component="div" className="text-rosa-4 text-xs ml-4 w-[30%]" />
 
                       {/* Botão de Confirmar */}
                       <div className='flex flex-row justify-between mb-8'>
-                        <Link href="/hotel/adicionarinfo" passHref>
-                          <button
-                            type="submit"
-                            className={`mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 ${!(quartoData.isValid && quartoData.dirty) ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            disabled={!(quartoData.isValid && quartoData.dirty)}
-                          >
+                        <button
+                            type="submit" 
+                            disabled={isSubmitting || !isValid}
+                            className={`mt-[32px] w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] -tracking-2 flex justify-center items-center ${
+                              !isValid || isSubmitting ? 'bg-gray-300 cursor-not-allowed' : 'bg-rosa-4 text-white hover:bg-[#F42C46]'
+                            }`}>
                             Confirmar
-                          </button>
-                        </Link>
+                      </button>
 
                         {/* Botão de Cancelar */}
                         <Link href="/hotel" passHref>
@@ -226,17 +212,22 @@ const Quarto = () => {
                           </button>
                         </Link>
                       </div>
-                    </form>
-                </div>
-
+                    </Form>
+                  )}
+                </Formik>
                     
               </div>
             </div>
             </div>
             </div>
           </div>
+        </div>
     </>
   );
 };
 
 export default Quarto;
+
+function setSubmitting(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
