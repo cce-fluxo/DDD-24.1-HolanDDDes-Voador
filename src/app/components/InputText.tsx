@@ -8,14 +8,21 @@ interface InputTextProps {
   style?: string;
 }
 
-const InputText = ({ label,style="", ...props }: InputTextProps) => {
+const InputText = ({ label, style = "", ...props }: InputTextProps) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label htmlFor={props.name} className="w-full font-poppins font-medium text-xl text-preto">
+      <label
+        htmlFor={props.name}
+        className="w-full font-poppins font-medium text-xl text-preto"
+      >
         {label}
       </label>
-      <input className= {`text-input ${style}`} {...field} {...props} />
+      <input
+        className={`text-input text-preto ${style}`}
+        {...field}
+        {...props}
+      />
       {meta.touched && meta.error ? (
         <div className="error text-red-700">{meta.error}</div>
       ) : null}
