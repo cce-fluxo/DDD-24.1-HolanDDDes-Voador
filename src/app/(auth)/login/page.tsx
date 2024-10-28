@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import twitter from "../../../../public/twitter.png";
-import google from '../../../../public/google.png';
-import facebook from '../../../../public/facebook.png';
+import google from "../../../../public/google.png";
+import facebook from "../../../../public/facebook.png";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
@@ -60,44 +60,79 @@ const Login = () => {
                 validationSchema={validationSchema}
                 onSubmit={(values) => login(values)}>
                 {({ handleSubmit }) => (
-                  <Form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
-                    <InputText name="email" type="email" placeholder="E-mail" style="border-2 h-14 rounded-xl p-4 border-black" />
-                    <InputText name="senha" type="password" placeholder="Senha" style="border-2 h-14 rounded-xl p-4 border-black" />
+                  <Form
+                    className="flex flex-col gap-2 w-full"
+                    onSubmit={handleSubmit}
+                  >
+                    <InputText
+                      name="email"
+                      type="email"
+                      placeholder="E-mail"
+                      style="border-2 h-14 rounded-xl p-4 border-black"
+                    />
+                    <InputText
+                      name="senha"
+                      type="password"
+                      placeholder="Senha"
+                      style="border-2 h-14 rounded-xl p-4 border-black"
+                    />
                     <div className="flex justify-between">
                       <div className="flex ">
                         <input type="checkbox" name="" id="" />
                         <span className=" ml-2">Lembrar-me</span>
                       </div>
-                      <Link href={"/redefinir-1"} className="underline hover:text-link-ativo">
+                      <Link
+                        href={"/redefinir-1"}
+                        className="underline hover:text-link-ativo"
+                      >
                         Esqueceu sua senha?
                       </Link>
                     </div>
                     <div className="flex flex-col gap-4 items-center w-full">
-
                       <button
                         type="submit"
                         className="flex items-center mt-3 justify-center text-center w-4/5 h-12 bg-rosa-4 rounded-[10px] hover:bg-laranja"
                       >
-                        <span className="flex text-branco text-2xl">Entrar</span>
-
+                        <span className="flex text-branco text-2xl">
+                          Entrar
+                        </span>
                       </button>
 
-                      <Link href={"/cadastro-1"} className="flex justify-center text-laranja text-center items-center w-4/5 h-12 bg-rosa-1 rounded-[10px] hover:bg-rosa-2 hover:text-white">
-
+                      <Link
+                        href={"/cadastro-1"}
+                        className="flex justify-center text-laranja text-center items-center w-4/5 h-12 bg-rosa-1 rounded-[10px] hover:bg-rosa-2 hover:text-white"
+                      >
                         <span className=" text-2xl">Cadastre-se</span>
-
                       </Link>
 
-                      <span className="text-xl font-medium text-laranja-1">ou</span>
+                      <span className="text-xl font-medium text-laranja-1">
+                        ou
+                      </span>
                       <div className="flex gap-14">
                         <Link href={"/google"}>
-                          <Image src={google} className="rounded-[30px]" width={iconSize} height={iconSize} alt="google logo" />
+                          <Image
+                            src={google}
+                            className="rounded-[30px]"
+                            width={iconSize}
+                            height={iconSize}
+                            alt="google logo"
+                          />
                         </Link>
                         <Link href={"/facebook"}>
-                          <Image src={facebook} width={iconSize} height={iconSize} alt="facebook logo" />
+                          <Image
+                            src={facebook}
+                            width={iconSize}
+                            height={iconSize}
+                            alt="facebook logo"
+                          />
                         </Link>
                         <Link href={"/x"}>
-                          <Image src={twitter} width={iconSize} height={iconSize} alt="x logo" />
+                          <Image
+                            src={twitter}
+                            width={iconSize}
+                            height={iconSize}
+                            alt="x logo"
+                          />
                         </Link>
                       </div>
                     </div>
@@ -108,9 +143,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      
-
     </main>
   );
 };

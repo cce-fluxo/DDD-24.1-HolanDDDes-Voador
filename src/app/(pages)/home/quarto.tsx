@@ -1,12 +1,11 @@
-'use client'
+"use client";
 
-import Boxquarto from "./boxquarto";
-import Box0quarto from "./box0quarto"
+import Box0quarto from "./box0quarto";
 
 export default function Quarto() {
-    return(
-        <div className=" flex gap-[24px] overflow-x-auto">
-            <Box0quarto/>
-        </div>
-    )
+  return (
+    <div className=" flex gap-[24px] overflow-x-auto">
+      <Box0quarto />
+    </div>
+  );
 }
