@@ -1,9 +1,7 @@
 "use client";
 
-import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import Link from "next/link";
 import Image from "next/image";
-import { icons } from "@/../../constants";
 import twitter from "../../../../public/twitter.png";
 import google from '../../../../public/google.png';
 import facebook from '../../../../public/facebook.png';
@@ -11,10 +9,43 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import { useRouter } from "next/navigation";
+import api from "@/app/services/axios";
+import { useAuth } from "@/app/context/authContext";
 
 const Login = () => {
   const iconSize = 55;
   const router = useRouter();
+
+  const { signIn } = useAuth();
+
+
+  async function login(data: any){
+    try{
+      console.log(signIn);
+      alert(JSON.stringify(data, null, 2)); //exibe na tela os dados de login para debugar
+
+      const response = await api.post(
+        'auth/login', //fazendo a requisição para essa rota
+        data, //enviando esses dados no corpo da requisição
+      );
+
+      console.log("Resposta:", response.data); // para debugar a resposta
+      console.log("Token: ", response.data.access_token); // para debugar a resposta
+
+      await signIn(response.data.access_token); //preciso salvar o usuario tb? o endpoint só me retorna o token aparentemente
+      console.log("Login realizado com sucesso!");
+      router.push('/home'); // redirecionando o usuario para a home
+    } catch (error){
+      console.log("Erro ao realizar login: ", error)
+    }
+  }
+
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Email invalido").required("Campo obrigatorio"),
+    senha: Yup.string().required("Campo obrigatorio"),
+  });
+
   return (
     <main>
       <div className=" w-screen z-0 flex justify-center items-end bg-gradient-to-b from-rosa-4 to-laranja h-screen font-poppins">
@@ -26,20 +57,8 @@ const Login = () => {
             <div className="flex flex-col gap-3">
               <Formik
                 initialValues={{ email: "", senha: "" }}
-                validationSchema={Yup.object({
-                  email: Yup.string()
-                    .email("Email invalido")
-                    .required("Campo obrigatorio"),
-                  senha: Yup.string().required("Campo obrigatorio"),
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-                  setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                    router.push("/home");
-                  }, 400);
-                }}
-              >
+                validationSchema={validationSchema}
+                onSubmit={(values) => login(values)}>
                 {({ handleSubmit }) => (
                   <Form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
                     <InputText name="email" type="email" placeholder="E-mail" style="border-2 h-14 rounded-xl p-4 border-black" />
