@@ -63,8 +63,9 @@ const Hotel = () => {
     }
   };
 
-  const [hotelData, setHotelData] = useState<any>(null);
+  const [hotelData, setHotelData] = useState<any>(null); // armazena
 
+  // implementar
   const handleSubmit = async (values: any) => {
     try {
       // Salvar no banco de dados

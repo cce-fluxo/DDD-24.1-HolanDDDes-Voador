@@ -21,7 +21,7 @@ const Quarto = () => {
 
   const initialValues = {	
     titulo: '',
-    valor_diaria: '',
+    valor_diaria: ' ',
     descricao: '',
     banheiros: 0,
     quartos: 0,
