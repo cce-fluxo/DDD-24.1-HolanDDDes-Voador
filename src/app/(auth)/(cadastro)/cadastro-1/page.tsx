@@ -1,19 +1,17 @@
 "use client";
 
-import CustomButton from "@/app/components/CustomButton";
 import React from "react";
-import { icons, images } from "@/../../constants";
+import { images } from "@/../../constants";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import twitter from "../../../../../public/twitter.png";
-import google from '../../../../../public/google.png';
-import facebook from '../../../../../public/facebook.png';
+import google from "../../../../../public/google.png";
+import facebook from "../../../../../public/facebook.png";
 import arrowLeft from "../../../../../public/arrow_left.png";
 import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
-
 
 const Cadastro1 = () => {
   const iconSize: number = 24;
@@ -33,13 +31,19 @@ const Cadastro1 = () => {
           </div>
           <span className="text-preto text-xl font-medium">Aproveite:</span>
           <div className="flex gap-4">
-            <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
+            <span
+              className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0"
+              aria-hidden="true"
+            ></span>
             <span className="text-preto text-base">
               Anuncie seus lugares de forma mais rápida e sem tarifa.
             </span>
           </div>
           <div className="flex gap-4">
-            <span className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0" aria-hidden="true"></span>
+            <span
+              className="w-7 h-7 bg-[url('/right.png')] bg-no-repeat bg-contain inline-block shrink-0"
+              aria-hidden="true"
+            ></span>
             <span className="text-preto text-base">
               Você poderá gerenciar seu próprio hotel, adicionado fotos e
               verificando suas reservas.
@@ -84,7 +88,7 @@ const Cadastro1 = () => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
-                router.push('/cadastro-2');
+                router.push("/cadastro-2");
               }, 400);
             }}
           >
@@ -103,8 +107,12 @@ const Cadastro1 = () => {
                 placeholder="Insira seu sobrenome"
                 style=" border-2 h-14 rounded-xl p-4 border-black "
               />
-              <InputText label="Data de nascimento" name="dataNascimento" type="date"
-              style=" border-2 h-14 rounded-xl p-4 border-black " />
+              <InputText
+                label="Data de nascimento"
+                name="dataNascimento"
+                type="date"
+                style=" border-2 h-14 rounded-xl p-4 border-black "
+              />
 
               <button className="w-4/5 h-12 mt-3 bg-rosa-4 rounded-lg place-self-center">
                 <h1 className="text-branco text-2xl"> Continuar</h1>
@@ -143,7 +151,6 @@ const Cadastro1 = () => {
           </div>
         </div>
       </div>
-
     </main>
   );
 };

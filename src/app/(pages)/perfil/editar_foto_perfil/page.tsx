@@ -1,42 +1,60 @@
 // Perfil.tsx
 "use client";
 import Image from 'next/image';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import LoggedHeader from "@/app/LoggedHeader";
-import Link from "next/link";
+import api from '@/app/services/axios';
+import { useRouter } from 'next/navigation';
 
-const Perfil = () => {
-  const links = [
-    { href: "/salvar alterações", label: "Salvar Alterações" },
-  ];
+// mandar para o back
+const FormData = global.FormData;
 
-    // Exportação de imagem
+const Perfil: React.FC = () => {
+  const router = useRouter();
+
+  // Exportação de imagem
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const [imagemPerfil, setImagemPerfil] = useState<File[]>([]);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const formData = new FormData();
-      Array.from(event.target.files).forEach((file) => {
-        formData.append('files', file);
-      });
-  
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (response.ok) {
-        console.log('Upload bem-sucedido');
-      } else {
-        console.log('Erro ao fazer upload');
-      }
+  // Função para lidar com o upload de arquivos (máx 3)
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const novosArquivos = Array.from(files).slice(0, 3 - imagemPerfil.length);
+      
+      setImagemPerfil([...imagemPerfil, ...novosArquivos]);
     }
   };
-  
+
+  // Remoção das fotos
+  const handleRemove = (index: number) => {
+    const novasImagens = imagemPerfil.filter((_, i) => i !== index);
+    setImagemPerfil(novasImagens);
+  };
+
+
+  const salvarImagemPerfil = async (imagem: File) => {
+    try {
+      console.log("Imagem a ser enviada:", imagem);
+      // Atualizar a imagem que será mostrada
+      setImagemPerfil([imagem]);
+
+      // Mandando para o back
+      const formData = new FormData();
+      formData.append('file', imagem, imagem.name);
+      const response = await api.post('foto-usuario', formData);
+
+      console.log(response.data);
+      router.push('/perfil');
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
   return (
     <>
@@ -76,16 +94,51 @@ const Perfil = () => {
           </div>
 
           <div className="xl:max-w-xl xl:w-2/3 h-[530px] max-h-full md:max-w-sm  flex flex-col items-center justify-center mt-8 px-4">
-            <div className="border-2 border-dashed border-cinza-2 w-full max-w-2xl  h-[450px] rounded-[10px] flex items-center justify-center mb-5 p-8">
-              <Image src="/img.svg" alt="Botar fotos" width={340} height={57}  onClick={handleImageClick} className="hover:content-[url('/image_hover.png')]" />
-              <label htmlFor="file-upload" className="sr-only">Upload File</label>
-              <input id="file-upload" type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" />
-            </div>
-            <Link href="/perfil/Editar-perfil">
-              <button className="mt-5 mb-5 py-6 bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around font-poppins text-2xl font-normal rounded-[10px] leading-9  hover:bg-rosa-3 -tracking-2">
+            {/* Se imagens estiver vazio, mostra o ícone svg do figma */}
+            
+            <div className="border-2 border-dashed border-cinza-2 w-full max-w-2xl h-[450px] rounded-[10px] flex items-center justify-center mb-5 p-8">
+          {imagemPerfil.length === 0 ? (
+              <Image src="/img.svg" alt="Botar fotos" width={340} height={57} onClick={handleImageClick} className="cursor-pointer hover:content-[url('/image_hover.png')]" />
+          ) : (
+            <div className="flex gap-4 w-full h-auto overflow-x-scroll">
+              {imagemPerfil.map((imagemPerfil, index) => (
+                <div key={index} className="relative flex flex-shrink-0 h-full items-center justify-center">
+                  <Image
+                    src={URL.createObjectURL(imagemPerfil)}
+                    alt="Imagem"
+                    width={128} // Define uma largura fixa (estava tendo problemas)
+                    height={128} // Define uma altura fixa (estava tendo problemas)
+                    objectFit="cover" // Faz a imagem se ajustar ao contêiner
+                    className="rounded-lg"
+                  />
+                  <button onClick={() => handleRemove(index)} className="absolute top-0 right-0 p-2 bg-preto bg-opacity-50 text-white rounded-full">
+                    X
+                  </button>
+                </div>
+              ))}
+              {/* Botão de adicionar mais fotos */}
+                <button
+                  onClick={handleImageClick}
+                  className="w-32 h-32 border-2 border-dashed border-cinza-2 flex items-center justify-center text-2xl font-bold text-cinza-2 rounded-lg"
+                >
+                  +
+                </button>
+                  </div>
+                )}
+          </div>
+
+          <input id="file-upload" type="file" multiple ref={fileInputRef} onChange={handleUpload} className="hidden" />
+
+              <button 
+                className="mt-5 mb-5 py-6 bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around font-poppins text-2xl font-normal rounded-[10px] leading-9  hover:bg-rosa-3 -tracking-2"
+                onClick={async (event) => { // evitar ele passar de página sem o POST
+                  event.preventDefault();
+                  if (imagemPerfil[0]) {
+                    await salvarImagemPerfil(imagemPerfil[0]);
+                  }
+                }}>
                 Salvar Alterações
               </button>
-            </Link>
           </div>
       </main>
     </>

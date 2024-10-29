@@ -24,17 +24,10 @@ const Quarto = () => {
   const [isPostBom, setIsPostBom] = useState(false);
   const router = useRouter();
 
-<<<<<<< HEAD
-  const initialValues = {	
-    titulo: '',
-    valor_diaria: ' ',
-    descricao: '',
-=======
   const initialValues = {
     titulo: "",
     valor_diaria: "",
     descricao: "",
->>>>>>> 22425cc750d85ea07adb7f98af315c217e740533
     banheiros: 0,
     quartos: 0,
     camas: 0,

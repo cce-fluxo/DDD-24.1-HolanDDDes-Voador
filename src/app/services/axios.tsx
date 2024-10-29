@@ -6,7 +6,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   //const token = localStorage.getItem("@BonVoyage:token");
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJrYXR5cGVycnlAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMwMDQ0ODkzLCJleHAiOjE3MzAxMzEyOTN9.MqQlYTqj_1xLzyRi8jsLip3KRQtOnjzvk2-hvHAJo4U";
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJrYXR5cGVycnlAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMwMTU3NzQ2LCJleHAiOjE3MzAyNDQxNDZ9.BvlGRb2ni-8ernF9958fXr2tXNLFxs5RitvoVEbrG_0";
   if (token) {
     if (config.headers) {
       config.headers.Authorization = `Bearer ${token}`;

@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
     createContext,
     useContext,
@@ -20,26 +22,22 @@ import React, {
     const [user, setUser] = useState({});
   
     const loadStoragedData = useCallback(async () => {
-      const [token, user] = await localStorage.multiGet([
-        "@BonVoyage:token",
-        "@BonVoyage:user",
-      ]);
-      if (token[1] && user[1]) {
+
+      const token = await localStorage.getItem("@BonVoyage:token")
+      const user = await localStorage.getItem("@BonVoyage:user")
+
+      if (token && user) {
         setToken(token[1]);
         setUser(JSON.parse(user[1]));
       }
     }, []);
   
-    const signIn = useCallback(async (token: string, user: object) => { //armazena o token e user no localStorage e no useState
-      console.log("teste SignIn - armazenar token e user");
+    const signIn = useCallback(async (token: string) => { //armazena o token e user no localStorage e no useState
+      console.log("teste SignIn - armazenar token");
       await localStorage.setItem("@BonVoyage:token", token);
       console.log("Token armazenado no storage");
-      await localStorage.setItem("@BonVoyage:user", JSON.stringify(user));
-      console.log("Usuário armazenado no storage");
-      
 
       setToken(token);
-      setUser(user);
     }, []);
   
     const signOut = useCallback(async () => { //remove token e user do localStorage e remove token do useState
@@ -65,7 +63,7 @@ import React, {
       </AuthContext.Provider>
     );
   }
-  
+
   export function useAuth() {
     const context = useContext(AuthContext);
     if (!context) {

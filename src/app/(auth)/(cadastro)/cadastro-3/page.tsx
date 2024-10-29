@@ -1,10 +1,7 @@
 "use client";
 
-import AuthPanelFrame from "@/app/components/AuthPanelFrame";
 import Image from "next/image";
-import CustomButton from "@/app/components/CustomButton";
 import { useRouter } from "next/navigation";
-import { icons } from "@/../../constants";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
