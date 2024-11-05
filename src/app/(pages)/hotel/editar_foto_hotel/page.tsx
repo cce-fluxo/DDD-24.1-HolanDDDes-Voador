@@ -4,10 +4,13 @@ import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import LoggedHeader from "@/app/LoggedHeader";
 import Link from "next/link";
+import api from '@/app/services/axios';
+import { useRouter } from 'next/navigation';
 
 const Perfil = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imagens, setImagens] = useState<File[]>([]);
+  const [imagemHotel, setImagemHotel] = useState<File[]>([]);
+  const router = useRouter();
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -17,16 +20,35 @@ const Perfil = () => {
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      const novosArquivos = Array.from(files).slice(0, 5 - imagens.length);
+      const novosArquivos = Array.from(files).slice(0, 5 - imagemHotel.length); // limitada a 5 fotos
       
-      setImagens([...imagens, ...novosArquivos]);
+      setImagemHotel([...imagemHotel, ...novosArquivos]);
     }
   };
 
+  // Remoção das fotos
   const handleRemove = (index: number) => {
-    const novasImagens = imagens.filter((_, i) => i !== index);
-    setImagens(novasImagens);
+    const novasImagens = imagemHotel.filter((_, i) => i !== index);
+    setImagemHotel(novasImagens);
   };
+
+  const salvarImagemHotel = async (imagem: File) => {
+    try {
+      console.log("Imagem a ser enviada:", imagem);
+      // Atualizar a imagem que será mostrada
+      setImagemHotel([imagem]);
+
+      // Mandando para o back
+      const formData = new FormData();
+      formData.append('file', imagem, imagem.name);
+      const response = await api.post('fotos-hoteis', formData);
+
+      console.log(response.data);
+      router.push('/hotel/adicionarinfo');
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
   return (
     <>
@@ -67,14 +89,14 @@ const Perfil = () => {
           {/* Se imagens estiver vazio, mostra o ícone svg do figma */}
           
           <div className="border-2 border-dashed border-cinza-2 w-full max-w-2xl h-[450px] rounded-[10px] flex items-center justify-center mb-5 p-8">
-          {imagens.length === 0 ? (
+          {imagemHotel.length === 0 ? (
               <Image src="/img.svg" alt="Botar fotos" width={340} height={57} onClick={handleImageClick} className="cursor-pointer hover:content-[url('/image_hover.png')]" />
           ) : (
             <div className="flex gap-4 w-full h-auto overflow-x-scroll">
-              {imagens.map((imagem, index) => (
+              {imagemHotel.map((imagemHotel, index) => (
                 <div key={index} className="relative flex flex-shrink-0 h-full items-center justify-center">
                   <Image
-                    src={URL.createObjectURL(imagem)}
+                    src={URL.createObjectURL(imagemHotel)}
                     alt="Imagem"
                     width={128} // Define uma largura fixa (estava tendo problemas)
                     height={128} // Define uma altura fixa (estava tendo problemas)
@@ -98,11 +120,18 @@ const Perfil = () => {
           </div>
 
           <input id="file-upload" type="file" multiple ref={fileInputRef} onChange={handleUpload} className="hidden" />
-          <Link href="/hotel/adicionarinfo">
-            <button className="mt-5 mb-5 py-6 bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around font-poppins text-2xl font-normal rounded-[10px] leading-9 hover:bg-rosa-3 -tracking-2">
+          
+          <button 
+              className="mt-5 mb-5 py-6 bg-rosa-4 text-white w-[340px] h-[57px] flex items-center justify-around font-poppins text-2xl font-normal rounded-[10px] leading-9  hover:bg-rosa-3 -tracking-2"
+              onClick={async (event) => { // evitar ele passar de página sem o POST
+                event.preventDefault();
+                if (imagemHotel[0]) {
+                  await salvarImagemHotel(imagemHotel[0]);
+                }
+              }}>
               Salvar Alterações
-            </button>
-          </Link>
+          </button>
+
         </div>
       </main>
     </>

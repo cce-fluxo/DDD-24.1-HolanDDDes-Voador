@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3300",
+    "dev": "next dev -p 3200",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.0.0",
     "apexcharts": "^3.53.0",
     "axios": "^1.7.7",
     "cloudinary": "^2.5.1",

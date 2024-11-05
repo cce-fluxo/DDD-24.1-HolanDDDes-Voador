@@ -35,8 +35,7 @@ const HotelSchema = Yup.object().shape({
         return value ? wordCount(value) <= 500 : true;
       }
     ),
-  pet: Yup.boolean(),
-  proprietarioId: Yup.number().required(),
+  pet: Yup.boolean()
 });
 
 const Hotel = () => {
@@ -51,7 +50,7 @@ const Hotel = () => {
     visualizacoes: 0,
     informacoes_extras: "",
     pet: false,
-    proprietarioId: 1, // conectei a um proprietário por enquanto
+    // tirei a conexão com o proprietário
   };
 
   // Função para postar o hotel
@@ -271,11 +270,11 @@ const Hotel = () => {
                             className="w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none peer-focus:border-none peer-focus:ring-0"
                           />
                         </div>
-                        <ErrorMessage
-                          name="sobre"
-                          component="div"
-                          className="text-red-500"
-                        />
+                          <ErrorMessage
+                            name="sobre"
+                            component="div"
+                            className="text-red-500"
+                          />
 
                         {/* Botão de Detalhar Informações */}
                         <Link href="/hotel/detalhar_informacao" passHref>
@@ -294,7 +293,7 @@ const Hotel = () => {
                               Nome
                             </label>
                             <Field
-                              type="text"
+                              as="textarea"
                               name="nome"
                               className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
                               placeholder="Escreva aqui o nome do hotel"
@@ -315,7 +314,7 @@ const Hotel = () => {
                               Endereço
                             </label>
                             <Field
-                              type="text"
+                              as="textarea"
                               name="endereco"
                               className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
                               placeholder="Escreva aqui o endereço do hotel"

@@ -29,6 +29,8 @@ const Login = () => {
         data, //enviando esses dados no corpo da requisição
       );
 
+      console.log("Usuario:", response.data.usuario); // para debugar a resposta
+
       console.log("Resposta:", response.data); // para debugar a resposta
       console.log("Token: ", response.data.access_token); // para debugar a resposta
 
