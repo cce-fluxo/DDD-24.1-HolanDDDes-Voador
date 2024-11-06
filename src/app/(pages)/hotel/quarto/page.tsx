@@ -31,10 +31,10 @@ const Quarto = () => {
     banheiros: 0,
     quartos: 0,
     camas: 0,
-    valor_pet: 200, // preço qualquer
-    complemento: "quarto bom",
+    valor_pet: 200, // preço qualquer (não vai ser importante para a gente)
+    complemento: "quarto bom", // inicializei assim, será mudado em outra página
     tipo_acomodacaoId: 1, // conectei a um tipo de acomodação já existente (são pré-setados pelo admin)
-    hotelId: 4, // conectei a um hotel já existente
+    // hotelId já está vindo do contexto
   };
 
   async function postQuarto(data: any) {

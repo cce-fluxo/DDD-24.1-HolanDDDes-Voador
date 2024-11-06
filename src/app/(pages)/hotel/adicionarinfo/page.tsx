@@ -70,26 +70,6 @@ const Hotel = () => {
     }
   }
 
-  const [hotelData, setHotelData] = useState<any>(null); // armazena
-
-  // implementar
-  const handleSubmit = async (values: any) => {
-    try {
-      // Salvar no banco de dados
-      const savedHotel = await postHotel(values);
-
-      // Armazenar localmente no estado
-      setHotelData(savedHotel);
-
-      // Armazenar no local storage
-      localStorage.setItem("hotelData", JSON.stringify(savedHotel));
-
-      console.log("Hotel salvo com sucesso:", savedHotel);
-    } catch (error) {
-      console.error("Erro ao salvar o hotel:", error);
-    }
-  };
-
   return (
     <>
       <LoggedHeader />
