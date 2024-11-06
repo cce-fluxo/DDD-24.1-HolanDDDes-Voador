@@ -1,10 +1,22 @@
 'use client';
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { usePathname, } from "next/navigation";
 import NotificationIcon from "../../public/notification.svg";
 import Modal from '../app/components/notification'; // Modal de notificação
+import api from "./services/axios";
+
+// Pegando o nome do usuário pro Olá, ...
+interface UserData {
+  nome: string; // só preciso do nome
+}
+
+// Pegando as informações do hotel para checar se o usuário tem ou não tem um hotel
+interface HotelData {
+  nome: string;
+  postado: boolean; // adicionado para checar se o hotel foi postado
+}
 
 const LoggedHeader = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -13,14 +25,67 @@ const LoggedHeader = () => {
   const closeModal = () => setModalOpen(false);
 
   const pathname = usePathname();
-  const username = "Samira";
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // salvando nome do usuário  
+  const [username, setUsernameData] = useState<UserData | null>(null)
+
+  async function getUsername() {
+    try {
+      // recupera o nome do usuário
+      const response = await api.get("usuario/idUsuario");
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  // mudando o state
+  useEffect(() => {
+    getUsername().then((data) => {
+      if (data) {
+        setUsernameData(data as UserData);
+      }
+    }
+  );
+  }, []);
+
+  // IF do hotel (JÁ TÁ NO BD? ESTÁ POSTADO? ONDE O USER INICIA?)
+  const [hotelData, setHotelData] = useState<HotelData | null>(null);
+
+  // GET Hotel
+  async function getHotel() {
+    try {	
+      // Recupera os dados do hotel
+      const response = await api.get("hotels/usuarioId");  
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getHotel().then((data) => {
+      if (data) {
+        setHotelData(data as HotelData);
+      }
+    }
+  );
+  }, []);
 
   const links = [
     { href: "/home", label: "Home" },
-    { href: "/perfil", label: "Meu Perfil" },
-    { href: "/hotel", label: "Meu Hotel" }
+    { href: "/perfil", label: "Meu Perfil" }
   ];
+
+  if (hotelData && hotelData.nome === null) {
+    links.push({ href: "/hotel", label: "Meu Hotel" });
+  } else if (hotelData && hotelData.postado === true) {
+    links.push({ href: "/hotel/adicionarinfo/postar/confirmar/postado", label: "Meu Hotel" })
+  } else {
+    links.push({ href: "/hotel/adicionarinfo/postar", label: "Meu Hotel" });
+  }
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -84,11 +149,10 @@ const LoggedHeader = () => {
 
         <Modal isOpen={isModalOpen} onClose={closeModal} />
 
-        <p className="text-xl">Olá, {username}</p>
+        <p className="text-xl">Olá, {username?.nome}</p>
 
         {/* Botão de imagem de perfil */}
         <div className="relative">
-          <button onClick={toggleDropdown} className="flex items-center">
             <Image
               src='/google.png'
               width={60}
@@ -96,7 +160,6 @@ const LoggedHeader = () => {
               className="rounded-full object-cover"
               alt="user profile picture"
             />
-          </button>
         </div>
       </div>
     </header>
