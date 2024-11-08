@@ -34,7 +34,6 @@ const LoggedHeader = () => {
     try {
       // recupera o nome do usuário
       const response = await api.get("usuario/idUsuario");
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);

@@ -187,11 +187,11 @@ const Hotel = () => {
                         />
                       </div>
                     </div>
-                    <Link href="/hotel/quarto">
+                      
                       <h4 className="font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap text-preto">
                         Adicione um Quarto
                       </h4>
-                    </Link>
+                      
                     <div className="mt-[-40px] w-[600px] h-[100px] gap-[4px] flex flex-col justify-end items-center">
                       <p className="font-work-sans font-normal text-[10px] -tracking-2 leading-[11.73px] text-cinza-3">
                         por noite:

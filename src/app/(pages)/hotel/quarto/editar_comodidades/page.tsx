@@ -29,7 +29,7 @@ export default function Comodidades() {
       // Enviar cada ID selecionado em uma requisição separada
       for (const comodidadeId of selectedComodidades) {
         console.log('Enviando comodidade ID:', comodidadeId);
-        const response = await api.post('hotels/comodidade', {
+        const response = await api.post('acomodacoes/comodidade', {
           comodidadeId, // Enviando um único ID por vez
         });
       }
