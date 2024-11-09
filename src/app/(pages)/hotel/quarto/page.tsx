@@ -42,7 +42,7 @@ const Quarto = () => {
       const response = await api.post("acomodacoes", data);
       console.log("Quarto postado com sucesso!", response.data);
       setIsPostBom(true);
-      router.push("/hotel/adicionarinfo");
+      router.push("/hotel/adicionarinfo/postar");
       return response.data;
     } catch (error) {
       console.error("Erro ao postar quarto", error);
@@ -51,25 +51,6 @@ const Quarto = () => {
       console.log("Postagem finalizada");
     }
   }
-
-  const [quartoData, setQuartoData] = useState<any>(null);
-
-  const handleSubmit = async (values: any) => {
-    try {
-      // Salvar no banco de dados
-      const savedQuarto = await postQuarto(values);
-
-      // Armazenar localmente no estado
-      setQuartoData(savedQuarto);
-
-      // Armazenar no local storage
-      localStorage.setItem("quartoData", JSON.stringify(savedQuarto));
-
-      console.log("Quarto salvo com sucesso:", savedQuarto);
-    } catch (error) {
-      console.error("Erro ao salvar o quarto:", error);
-    }
-  };
 
   return (
     <>
@@ -263,7 +244,7 @@ const Quarto = () => {
                           </button>
 
                           {/* Botão de Cancelar */}
-                          <Link href="/hotel" passHref>
+                          <Link href="/hotel/adicionarinfo/postar" passHref>
                             <button className="mb-4 mt-[32px] py-[15px] px-[20px] border-rosa-4 border-[2px] text-rosa-4 w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] hover:text-white -tracking-2 flex justify-center items-center">
                               Cancelar
                             </button>
