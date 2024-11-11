@@ -14,7 +14,7 @@ import React, {
     signIn: (token:string, user: User) => void;
     signOut: any;
     token: string;
-    user: object;
+    user: User;
   }
 
   interface User { // propriedades do usuário a serem salvas
@@ -26,7 +26,11 @@ import React, {
   const AuthContext = createContext<AuthContextData>({} as AuthContextData);
   export default function AuthContextProvider({ children }: {children: ReactNode}) {
     const [token, setToken] = useState("");
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState({
+      id: "",
+      name: "",
+      email: ""
+    });
   
     const loadStoragedData = useCallback(async () => {
 
@@ -56,7 +60,11 @@ import React, {
     const signOut = useCallback(async () => { //remove token e user do localStorage e remove token do useState
       await localStorage.multiRemove(["@BonVoyage:token", "@BonVoyage:user"]);
       setToken("");
-      setUser({});
+      setUser({
+        id: "",
+        name: "",
+        email: ""
+      });
     }, []);
   
     useEffect(() => {
