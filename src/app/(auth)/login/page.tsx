@@ -29,12 +29,11 @@ const Login = () => {
         data, //enviando esses dados no corpo da requisição
       );
 
-      console.log("Usuario:", response.data.usuario); // para debugar a resposta
-
       console.log("Resposta:", response.data); // para debugar a resposta
+      console.log("Usuario:", response.data.user); // para debugar a resposta
       console.log("Token: ", response.data.access_token); // para debugar a resposta
 
-      await signIn(response.data.access_token); //preciso salvar o usuario tb? o endpoint só me retorna o token aparentemente
+      await signIn(response.data.access_token, response.data.user); //preciso salvar o usuario tb? o endpoint só me retorna o token aparentemente
       console.log("Login realizado com sucesso!");
       router.push('/home'); // redirecionando o usuario para a home
     } catch (error){

@@ -11,11 +11,16 @@ import React, {
   } from "react";
   
   interface AuthContextData {
-    signIn: any;
+    signIn: (token:string, user: User) => void;
     signOut: any;
-    saveUserInfo: any;
     token: string;
     user: object;
+  }
+
+  interface User { // propriedades do usuário a serem salvas
+    id: string;
+    name: string;
+    email: string;
   }
   
   const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -34,12 +39,18 @@ import React, {
       }
     }, []);
   
-    const signIn = useCallback(async (token: string) => { //armazena o token e user no localStorage e no useState
+    const signIn = useCallback(async (token: string, user: User) => { //armazena o token e user no localStorage e no useState
       console.log("teste SignIn - armazenar token");
       await localStorage.setItem("@BonVoyage:token", token);
       console.log("Token armazenado no storage");
 
       setToken(token);
+
+      console.log("teste armazenar info usuário");
+      await AsyncStorage.setItem("@BonVoyage:user", JSON.stringify(user));
+      console.log("Usuário armazenado no storage");
+
+      setUser(user);
     }, []);
   
     const signOut = useCallback(async () => { //remove token e user do localStorage e remove token do useState
@@ -51,27 +62,12 @@ import React, {
     useEffect(() => {
       loadStoragedData();
     }, []);
-
-    interface User { // propriedades do usuário a serem salvas
-      id: string;
-      name: string;
-      email: string;
-    }
-
-    const saveUserInfo = useCallback(async (usuario: User) => {
-      console.log("teste armazenar info usuário");
-      await AsyncStorage.setItem("@BonVoyage:user", JSON.stringify(usuario));
-      console.log("Usuário armazenado no storage");
-
-      setUser(usuario);
-    }, []);
   
     return (
       <AuthContext.Provider
         value={{
           signIn,
           signOut,          
-          saveUserInfo,
           token,
           user,
         }}
