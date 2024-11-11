@@ -5,43 +5,52 @@ import LoggedHeader from "@/app/LoggedHeader";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import api from "@/app/services/axios";
-import * as Yup from "yup";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import Comodidade from '@/app/components/Comodidade';
+import wifiIcon from "../../../../../../public/wifi.svg";
+import arIcon from '../../../../../../public/ice.svg';
+import spaIcon from '../../../../../../public/spa.png';
+import cafeIcon from '../../../../../../public/coffe.svg';
+import cozinhaIcon from '../../../../../../public/chef.svg';
+import piscinaIcon from '../../../../../../public/pool.svg';
 
 interface QuartoData {
   acomodacao: {
-    
+    id: number;
+    titulo: string;
+    valor_diaria: number; 
   };
-  foto_quarto: {
+  fotoAcomodacao: {
     url_foto: string;
   }[];
   comodidades: {
-    Comodidade: {
+    ComodidadeAcomodacao: {
       id: number;
       nome: string;
     }[];
   };
 }
 
-const Quarto = () => {
-  const [isLoading, setIsLoading] = useState(true); // Estado para controlar o loading
+export default function Quarto() {
+  const { id } = useParams(); // Captura o id da URL
 
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar o loading
   const [ quartoData, setQuartoData ] = useState<QuartoData | null>(null);
 
 
   async function getQuarto() {
     try {
-      const response = await api.get("acomodacoes");
-      console.log("Quarto postado com sucesso!", response.data);      
+      if (id) {
+        const response = await api.get(`acomodacoes/${id}`);
+        console.log(response.data);      
+        setIsLoading(false);
+        return response.data;
+      }
+      console.error('ID não encontrada na URL');
       setIsLoading(false);
-      router.push("/hotel/adicionarinfo/postar");
-      return response.data;
     } catch (error) {
-      console.error("Erro ao postar quarto", error);
+      console.error("Erro ao buscar quarto", error);
       setIsLoading(false);
-    } finally {
-      console.log("Postagem finalizada");
     }
   }
 
@@ -52,14 +61,54 @@ const Quarto = () => {
       }
     }
   );
-  }, []);
+  }, [id]);  
+  
+  // Ícones da comodidade
+  const icons = [
+    { name: 'Wi-fi grátis', icon: wifiIcon },
+    { name: 'Ar-condicionado', icon: arIcon },
+    { name: 'Spa', icon: spaIcon },
+    { name: 'Café da manhã incluso', icon: cafeIcon },
+    { name: 'Cozinha Gourmet', icon: cozinhaIcon },
+    { name: 'Piscina', icon: piscinaIcon }
+  ]
   
   // Mudança da imagem ao clicar
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleClick = () => {
-    setCurrentImageIndex((prevIndex) => quartoData ? (prevIndex + 1) % quartoData.foto_quarto.length : prevIndex);
+    setCurrentImageIndex((prevIndex) => quartoData ? (prevIndex + 1) % quartoData.fotoAcomodacao.length : prevIndex);
   };
+  
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-spin h-8 w-8 text-rosa-4 mb-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+          <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -74,7 +123,7 @@ const Quarto = () => {
                {quartoData &&  // garantir que não é nulo
               <>
                <Image
-                src={quartoData?.foto_quarto[currentImageIndex].url_foto}
+                src={quartoData?.fotoAcomodacao[currentImageIndex].url_foto}
                 alt={`Imagem ${currentImageIndex + 1}`}
                 fill
                 className="cursor-pointer max-w-[430px] max-h-[466px]"
@@ -83,13 +132,13 @@ const Quarto = () => {
                 onLoadingComplete={() => setIsLoading(false)} // Define isLoading como false quando a imagem carrega
               />
               <div className="absolute bottom-0 right-0 mb-2 mr-2 text-white bg-[#574A4DB2] bg-opacity-70 rounded-[10px] gap-[10px] p-[10px] font-poppins font-bold text-[16px] leading-6">
-                {currentImageIndex + 1}/{quartoData && quartoData.foto_quarto.length}
+                {currentImageIndex + 1}/{quartoData && quartoData.fotoAcomodacao.length}
                 </div>
                 </>
               }
           </div>
 
-            <Link href="/hotel/editar_foto_quarto">
+            <Link href="/hotel/quarto/editar_foto_quarto">
               <button className="py-4 px-8 bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
                 Editar Fotos
               </button>
@@ -98,12 +147,11 @@ const Quarto = () => {
         </div>
 
         <div className="w-full xl:ml-0 ml-8 h-screen mt-24 relative top-[50px] flex flex-col">
-          <h1 className="w-[245px] h=[66px] mb-[7px] font-poppins text-preto text-[44px] font-bold leading-[66px]">
-            {" "}
-            Sem Nome
+        <h1 className="w-[440px] h-[66px] mb-[7px] font-poppins text-preto text-[44px] font-bold leading-[66px] whitespace-nowrap"> 
+          {quartoData?.acomodacao.titulo} 
           </h1>
-          <h4 className="w-[31px] h-[36px] font-normal text-[24px] leading-9 text-[#2EC00A]">
-            0$
+          <h4 className="w-[100px] flex flex-row h-[36px] font-normal text-[24px] leading-9 text-[#2EC00A]">
+            R$ {quartoData?.acomodacao.valor_diaria}
           </h4>
 
           <ul className="gap-2">
@@ -113,7 +161,7 @@ const Quarto = () => {
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                Comece Renomeando seu Quarto.
+                A
               </h5>
             </li>
             <li className="flex items-center gap-2 mb-2 p-2 relative">
@@ -122,7 +170,7 @@ const Quarto = () => {
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                Adicione fotos do quarto.
+                B
               </h5>
             </li>
             <li className="flex items-center gap-[10px] mb-[10px] w-[351px] h-[50px] p-[10px] relative">
@@ -131,7 +179,7 @@ const Quarto = () => {
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                Selecione suas Comodidades.
+                C
               </h5>
             </li>
 
@@ -141,7 +189,7 @@ const Quarto = () => {
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                Escreva sobre seu Quarto.
+                D
               </h5>
             </li>
           </ul>
@@ -164,30 +212,40 @@ const Quarto = () => {
           </div>
           <div className="w-[520px] h-[56px] gap-[32px] mt-[40px]">
             <div className="w-[800px] h-[56px] gap-[26px]">
+
+               {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodidade adicionada" */}
+               <div className="w-full max-w-[700px] justify-center items-center h-auto flex flex-wrap gap-4">
+                      {/* Mapeia as comodidades e exibe cada uma delas */}
+                      {quartoData && (
+                        quartoData.comodidades.ComodidadeAcomodacao && 
+                        quartoData.comodidades.ComodidadeAcomodacao.length > 0 ? (
+                          quartoData.comodidades.ComodidadeAcomodacao.map((comod, index) => {
+                            const iconData = icons.find(
+                              (icon) => icon.name === comod.nome
+                            );
+                            return iconData ? (
+                              <Comodidade 
+                                key={index}
+                                id={comod.id} 
+                                nome={comod.nome} 
+                                icon={iconData.icon} 
+                                selected={false} 
+                                onClick={() => {}} 
+                              />
+                            ) : null;
+                          })
+                        ) : (
+                          <p>Nenhuma comodidade adicionada</p>
+                        )
+                      )}
+                    </div>
+
               <div className="flex justify-center items-center">
-                <Link href="/hotel/editar-comodidades" passHref>
-                  <button className="mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
+                <Link href={`/hotel/quarto/editar_comodidades/${quartoData?.acomodacao.id}`} passHref>
+                  <button className="mt-[32px] mb-8 bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
                     Editar Comodidades
                   </button>
                 </Link>
-              </div>
-              <div className="w-full">
-                
-              <div className="flex flex-row">
-                <div className="w-[520px] h-[160px] gap-[26px] flex items-center">
-                <div className="mt-[60px] relative w-[400px] h=[66px] font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap">
-                  <h4 className="text-preto inline-block">Endereço: </h4>
-                  {quartoData ? (
-                  <h5 className="text-cinza-2 ml-2 inline-block whitespace-pre-wrap break-words">{quartoData.}</h5>
-                  ) : (
-                    <p>Nenhum dado encontrado</p>
-                  )}
-                  <span className="absolute inset-x-0 bottom-0 border-b-2 border-cinza-2"></span>           
-                </div>
-                </div>
-              </div>
-
-
               </div>
             </div>
           </div>
@@ -196,9 +254,3 @@ const Quarto = () => {
     </>
   );
 };
-
-export default Quarto;
-
-function setSubmitting(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}

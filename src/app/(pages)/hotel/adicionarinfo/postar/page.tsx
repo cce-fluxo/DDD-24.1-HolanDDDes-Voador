@@ -38,6 +38,7 @@ interface HotelData {
   };
   acomodacoes: {
     Acomodacao: {
+      id: number
       titulo: string;
       valor_diaria: number;
     }[];
@@ -241,6 +242,7 @@ const Hotel = () => {
                   <BoxQuarto
                     quartos={hotelData.acomodacoes.flatMap(ac => 
                       ac.Acomodacao.map(acomodacao => ({
+                        id: acomodacao.id,
                         nome: acomodacao.titulo,
                         preco: acomodacao.valor_diaria
                       }))

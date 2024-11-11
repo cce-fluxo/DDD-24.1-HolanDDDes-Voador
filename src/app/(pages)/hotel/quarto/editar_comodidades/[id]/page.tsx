@@ -5,6 +5,7 @@ import Comodidade from "@/app/components/Comodidade";
 import LoggedHeader from "@/app/LoggedHeader";
 import { useEffect, useState } from "react";
 import api from "@/app/services/axios";
+import { useParams } from "next/navigation";
 
 export default function Comodidades() {
   // Estado para armazenar as comodidades selecionadas
@@ -22,6 +23,8 @@ export default function Comodidades() {
     console.log(selectedComodidades);
   }, [selectedComodidades]);
 
+  const { id } = useParams(); // Captura o id da URL
+
   const handleConfirm = async () => {
     try {
       console.log('Comodidades selecionadas:', selectedComodidades);
@@ -29,9 +32,10 @@ export default function Comodidades() {
       // Enviar cada ID selecionado em uma requisição separada
       for (const comodidadeId of selectedComodidades) {
         console.log('Enviando comodidade ID:', comodidadeId);
-        const response = await api.post('acomodacoes/comodidade', {
+        const response = await api.post(`acomodacoes/${id}/comodidade`, {
           comodidadeId, // Enviando um único ID por vez
         });
+        return response.data;
       }
     } catch (error) {
       console.error('Erro na requisição:', error);

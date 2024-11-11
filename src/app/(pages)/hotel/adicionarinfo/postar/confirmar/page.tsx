@@ -40,6 +40,7 @@ interface HotelData {
   };
   acomodacoes: {
     Acomodacao: {
+      id: number;
       titulo: string;
       valor_diaria: number;
     }[];
@@ -258,6 +259,7 @@ const Hotel = () => {
                   <BoxQuarto
                     quartos={hotelData.acomodacoes.flatMap(ac => 
                       ac.Acomodacao.map(acomodacao => ({
+                        id: acomodacao.id,
                         nome: acomodacao.titulo,
                         preco: acomodacao.valor_diaria
                       }))
@@ -273,9 +275,6 @@ const Hotel = () => {
               <div className="w-[816px] h-[56px] gap-[32px] mt-[40px]">
                 
               <div className="w-[800px] h-[56px] gap-[26px]">
-                
-                {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodidade adicionada" */}
-                
                 
                 {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodsidade adicionada" */}
                 <div className="w-full max-w-[800px] justify-center items-center h-auto p-[10px] flex flex-wrap gap-4">

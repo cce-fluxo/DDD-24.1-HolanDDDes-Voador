@@ -5,6 +5,14 @@ import LoggedHeader from "@/app/LoggedHeader";
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Modal from '@/app/components/ModalExcluirAnuncio';
+import Comodidade from '@/app/components/Comodidade';
+import wifiIcon from "../../../../../../../../public/wifi.svg";
+import arIcon from '../../../../../../../../public/ice.svg';
+import spaIcon from '../../../../../../../../public/spa.png';
+import cafeIcon from '../../../../../../../../public/coffe.svg';
+import cozinhaIcon from '../../../../../../../../public/chef.svg';
+import piscinaIcon from '../../../../../../../../public/pool.svg';
+import BoxQuarto from '@/app/components/box_quarto';
 import api from "@/app/services/axios";
 
 interface HotelData {
@@ -23,8 +31,15 @@ interface HotelData {
   foto_hotel: {
     url_foto: string;
   }[];
+  comodidades: {
+    Comodidade: {
+      id: number;
+      nome: string;
+    }[];
+  };
   acomodacoes: {
     Acomodacao: {
+      id: number;
       titulo: string;
       valor_diaria: number;
     }[];
@@ -42,11 +57,13 @@ const Hotel = () => {
   async function getHotel() {
     try {	
       // Recupera os dados do hotel
-      const response = await api.get("hotels/usuarioId");
+      const response = await api.get("hotels/hotelaria");
       console.log(response.data);  
+      setIsLoading(false);
       return response.data;
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   }
 
@@ -80,6 +97,47 @@ const Hotel = () => {
     console.log('Anúncio excluído');
     setIsModalOpen(false);
   };
+  
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-spin h-8 w-8 text-rosa-4 mb-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+          <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  // Ícones da comodidade
+  const icons = [
+    { name: 'Wi-fi grátis', icon: wifiIcon },
+    { name: 'Ar-condicionado', icon: arIcon },
+    { name: 'Spa', icon: spaIcon },
+    { name: 'Café da manhã incluso', icon: cafeIcon },
+    { name: 'Cozinha Gourmet', icon: cozinhaIcon },
+    { name: 'Piscina', icon: piscinaIcon }
+  ]
+  
 
   return (
     <>
@@ -91,35 +149,7 @@ const Hotel = () => {
           <div className="flex flex-col xl:mt-0 mt-36 items-center justify-center xl:fixed max-w-md mx-auto overflow-hidden md:max-w-2xl">
   
           <div className="w-[430px] h-[466px] flex mb-6 items-center justify-center relative">
-              {/* Condição para mostrar o loading enquanto a imagem carrega */}
-              {isLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <svg
-                    className="animate-spin h-8 w-8 text-rosa-4 mb-2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v8H4z"
-                    ></path>
-
-                  </svg>
-                  <h1 className="text-rosa-4 font-semibold">Aguarde...</h1>
-                </div>
-              )}
-
+              
               {hotelData &&  // garantir que não é nulo
               <>
                <Image
@@ -146,6 +176,8 @@ const Hotel = () => {
             " onClick={handleOpenModal}>
               Excluir anúncio
             </button>
+
+            </div>
           </div>
 
           <div className="w-full xl:ml-0 ml-8 h-screen mt-24 relative top-[50px] flex flex-col">
@@ -218,35 +250,54 @@ const Hotel = () => {
                   Quartos
                 </div>
                 <div className="w-[854px] h-[423px]">
-                    {hotelData && hotelData.acomodacoes.length > 0 ? (
-                      <BoxQuarto
-                        quartos={hotelData.acomodacoes.flatMap(ac => 
-                          ac.Acomodacao.map(acomodacao => ({
-                            nome: acomodacao.titulo,
-                            preco: acomodacao.valor_diaria
-                          }))
-                        )}
-                      />
-                    ) : (
-                      <p>Nenhum quarto disponível</p>
-                    )}
+                
+                  {hotelData && hotelData.acomodacoes.length > 0 ? (
+                    <BoxQuarto
+                      quartos={hotelData.acomodacoes.flatMap(ac => 
+                        ac.Acomodacao.map(acomodacao => ({
+                          id: acomodacao.id,
+                          nome: acomodacao.titulo,
+                          preco: acomodacao.valor_diaria
+                        }))
+                      )}
+                    />
+                  ) : (
+                    <p>Nenhum quarto disponível</p>
+                  )}
+
                 </div>
               </div>
               <div className="w-[816px] h-[56px] gap-[32px] mt-[40px]">
               <div className="w-[800px] h-[56px] gap-[26px]">
-                <div className="w-[800px] h-[56px] gap-[40px] flex flex-column justify-center items-center">
-                    <div className="w-[520px] h-[56px] rounded-[10px] border-[1px] border-cinza-1 p-[10px,32px, 10px, 32px] gap-[16px] bg-branco-2 flex items-center justify-center">
-                      <Image src="/x.png" width={26} height={26} className="color-cinza-2" alt="x"/>
-                      <h4 className="font-poppins font-medium text-[24px] text-cinza-3"> Nenhuma comodidade adicionada </h4>
+                
+                {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodidade adicionada" */}
+                    <div className="w-full max-w-[700px] justify-center items-center h-auto flex flex-wrap gap-4">
+                      {/* Mapeia as comodidades e exibe cada uma delas */}
+                      {hotelData && (
+                        hotelData.comodidades.Comodidade && 
+                        hotelData.comodidades.Comodidade.length > 0 ? (
+                          hotelData.comodidades.Comodidade.map((comod, index) => {
+                            const iconData = icons.find(
+                              (icon) => icon.name === comod.nome
+                            );
+                            return iconData ? (
+                              <Comodidade 
+                                key={index}
+                                id={comod.id} 
+                                nome={comod.nome} 
+                                icon={iconData.icon} 
+                                selected={false} 
+                                onClick={() => {}} 
+                              />
+                            ) : null;
+                          })
+                        ) : (
+                          <p>Nenhuma comodidade adicionada</p>
+                        )
+                      )}
                     </div>
-                </div>
-                <div className="flex justify-center items-center">
-                <Link href="/hotel/editar-comodidades" passHref>
-                    <button className="mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
-                    Editar Comodidades
-                    </button>
-                </Link>
-                </div>
+
+  
                 <div className="mt-[60px] flex flex-col">
                 <h3 className=" w-[245px] h-[80px] font-poppins text-preto text-[32px] font-bold leading-[66px]"> Meus dados:</h3>
                 <div className="w-full ml-8">
@@ -292,7 +343,7 @@ const Hotel = () => {
             </div>
             </div>
           </div>
-        </div>
+          
         <Modal
               isOpen={isModalOpen}
               onClose={handleCloseModal}
