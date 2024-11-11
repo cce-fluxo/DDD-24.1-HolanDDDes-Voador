@@ -12,6 +12,7 @@ import spaIcon from '../../../../../../public/spa.png';
 import cafeIcon from '../../../../../../public/coffe.svg';
 import cozinhaIcon from '../../../../../../public/chef.svg';
 import piscinaIcon from '../../../../../../public/pool.svg';
+import BoxQuarto from '@/app/components/box_quarto';
 
 interface HotelData {
   hotel: {
@@ -234,34 +235,23 @@ const Hotel = () => {
                 <div className="w-[144px] h-[51px] gap-[16px] font-poppins font-semibold text-[34px] leading-[51px] -tracking-2 text-preto">
                   Quartos
                 </div>
-
-                <div className="w-[854px] h-[423px]">
+                <div className="w-[854px] h-[423px] flex flex-row">
                   
-                  <div className="w-[400px] h-[432px] top-[2px] rounded-[10px] p-[32px] gap-[56px] bg-branco-2 flex flex-col justify-center items-end">
-                    <div className="w-[336px] h-[359px] gap-[16px]">
-                      <div className="w-[336px] h-[287px] gap-[16px]">
-                        <div className="w-[336px] h-[235px] rounded-[10px] bg-[#D9D9D9] flex justify-center items-center">
-                          <div className="w-[243px] h-[36px] gap-[12px] flex justify-center items-center">
-                            <Image src="/hotel_image.png" width={123.5} height={104.5} alt="Hotel" />
-                          </div>
-                        </div>
-
-                          <Link href="/hotel/quarto">
-                            <h4 className="font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap text-preto">
-                              Adicione um Quarto
-                            </h4>
-                          </Link>
-
-                        <div className="mt-[-40px] w-[600px] h-[100px] gap-[4px] flex flex-col justify-end items-center">
-                        <p className="font-work-sans font-normal text-[10px] -tracking-2 leading-[11.73px] text-cinza-3">
-                          por noite:
-                        </p>
-                        <h3 className="font-readex-pro font-medium text-[32px] leading-10 text-cinza-2">R$ 0</h3>
-                      </div>
-                      </div>
-                    </div>
-                  </div>
+                {hotelData && hotelData.acomodacoes.length > 0 ? (
+                  <BoxQuarto
+                    quartos={hotelData.acomodacoes.flatMap(ac => 
+                      ac.Acomodacao.map(acomodacao => ({
+                        nome: acomodacao.titulo,
+                        preco: acomodacao.valor_diaria
+                      }))
+                    )}
+                  />
+                ) : (
+                  <p>Nenhum quarto disponível</p>
+                )}
                 </div>
+
+                
               </div>
 
               <div className="w-[816px] h-[56px] gap-[32px] mt-[40px]">
