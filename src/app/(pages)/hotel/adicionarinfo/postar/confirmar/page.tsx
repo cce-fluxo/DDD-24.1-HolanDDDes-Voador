@@ -5,6 +5,15 @@ import LoggedHeader from "@/app/LoggedHeader";
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import ModalAnuncioPostado from '@/app/components/ModalAnuncioPostado';
+import wifiIcon from "../../../../../../../public/wifi.svg";
+import arIcon from '../../../../../../../public/ice.svg';
+import spaIcon from '../../../../../../../public/spa.png';
+import cafeIcon from '../../../../../../../public/coffe.svg';
+import cozinhaIcon from '../../../../../../../public/chef.svg';
+import piscinaIcon from '../../../../../../../public/pool.svg';
+import BoxQuarto from '@/app/components/box_quarto';
+import Comodidade from '@/app/components/Comodidade';
+
 import api from "@/app/services/axios";
 
 interface HotelData {
@@ -23,7 +32,18 @@ interface HotelData {
   foto_hotel: {
     url_foto: string;
   }[];
-
+  comodidades: {
+    Comodidade: {
+      id: number;
+      nome: string;
+    }[];
+  };
+  acomodacoes: {
+    Acomodacao: {
+      titulo: string;
+      valor_diaria: number;
+    }[];
+  }[];
 }
 
 const Hotel = () => {
@@ -48,11 +68,13 @@ const Hotel = () => {
   async function getHotel() {
     try {	
       // Recupera os dados do hotel
-      const response = await api.get("hotels/usuarioId");
-      console.log(response.data);  
+      const response = await api.get("hotels/hotelaria");
+      console.log(response.data as HotelData); 
+      setIsLoading(false); 
       return response.data;
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   }
 
@@ -66,15 +88,10 @@ const Hotel = () => {
   }, []);
 
   // mudando o hotel (true do postado)
-  const dados = {
-    postado: true
-  };
-
   async function patchHotel() {
     try {
-      console.log(dados)
       const response = await api.patch('hotels', {
-        dados, // Enviando um único ID por vez
+        postado: true, // Enviando um único ID por vez
       });
       console.log(response.data)
     } catch (error) {
@@ -88,6 +105,46 @@ const Hotel = () => {
     setCurrentImageIndex((prevIndex) => hotelData ? (prevIndex + 1) % hotelData.foto_hotel.length : prevIndex);
   };
 
+  // Ícones da comodidade
+  const icons = [
+    { name: 'Wi-fi grátis', icon: wifiIcon },
+    { name: 'Ar-condicionado', icon: arIcon },
+    { name: 'Spa', icon: spaIcon },
+    { name: 'Café da manhã incluso', icon: cafeIcon },
+    { name: 'Cozinha Gourmet', icon: cozinhaIcon },
+    { name: 'Piscina', icon: piscinaIcon }
+  ]
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-spin h-8 w-8 text-rosa-4 mb-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+          <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <LoggedHeader />
@@ -97,35 +154,7 @@ const Hotel = () => {
       <div className="flex w-full ml-8 h-auto justify-around items-center flex-col">
           <div className="flex flex-col xl:mt-0 mt-36 items-center justify-center xl:fixed max-w-md mx-auto overflow-hidden md:max-w-2xl">
             <div className="w-[430px] h-[466px] flex mb-6 items-center justify-center relative">
-              {/* Condição para mostrar o loading enquanto a imagem carrega */}
-              {isLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <svg
-                    className="animate-spin h-8 w-8 text-rosa-4 mb-2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v8H4z"
-                    ></path>
-
-                  </svg>
-                  <h1 className="text-rosa-4 font-semibold">Aguarde...</h1>
-                </div>
-              )}
-
+            
               {hotelData &&  // garantir que não é nulo
               <>
                <Image
@@ -223,34 +252,56 @@ const Hotel = () => {
                 <div className="w-[144px] h-[51px] gap-[16px] font-poppins font-semibold text-[34px] leading-[51px] -tracking-2 text-preto">
                   Quartos
                 </div>
-                <div className="w-[854px] h-[423px]">
-                  <div className="w-[400px] h-[432px] top-[2px] rounded-[10px] p-[32px] gap-[56px] bg-branco-2 flex flex-col justify-center items-end">
-                    <div className="w-[336px] h-[359px] gap-[16px]">
-                      <div className="w-[336px] h-[287px] gap-[16px]">
-                        <div className="w-[336px] h-[235px] rounded-[10px] bg-[#D9D9D9] flex justify-center items-center">
-                          <div className="w-[243px] h-[36px] gap-[12px] flex justify-center items-center">
-                            <Image src="/hotel_image.png" width={123.5} height={104.5} alt="Hotel" />
-                          </div>
-                        </div>
-                        <h4 className="font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap text-preto">Adicione um Quarto</h4>
-                        <div className="mt-[-40px] w-[600px] h-[100px] gap-[4px] flex flex-col justify-end items-center">
-                        <p className="font-work-sans font-normal text-[10px] -tracking-2 leading-[11.73px] text-cinza-3">
-                          por noite:
-                        </p>
-                        <h3 className="font-readex-pro font-medium text-[32px] leading-10 text-cinza-2">R$ 0</h3>
-                      </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="w-[854px] h-[423px] flex flex-row">
+                  
+                {hotelData && hotelData.acomodacoes.length > 0 ? (
+                  <BoxQuarto
+                    quartos={hotelData.acomodacoes.flatMap(ac => 
+                      ac.Acomodacao.map(acomodacao => ({
+                        nome: acomodacao.titulo,
+                        preco: acomodacao.valor_diaria
+                      }))
+                    )}
+                  />
+                ) : (
+                  <p>Nenhum quarto disponível</p>
+                )}
+
+
                 </div>
               </div>
               <div className="w-[816px] h-[56px] gap-[32px] mt-[40px]">
+                
               <div className="w-[800px] h-[56px] gap-[26px]">
-                <div className="w-[800px] h-[56px] gap-[40px] flex flex-column justify-center items-center">
-                    <div className="w-[520px] h-[56px] rounded-[10px] border-[1px] border-cinza-1 p-[10px,32px, 10px, 32px] gap-[16px] bg-branco-2 flex items-center justify-center">
-                      <Image src="/x.png" width={26} height={26} className="color-cinza-2" alt="x"/>
-                      <h4 className="font-poppins font-medium text-[24px] text-cinza-3"> Nenhuma comodidade adicionada </h4>
-                    </div>
+                
+                {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodidade adicionada" */}
+                
+                
+                {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodsidade adicionada" */}
+                <div className="w-full max-w-[800px] justify-center items-center h-auto p-[10px] flex flex-wrap gap-4">
+                  {/* Mapeia as comodidades e exibe cada uma delas */}
+                  {hotelData && (
+                    hotelData.comodidades.Comodidade && 
+                    hotelData.comodidades.Comodidade.length > 0 ? (
+                    hotelData.comodidades.Comodidade.map((comod, index) => {
+                      const iconData = icons.find(
+                        (icon) => icon.name === comod.nome
+                      );
+                      return iconData ? (
+                        <Comodidade 
+                          key={index}
+                          id={comod.id} 
+                          nome={comod.nome} 
+                          icon={iconData.icon} 
+                          selected={false} 
+                          onClick={() => {}} 
+                        />
+                      ) : null;
+                    })
+                  ) : (
+                    <p>Nenhuma comodidade adicionada</p>
+                  )
+                  )}
                 </div>
                 
                 <div className="flex justify-center items-center">
