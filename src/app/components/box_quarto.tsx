@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
 
 // Definição da interface para os dados do quarto
 interface Quarto {
@@ -7,25 +6,20 @@ interface Quarto {
   preco: number;
 }
 
-export default function BoxQuarto() {
-  const [quartos, setQuartos] = useState<Quarto[]>([]);
+interface BoxQuartoProps {
+  quartos: Quarto[];
+}
 
-  // Carregar os dados do localStorage
-  useEffect(() => {
-    const storedQuartos = localStorage.getItem("quartos");
-    const quartos = storedQuartos ? JSON.parse(storedQuartos) : [];
-    setQuartos(quartos);
-  }, []);
-
+export default function BoxQuarto({ quartos }: BoxQuartoProps) {
   return (
-    <div className="flex flex-wrap gap-[16px]">
+    <div className="flex overflow-x-auto gap-[16px] py-4">
       {quartos.map((quarto, index) => (
         <div
           key={index}
-          className="w-full sm:w-[400px] h-auto rounded-[10px] p-[32px] bg-branco-2 flex flex-col justify-center"
+          className="w-[320px] h-auto rounded-[10px] p-[32px] bg-branco-2 flex flex-col justify-center"
         >
-          <div className="w-full sm:w-[336px] h-auto gap-[16px]">
-            <div className="w-full sm:w-[336px] h-[235px] rounded-[10px] bg-branco-3 flex justify-center items-center">
+          <div className="w-full h-auto gap-[16px]">
+            <div className="w-full h-[235px] rounded-[10px] bg-branco-3 flex justify-center items-center">
               <div className="w-[243px] h-[36px] gap-[12px] flex justify-center items-center">
                 <Image
                   src="/hotel_image.png"
@@ -53,4 +47,3 @@ export default function BoxQuarto() {
     </div>
   );
 }
-

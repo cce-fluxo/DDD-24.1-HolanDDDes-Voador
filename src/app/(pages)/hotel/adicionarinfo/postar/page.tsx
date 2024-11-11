@@ -36,7 +36,10 @@ interface HotelData {
     };
   }[];
   acomodacoes: {
-    nome: string;
+    Acomodacao: {
+      titulo: string;
+      valor_diaria: number;
+    }[];
   }[];
 }
 
