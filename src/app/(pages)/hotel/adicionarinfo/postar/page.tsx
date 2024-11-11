@@ -30,11 +30,11 @@ interface HotelData {
     url_foto: string;
   }[];
   comodidades: {
-    comodidade: {
+    Comodidade: {
       id: number;
       nome: string;
-    };
-  }[];
+    }[];
+  };
   acomodacoes: {
     Acomodacao: {
       titulo: string;
@@ -270,29 +270,32 @@ const Hotel = () => {
               {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodidade adicionada" */}
               
               
-              {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodsidade adicionada" */}
-              <div className="w-[520px] justify-center items-center h-auto rounded-[10px] border-[1px] border-cinza-1 p-[10px,32px, 10px, 32px] gap-[16px] bg-branco-2 flex flex-column">
-                {/* Mapeia as comodidades e exibe cada uma delas */}
-                {hotelData && (
-                  hotelData.comodidades.comodidade && hotelData.comodidades.comodidade.length > 0 ? (
-                  hotelData.comodidades.comodidade.map((comod, index) => {
-                    const iconData = icons.find((icon) => icon.name === comod.comodidade.nome);
-                    return iconData ? (
-                      <Comodidade 
-                        key={index}
-                        id={comod.comodidade.id} 
-                        nome={comod.comodidade.nome} 
-                        icon={iconData.icon} 
-                        selected={false} 
-                        onClick={() => {}} 
-                      />
-                    ) : null;
-                  })
-                ) : (
-                  <p>Nenhuma comodidade adicionada</p>
-                )
-                )}
-              </div>
+              {/* Se houver comodidades, exibe elas; caso contrário, exibe a mensagem "Nenhuma comodidade adicionada" */}
+                  <div className="w-full max-w-[700px] justify-center items-center h-auto flex flex-wrap gap-4">
+                    {/* Mapeia as comodidades e exibe cada uma delas */}
+                    {hotelData && (
+                      hotelData.comodidades.Comodidade && 
+                      hotelData.comodidades.Comodidade.length > 0 ? (
+                        hotelData.comodidades.Comodidade.map((comod, index) => {
+                          const iconData = icons.find(
+                            (icon) => icon.name === comod.nome
+                          );
+                          return iconData ? (
+                            <Comodidade 
+                              key={index}
+                              id={comod.id} 
+                              nome={comod.nome} 
+                              icon={iconData.icon} 
+                              selected={false} 
+                              onClick={() => {}} 
+                            />
+                          ) : null;
+                        })
+                      ) : (
+                        <p>Nenhuma comodidade adicionada</p>
+                      )
+                    )}
+                  </div>
 
 
 
