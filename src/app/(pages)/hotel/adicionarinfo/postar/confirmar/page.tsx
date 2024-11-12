@@ -45,6 +45,15 @@ interface HotelData {
       valor_diaria: number;
     }[];
   }[];
+  foto_acomodacoes: {
+    Acomodacao: {
+      FotoAcomodacao: {
+        id: number;
+        url_foto: string;
+        acomodacaoId: number;
+      }[];
+    }[];
+  }[];
 }
 
 const Hotel = () => {
@@ -56,7 +65,7 @@ const Hotel = () => {
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
-    patchHotel();
+    patchHotel(postar_anuncio);
   };
 
   const handleCloseModal = () => {
@@ -88,12 +97,15 @@ const Hotel = () => {
   );
   }, []);
 
+  const postar_anuncio = {
+    postado: true,
+  }
+
   // mudando o hotel (true do postado)
-  async function patchHotel() {
+  async function patchHotel(data: any) {
+    console.log('Dados enviados:', data); // verificação dos dados
     try {
-      const response = await api.patch('hotels', {
-        postado: true, // Enviando um único ID por vez
-      });
+      const response = await api.patch('hotels', data);
       console.log(response.data)
     } catch (error) {
       console.log(error);
@@ -173,7 +185,7 @@ const Hotel = () => {
               }
 
             </div>
-              <button onClick={handleOpenModal}
+              <button onClick={handleOpenModal} 
                 className="py-[15px] px-[182px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
                 Confirmar
               </button>
@@ -257,21 +269,29 @@ const Hotel = () => {
                   
                 {hotelData && hotelData.acomodacoes.length > 0 ? (
                   <BoxQuarto
-                    quartos={hotelData.acomodacoes.flatMap(ac => 
-                      ac.Acomodacao.map(acomodacao => ({
+                  quartos={hotelData.acomodacoes.flatMap(ac => 
+                    ac.Acomodacao.map(acomodacao => {
+                      // Encontra a foto correspondente com base no id da acomodação
+                      const foto = hotelData.foto_acomodacoes
+                        .flatMap(fa => fa.Acomodacao)
+                        .find(f => f.FotoAcomodacao.some(foto => foto.acomodacaoId === acomodacao.id))?.FotoAcomodacao[0]?.url_foto;
+          
+                      return {
                         id: acomodacao.id,
                         nome: acomodacao.titulo,
-                        preco: acomodacao.valor_diaria
-                      }))
-                    )}
-                  />
-                ) : (
-                  <p>Nenhum quarto disponível</p>
-                )}
-
-
-                </div>
+                        preco: acomodacao.valor_diaria,
+                        foto: foto || '/hotel_image.png', // Imagem padrão se não houver foto para a acomodação
+                      };
+                    })
+                  )}
+                />
+              ) : (
+                <p>Nenhum quarto disponível</p>
+              )}
               </div>
+
+              </div>
+              
               <div className="w-[816px] h-[56px] gap-[32px] mt-[40px]">
                 
               <div className="w-[800px] h-[56px] gap-[26px]">

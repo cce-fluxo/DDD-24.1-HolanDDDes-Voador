@@ -44,6 +44,15 @@ interface HotelData {
       valor_diaria: number;
     }[];
   }[];
+  foto_acomodacoes: {
+    Acomodacao: {
+      FotoAcomodacao: {
+        id: number;
+        url_foto: string;
+        acomodacaoId: number;
+      }[];
+    }[];
+  }[];
 }
 
 const Hotel = () => {
@@ -253,19 +262,27 @@ const Hotel = () => {
                 
                   {hotelData && hotelData.acomodacoes.length > 0 ? (
                     <BoxQuarto
-                      quartos={hotelData.acomodacoes.flatMap(ac => 
-                        ac.Acomodacao.map(acomodacao => ({
+                    quartos={hotelData.acomodacoes.flatMap(ac => 
+                      ac.Acomodacao.map(acomodacao => {
+                        // Encontra a foto correspondente com base no id da acomodação
+                        const foto = hotelData.foto_acomodacoes
+                          .flatMap(fa => fa.Acomodacao)
+                          .find(f => f.FotoAcomodacao.some(foto => foto.acomodacaoId === acomodacao.id))?.FotoAcomodacao[0]?.url_foto;
+            
+                        return {
                           id: acomodacao.id,
                           nome: acomodacao.titulo,
-                          preco: acomodacao.valor_diaria
-                        }))
-                      )}
-                    />
-                  ) : (
-                    <p>Nenhum quarto disponível</p>
-                  )}
-
+                          preco: acomodacao.valor_diaria,
+                          foto: foto || '/hotel_image.png', // Imagem padrão se não houver foto para a acomodação
+                        };
+                      })
+                    )}
+                  />
+                ) : (
+                  <p>Nenhum quarto disponível</p>
+                )}
                 </div>
+
               </div>
               <div className="w-[816px] h-[56px] gap-[32px] mt-[40px]">
               <div className="w-[800px] h-[56px] gap-[26px]">

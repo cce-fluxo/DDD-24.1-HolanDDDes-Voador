@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface ComodidadeProps {
     nome: string;
-    icon: string;
+    icon: string | StaticImageData;
     selected: boolean; // Estado de seleção
     id: number; // ID da comodidade
     onClick: () => void; // Função chamada ao clicar, recebendo o id

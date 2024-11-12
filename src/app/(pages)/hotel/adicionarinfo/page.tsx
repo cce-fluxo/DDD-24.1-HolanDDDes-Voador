@@ -50,6 +50,7 @@ const Hotel = () => {
     visualizacoes: 0,
     informacoes_extras: "",
     pet: false,
+    postado: false,
     // tirei a conexão com o proprietário
   };
 
@@ -172,7 +173,7 @@ const Hotel = () => {
             <div className="w-[144px] h-[51px] gap-[16px] font-poppins font-semibold text-[34px] leading-[51px] -tracking-2 text-preto">
               Quartos
             </div>
-            <BoxQuarto />
+            <BoxQuarto quartos={[]} />
             <div className="w-[854px] h-[423px]">
               <div className="w-[400px] h-[432px] top-[2px] rounded-[10px] p-[32px] gap-[56px] bg-branco-2 flex flex-col justify-center items-end">
                 <div className="w-[336px] h-[359px] gap-[16px]">

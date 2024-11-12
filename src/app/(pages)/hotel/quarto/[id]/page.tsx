@@ -61,7 +61,7 @@ export default function Quarto() {
       }
     }
   );
-  }, [id]);  
+  }, []);  
   
   // Ícones da comodidade
   const icons = [
