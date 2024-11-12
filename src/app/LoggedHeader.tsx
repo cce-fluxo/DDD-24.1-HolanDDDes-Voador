@@ -105,7 +105,7 @@ const LoggedHeader = () => {
 
   if (isLoading) {
     return (
-      <header className="bg-branco flex fixed top-0 left-0 right-0 px-10 py-6 border-b border-cinza-2 font-poppins font-medium justify-between items-center text-preto z-50">
+      <header className="bg-branco flex fixed top-0 left-0 right-0 px-10 py-6 border-b border-cinza-2 font-poppins font-medium justify-center items-center text-preto z-50">
         <div className="flex flex-col items-center justify-center">
           <svg
             className="animate-spin h-8 w-8 text-rosa-4 mb-2"
@@ -194,12 +194,12 @@ const LoggedHeader = () => {
         <p className="text-xl">Olá, {username?.user.nome}</p>
 
         {/* Botão de imagem de perfil */}
-        <div className="relative">
+        <div className="relative rounded-full overflow-hidden aspect-square">
             <Image
-              src={username?.fotoUser[0]?.url_foto || '/default-profile.png'}
+              src={username?.fotoUser[0]?.url_foto || '/google.png'}
               width={60}
               height={60}
-              className="rounded-full object-cover"
+              className="object-cover"
               alt="user profile picture"
             />
         </div>
