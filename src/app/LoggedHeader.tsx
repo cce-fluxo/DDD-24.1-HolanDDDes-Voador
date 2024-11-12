@@ -14,8 +14,10 @@ interface UserData {
 
 // Pegando as informações do hotel para checar se o usuário tem ou não tem um hotel
 interface HotelData {
-  nome: string;
-  postado: boolean; // adicionado para checar se o hotel foi postado
+  hotel: {
+    nome: string | null; // nome do hotel
+    postado: boolean; // adicionado para checar se o hotel foi postado
+  };
 }
 
 const LoggedHeader = () => {
@@ -52,6 +54,7 @@ const LoggedHeader = () => {
 
   // IF do hotel (JÁ TÁ NO BD? ESTÁ POSTADO? ONDE O USER INICIA?)
   const [hotelData, setHotelData] = useState<HotelData | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // GET Hotel
   async function getHotel() {
@@ -69,6 +72,7 @@ const LoggedHeader = () => {
       if (data) {
         setHotelData(data as HotelData);
       }
+      setIsLoading(false);
     }
   );
   }, []);
@@ -78,9 +82,12 @@ const LoggedHeader = () => {
     { href: "/perfil", label: "Meu Perfil" }
   ];
 
-  if (hotelData && hotelData.nome === null) {
+  // Depurando o hotelData
+  console.log(hotelData);
+
+  if (hotelData && hotelData.hotel.nome === null) {
     links.push({ href: "/hotel", label: "Meu Hotel" });
-  } else if (hotelData && hotelData.postado === true) {
+  } else if (hotelData && hotelData.hotel.postado === true) {
     links.push({ href: "/hotel/adicionarinfo/postar/confirmar/postado", label: "Meu Hotel" })
   } else {
     links.push({ href: "/hotel/adicionarinfo/postar", label: "Meu Hotel" });
@@ -89,6 +96,36 @@ const LoggedHeader = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-spin h-8 w-8 text-rosa-4 mb-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+          <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <header className="bg-branco flex fixed top-0 left-0 right-0 px-10 py-6 border-b border-cinza-2 font-poppins font-medium justify-between items-center text-preto z-50">
