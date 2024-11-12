@@ -80,11 +80,11 @@ const Login = () => {
                     <div className="flex justify-between">
                       <div className="flex ">
                         <input type="checkbox" name="" id="" />
-                        <span className=" ml-2">Lembrar-me</span>
+                        <span className="text-preto ml-2">Lembrar-me</span>
                       </div>
                       <Link
                         href={"/redefinir-1"}
-                        className="underline hover:text-link-ativo"
+                        className=" text-preto underline hover:text-link-ativo"
                       >
                         Esqueceu sua senha?
                       </Link>
