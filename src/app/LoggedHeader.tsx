@@ -9,7 +9,12 @@ import api from "./services/axios";
 
 // Pegando o nome do usuário pro Olá, ...
 interface UserData {
-  nome: string; // só preciso do nome
+  user: {
+    nome: string; // só preciso do nome
+  };
+  fotoUser: {
+    url_foto: string;
+  }[];
 }
 
 // Pegando as informações do hotel para checar se o usuário tem ou não tem um hotel
@@ -35,7 +40,8 @@ const LoggedHeader = () => {
   async function getUsername() {
     try {
       // recupera o nome do usuário
-      const response = await api.get("usuario/idUsuario");
+      const response = await api.get("usuario/idFoto");
+      console.log(response.data)
       return response.data;
     } catch (error) {
       console.log(error);
@@ -99,8 +105,8 @@ const LoggedHeader = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="flex flex-col items-center">
+      <header className="bg-branco flex fixed top-0 left-0 right-0 px-10 py-6 border-b border-cinza-2 font-poppins font-medium justify-between items-center text-preto z-50">
+        <div className="flex flex-col items-center justify-center">
           <svg
             className="animate-spin h-8 w-8 text-rosa-4 mb-2"
             xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +129,7 @@ const LoggedHeader = () => {
           </svg>
           <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
         </div>
-      </div>
+      </header>
     );
   }
 
@@ -185,12 +191,12 @@ const LoggedHeader = () => {
 
         <Modal isOpen={isModalOpen} onClose={closeModal} />
 
-        <p className="text-xl">Olá, {username?.nome}</p>
+        <p className="text-xl">Olá, {username?.user.nome}</p>
 
         {/* Botão de imagem de perfil */}
         <div className="relative">
             <Image
-              src='/google.png'
+              src={username?.fotoUser[0]?.url_foto || '/default-profile.png'}
               width={60}
               height={60}
               className="rounded-full object-cover"
