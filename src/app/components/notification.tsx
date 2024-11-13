@@ -46,19 +46,25 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => { //quando o isOpen mudar, busca novas notificações
     const fetchNotifications = async () => {
       const data = await getNotifications(userID);
-      setNotifications(data);
+      if (data){
+        setNotifications(data);
+      }
     };
 
     fetchNotifications();
   }, [isOpen]);
 
-  async function getNotifications(userID: string): Promise<NotificationData[]> {
-    try{
-      const response = await api.get<NotificationData[]>(`notificacao/${userID}`);
-      return response.data;
-    } catch (error){
-      console.log("Erro ao buscar notificações: ", error);
-      throw error;
+  async function getNotifications(userID?: string): Promise<NotificationData[]  | null> {
+    if (userID){
+      try{
+        const response = await api.get<NotificationData[]>(`notificacao/${userID}`);
+        return response.data;
+      } catch (error){
+        console.log("Erro ao buscar notificações: ", error);
+        throw error;
+      }
+    } else {
+      return null
     }
   }
 
