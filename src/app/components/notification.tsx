@@ -44,7 +44,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     const fetchNotifications = async () => {
       const data = await getNotifications(userID);
-      console.log("resposta notificações: ", data)
 
       if (Array.isArray(data)) {
         setNotifications(data);

@@ -6,6 +6,7 @@ import { usePathname, } from "next/navigation";
 import NotificationIcon from "../../public/notification.svg";
 import Modal from '../app/components/notification'; // Modal de notificação
 import api from "./services/axios";
+import { useAuth } from "./context/authContext";
 
 // Pegando o nome do usuário pro Olá, ...
 interface UserData {
@@ -27,6 +28,8 @@ interface HotelData {
 
 const LoggedHeader = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const { signOut } = useAuth();
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -171,7 +174,7 @@ const LoggedHeader = () => {
               </Link>
               <button
                 className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                onClick={() => alert("Logout")}
+                onClick={() => signOut()}
               >
                 Sair
               </button>
