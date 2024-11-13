@@ -22,8 +22,6 @@ const Login = () => {
   async function login(data: any){
     try{
       console.log(signIn);
-      alert(JSON.stringify(data, null, 2)); //exibe na tela os dados de login para debugar
-
       const response = await api.post(
         'auth/login', //fazendo a requisição para essa rota
         data, //enviando esses dados no corpo da requisição

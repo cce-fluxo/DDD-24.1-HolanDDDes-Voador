@@ -39,7 +39,7 @@ import React, {
 
       if (token && user) {
         setToken(token[1]);
-        setUser(JSON.parse(user[1]));
+        setUser(JSON.parse(user));
       }
     }, []);
   

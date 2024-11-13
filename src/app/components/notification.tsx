@@ -9,10 +9,10 @@ interface ModalProps {
 }
 
 interface NotificationProps {
-    title: string;
-    details: string;
-    isRead: boolean;
-  }
+  title: string;
+  details: string;
+  isRead: boolean;
+}
 
 interface NotificationData {
   titulo: string;
@@ -21,52 +21,66 @@ interface NotificationData {
   leitura: boolean;
   data_criacao?: Date;
 }
-  
 
-  const Notification: React.FC<NotificationProps> = ({ title, details, isRead }) => {
-    return (
-      <div className={`flex items-center justify-between p-3 ${isRead ? "bg-white" : "bg-gray-100"}`} onClick={() => isRead = !isRead}>
-        <div className="flex items-center gap-2">
-          <Image src="/notification.svg" alt="notification" width={20} height={20} />
-          <div>
-            <p className="text-sm font-medium">{title}</p>
-            <p className="text-xs text-gray-500">{details}</p>
-          </div>
+const Notification: React.FC<NotificationProps> = ({ title, details, isRead }) => {
+  return (
+    <div className={`flex items-center justify-between p-3 ${isRead ? "bg-white" : "bg-gray-100"}`}>
+      <div className="flex items-center gap-2">
+        <Image src="/notification.svg" alt="notification" width={20} height={20} />
+        <div>
+          <p className="text-sm font-medium">{title}</p>
+          <p className="text-xs text-gray-500">{details}</p>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
-  const [readAll, setReadAll] = useState(false);
-  const {user} = useAuth();
+  const { user } = useAuth();
   const userID = user.id;
 
-  useEffect(() => { //quando o isOpen mudar, busca novas notificações
+  useEffect(() => {
     const fetchNotifications = async () => {
       const data = await getNotifications(userID);
-      if (data){
+      console.log("resposta notificações: ", data)
+
+      if (Array.isArray(data)) {
         setNotifications(data);
+      } else if (data && typeof data === 'object') {
+        setNotifications([data]);
+      } else {
+        console.error("A resposta da API não é válida:", data);
+        setNotifications([]);
       }
     };
 
-    fetchNotifications();
-  }, [isOpen]);
+    if (isOpen) fetchNotifications();
+  }, [isOpen, userID]);
 
-  async function getNotifications(userID?: string): Promise<NotificationData[]  | null> {
-    if (userID){
-      try{
+  async function getNotifications(userID?: string): Promise<NotificationData[] | null> {
+    if (userID) {
+      try {
         const response = await api.get<NotificationData[]>(`notificacao/${userID}`);
         return response.data;
-      } catch (error){
+      } catch (error) {
         console.log("Erro ao buscar notificações: ", error);
         throw error;
       }
     } else {
-      return null
+      return null;
     }
   }
+
+  const handleMarkAsRead = () => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notification) => ({
+        ...notification,
+        leitura: !notification.leitura,
+      }))
+    );
+  };
 
   if (!isOpen) return null;
 
@@ -87,22 +101,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             key={index}
             title={notification.titulo}
             details={notification.mensagem || ''}
-            isRead={readAll? readAll : notification.leitura}
+            isRead={notification.leitura}
           />
         ))}
-        <Notification
-            title="Nova reserva: Eduardo Nodari"
-            details="Detalhes: Quarto Deluxe, check in em 27/04/24 e check out 02/05/24"
-            isRead={readAll? readAll : false}
-        />
 
         {/* Botão Marcar como Lida/Não Lida */}
         <div className="px-4 py-3 border-t border-gray-200 flex justify-center">
           <button
-            onClick={(readAll) => setReadAll(!readAll)} //Marca todas as notificações como não lidas ou lidas.
+            onClick={handleMarkAsRead}
             className="bg-rosa-4 text-white font-medium px-6 py-2 rounded-lg"
           >
-            {readAll ? "Marcar como não lida" : "Marcar como lida"}
+            Marcar como {notifications.every((notif) => notif.leitura) ? "não lida" : "lida"}
           </button>
         </div>
       </div>

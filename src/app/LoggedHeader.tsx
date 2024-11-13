@@ -181,7 +181,7 @@ const LoggedHeader = () => {
       </nav>
       <div className="flex relative items-center justify-center gap-4">
         <button
-          onClick={openModal}
+          onClick={isModalOpen? closeModal : openModal}
           className="relative flex justify-center items-center rounded-full border border-cinza-2 w-[60px] h-[60px] hover:bg-laranja-1 text-preto hover:text-branco"
         >
           <NotificationIcon
