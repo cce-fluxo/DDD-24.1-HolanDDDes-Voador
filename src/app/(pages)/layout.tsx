@@ -7,9 +7,9 @@ export default function AuthLayout({ children }: Readonly<{ children: React.Reac
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem("@BonVoyage:token"); // Retrieve token from localStorage
+        const token = localStorage.getItem("@BonVoyage:token");
         if (!token) {
-          router.push("/login"); // If there's no token, redirect to the authentication page
+          router.push("/login"); // Se o usuário não possuir um token, redireciona para a tela de login
         }
       }, []);
 
