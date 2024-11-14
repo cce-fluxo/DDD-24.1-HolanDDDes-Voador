@@ -95,6 +95,7 @@ const Hotel = () => {
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
+    deleteHotel(); // deleção do anúncio
   };
 
   const handleCloseModal = () => {
@@ -105,6 +106,16 @@ const Hotel = () => {
     // Lógica para excluir o anúncio
     console.log('Anúncio excluído');
     setIsModalOpen(false);
+  };
+
+  // mudando o hotel (true do postado)
+  async function deleteHotel() {
+    try {
+      const response = await api.delete('hotels');
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+    }
   };
   
   if (isLoading) {

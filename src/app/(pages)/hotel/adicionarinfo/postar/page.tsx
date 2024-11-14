@@ -13,6 +13,8 @@ import cafeIcon from '../../../../../../public/coffee.png';
 import cozinhaIcon from '../../../../../../public/chef.png';
 import piscinaIcon from '../../../../../../public/pool.png';
 import BoxQuarto from '@/app/components/box_quarto';
+import BoxQuartoAdd from '@/app/components/box_quarto_add';
+import BoxQuartoExcluir from '@/app/components/box_quarto_exc';
 
 interface HotelData {
   hotel: {
@@ -248,7 +250,7 @@ const Hotel = () => {
                 <div className="w-[854px] h-[423px] flex flex-row">
                   
                 {hotelData && hotelData.acomodacoes.length > 0 ? (
-                  <BoxQuarto
+                  <BoxQuartoExcluir
                     quartos={hotelData.acomodacoes.flatMap(ac => 
                       ac.Acomodacao.map(acomodacao => {
                         // Encontra a foto correspondente com base no id da acomodação
@@ -268,9 +270,11 @@ const Hotel = () => {
                 ) : (
                   <p>Nenhum quarto disponível</p>
                 )}
-                </div>
 
-                
+                <div className="gap-2"></div>
+                <BoxQuartoAdd/>
+                </div>
+                               
               </div>
 
               <div className="w-[816px] h-[56px] gap-[32px] mt-[40px]">

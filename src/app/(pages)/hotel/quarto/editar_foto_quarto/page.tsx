@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import LoggedHeader from "@/app/LoggedHeader";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import api from '@/app/services/axios';
 
 const Perfil = () => {
@@ -58,7 +58,7 @@ const Perfil = () => {
        < meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
       <LoggedHeader />
       <main className="flex flex-col xl:flex-row justify-around mt-24 items-center">
-          <div className="xl:max-w-xl xl:w-2/3 h-[520px] max-h-full md:max-w-sm mt-8 mb-6 flex flex-col items-center justify-center bg-cinza-0 rounded-[20px] ">
+          <div className="xl:max-w-xl xl:w-2/3 h-[520px] max-h-full md:max-w-3xl mt-8 mb-6 flex flex-col items-center justify-center bg-cinza-0 rounded-[20px] ">
             <div className="md:shrink-0 flex flex-col items-center md:w-[570px] h-auto">
             <Image src="/upload-left.png" width={359.86} height={267.47} className="inline mb-4 md:h-full md:w-80" alt="Upload" />
             <h4 className="text-2xl font-medium leading-[36px] font-poppins text-preto mb-4">Fotos</h4>

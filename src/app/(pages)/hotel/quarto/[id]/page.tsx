@@ -123,7 +123,7 @@ export default function Quarto() {
                {quartoData &&  // garantir que não é nulo
               <>
                <Image
-                src={quartoData?.fotoAcomodacao[currentImageIndex].url_foto}
+                src={quartoData?.fotoAcomodacao[currentImageIndex]?.url_foto || '/hotel_image.png'}
                 alt={`Imagem ${currentImageIndex + 1}`}
                 fill
                 className="cursor-pointer max-w-[430px] max-h-[466px]"
