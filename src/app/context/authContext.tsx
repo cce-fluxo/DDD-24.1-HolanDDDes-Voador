@@ -1,5 +1,6 @@
 "use client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "next/navigation";
 
 import React, {
     createContext,
@@ -31,6 +32,8 @@ import React, {
       name: "",
       email: ""
     });
+
+    const router = useRouter();
   
     const loadStoragedData = useCallback(async () => {
 
@@ -39,7 +42,7 @@ import React, {
 
       if (token && user) {
         setToken(token[1]);
-        setUser(JSON.parse(user[1]));
+        setUser(JSON.parse(user));
       }
     }, []);
   
@@ -58,13 +61,15 @@ import React, {
     }, []);
   
     const signOut = useCallback(async () => { //remove token e user do localStorage e remove token do useState
-      await localStorage.multiRemove(["@BonVoyage:token", "@BonVoyage:user"]);
+      await localStorage.removeItem("@BonVoyage:token");
+      await localStorage.removeItem("@BonVoyage:user");
       setToken("");
       setUser({
         id: "",
         name: "",
         email: ""
       });
+      router.push("/login");
     }, []);
   
     useEffect(() => {
