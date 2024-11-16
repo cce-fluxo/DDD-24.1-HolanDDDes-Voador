@@ -3,46 +3,133 @@ import Image from "next/image";
 import Link from 'next/link';
 import Comodidade from "@/app/components/Comodidade";
 import LoggedHeader from "@/app/LoggedHeader";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/app/services/axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+
+interface ComodidadeData {
+  ComodidadeAcomodacao: {
+    id: number;
+    nome: string;
+  }[]
+}
 
 export default function Comodidades() {
-  
   // Estado para armazenar as comodidades selecionadas
   const [selectedComodidades, setSelectedComodidades] = useState<number[]>([]);
+
+  // Estado para armazenar as comodidades INICIAIS
+  const [initialComodidades, setInitialComodidades] = useState<number[]>([])
 
   // Função para alternar seleção da comodidade
   const toggleComodidade = (id: number) => {
     setSelectedComodidades((prev) =>
       prev.includes(id) ? prev.filter((comodidade) => comodidade !== id) : [...prev, id]
     );
-        console.log(selectedComodidades)
   };
 
-  useEffect(() => {
-    console.log(selectedComodidades);
-  }, [selectedComodidades]);
+  //página carregando  
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar o loading
 
   const { id } = useParams(); // Captura o id da URL
 
+  // Carregar comodidades selecionadas do banco de dados
+  const fetchComodidades = useCallback(async (): Promise<number[]> => {
+    try {
+      const response = await api.get<ComodidadeData>(`acomodacoes/${id}/comodidades`);
+      setIsLoading(false);
+      const data = response.data;
+
+      if (data.ComodidadeAcomodacao && Array.isArray(data.ComodidadeAcomodacao)) {
+        return data.ComodidadeAcomodacao.map((item) => item.id); // Retorna apenas os IDs
+      } else {
+        console.error('Formato inesperado:', data);
+        return [];
+      }
+    } catch (error) {
+      console.error('Erro ao buscar comodidades:', error);
+      return [];
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchComodidades().then((data) => {
+      if (data) {
+        setInitialComodidades(data); // Salva o estado inicial
+        setSelectedComodidades(data); // Define como selecionadas no início
+      }
+    });
+  }, [fetchComodidades]);
+
+  // Mudança de rota
+  const router = useRouter();
+
   const handleConfirm = async () => {
     try {
-      console.log('Comodidades selecionadas:', selectedComodidades);
+      // Adicionar comodidades
+      const newComodidades = selectedComodidades.filter(
+        (id) => !initialComodidades.includes(id)
+      );
   
       // Enviar cada ID selecionado em uma requisição separada
-      for (const comodidadeId of selectedComodidades) {
+      for (const comodidadeId of newComodidades) {
         console.log('Enviando comodidade ID:', comodidadeId);
-        const response = await api.post(`acomodacoes/${id}/comodidade`, {
-          comodidadeId, // Enviando um único ID por vez
-        });
-        return response.data;
+        await api.post(`acomodacoes/${id}/comodidade`, { comodidadeId });
       }
+  
+      // Deletar comodidades
+      const removedComodidades = initialComodidades.filter(
+        (id) => !selectedComodidades.includes(id)
+      );
+  
+      for (const comodidadeId of removedComodidades) {
+        console.log('Removendo comodidade ID:', comodidadeId);
+        await api.request({
+          method: 'DELETE',
+          url: `acomodacoes/${id}/comodidade`,
+          data: { comodidadeId }, // Passa o ID como parte do corpo da requisição
+        });
+      }
+  
+      console.log("Alterações confirmadas!");
+  
+      // Redirecionar para a página do quarto
+      router.replace(`hotel/quarto/${id}`);
     } catch (error) {
       console.error('Erro na requisição:', error);
     }
   };
+  
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-spin h-8 w-8 text-rosa-4 mb-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+          <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

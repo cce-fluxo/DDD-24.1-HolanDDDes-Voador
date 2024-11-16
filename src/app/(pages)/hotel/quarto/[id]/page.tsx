@@ -7,12 +7,12 @@ import React, { useEffect, useState } from "react";
 import api from "@/app/services/axios";
 import { useParams } from "next/navigation";
 import Comodidade from '@/app/components/Comodidade';
-import wifiIcon from "../../../../../../public/wifi.svg";
-import arIcon from '../../../../../../public/ice.svg';
+import wifiIcon from "../../../../../../public/wifi.png";
+import arIcon from '../../../../../../public/ar.png';
 import spaIcon from '../../../../../../public/spa.png';
-import cafeIcon from '../../../../../../public/coffe.svg';
-import cozinhaIcon from '../../../../../../public/chef.svg';
-import piscinaIcon from '../../../../../../public/pool.svg';
+import cafeIcon from '../../../../../../public/coffee.png';
+import cozinhaIcon from '../../../../../../public/chef.png';
+import piscinaIcon from '../../../../../../public/pool.png';
 
 interface QuartoData {
   acomodacao: {
