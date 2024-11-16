@@ -138,7 +138,7 @@ export default function Quarto() {
               }
           </div>
 
-            <Link href="/hotel/quarto/editar_foto_quarto">
+            <Link href={`/hotel/quarto/editar_foto_quarto/${id}`}>
               <button className="py-4 px-8 bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
                 Editar Fotos
               </button>
