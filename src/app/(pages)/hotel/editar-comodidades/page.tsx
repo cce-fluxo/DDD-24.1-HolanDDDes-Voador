@@ -1,43 +1,167 @@
 "use client";
 import Image from "next/image";
-import Link from 'next/link';
-import Comodidade from "@/app/components/Comodidade";
 import LoggedHeader from "@/app/LoggedHeader";
+import Comodidade from "@/app/components/Comodidade";
 import { useEffect, useState } from "react";
 import api from "@/app/services/axios";
+import { useRouter } from 'next/navigation'
+
+interface ComodidadeData {
+  Comodidade: {
+    id: number;
+    nome: string;
+  }[]
+}
+
+// Pegando as informações do hotel para checar se o usuário tem ou não tem um hotel
+interface HotelData {
+  hotel: {
+    nome: string | null; // nome do hotel
+    postado: boolean; // adicionado para checar se o hotel foi postado
+  };
+}
 
 export default function Comodidades() {
-  // Estado para armazenar as comodidades selecionadas
   const [selectedComodidades, setSelectedComodidades] = useState<number[]>([]);
+  const [initialComodidades, setInitialComodidades] = useState<number[]>([]);
 
-  // Função para alternar seleção da comodidade
+  // Função para alternar a seleção da comodidade
   const toggleComodidade = (id: number) => {
     setSelectedComodidades((prev) =>
       prev.includes(id) ? prev.filter((comodidade) => comodidade !== id) : [...prev, id]
     );
-        console.log(selectedComodidades)
   };
 
-  useEffect(() => {
-    console.log(selectedComodidades);
-  }, [selectedComodidades]);
+  //página carregando  
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar o loading
 
-  const handleConfirm = async () => {
+  // Carregar comodidades selecionadas do banco de dados
+  async function fetchComodidades(): Promise<number[]> {
     try {
-      console.log('Comodidades selecionadas:', selectedComodidades);
-  
-      // Enviar cada ID selecionado em uma requisição separada
-      for (const comodidadeId of selectedComodidades) {
-        console.log('Enviando comodidade ID:', comodidadeId);
-        const response = await api.post('hotels/comodidade', {
-          comodidadeId, // Enviando um único ID por vez
-        });
+      const response = await api.get<ComodidadeData>('hotels/comodidade');
+      setIsLoading(false);
+      console.log('Dados retornados:', response.data);
+      const data = response.data;
+
+      if (data.Comodidade && Array.isArray(data.Comodidade)) {
+        return data.Comodidade.map((item) => item.id); // Retorna apenas os IDs
+      } else {
+        console.error('Formato inesperado:', data);
+        return [];
       }
     } catch (error) {
-      console.error('Erro na requisição:', error);
+      console.error('Erro ao buscar comodidades:', error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    fetchComodidades().then((data) => {
+      if (data) {
+        setInitialComodidades(data); // Salva o estado inicial
+        setSelectedComodidades(data); // Define como selecionadas no início
+      }
+    });
+  }, []);
+
+  // Mudança de rota
+  const router = useRouter();
+
+  // GET Hotel
+  async function getHotel() {
+    try {	
+      // Recupera os dados do hotel
+      const response = await api.get("hotels/usuarioId");  
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // IF do hotel (JÁ TÁ NO BD? ESTÁ POSTADO? ONDE O USER INICIA?)
+  const [hotelData, setHotelData] = useState<HotelData | null>(null);
+
+  useEffect(() => {
+    getHotel().then((data) => {
+      if (data) {
+        setHotelData(data as HotelData);
+      }
+      setIsLoading(false);
+    }
+  );
+  }, []);
+
+  const paginaHotel = () => {
+    if (hotelData && hotelData.hotel.nome === null) {
+      router.push("/hotel");
+    } else if (hotelData && hotelData.hotel.postado === true) {
+      router.push("/hotel/adicionarinfo/postar/confirmar/postado");
+    } else {
+      router.push("/hotel/adicionarinfo/postar");
+    }
+  };  
+  
+  // POST das comodidades
+  const handleConfirm = async () => {
+    try {
+      // Adicionar comodidades
+      const newComodidades = selectedComodidades.filter(
+        (id) => !initialComodidades.includes(id)
+      );
+  
+      for (const comodidadeId of newComodidades) {
+        await api.post("hotels/comodidade", { comodidadeId });
+      }
+  
+      // Deletar comodidades
+      const removedComodidades = initialComodidades.filter(
+        (id) => !selectedComodidades.includes(id)
+      );
+  
+      for (const comodidadeId of removedComodidades) {
+        await api.delete(`hotels/comodidade/${comodidadeId}`);
+      }
+  
+      console.log("Alterações confirmadas!");
+
+      // Chamar a função para pular página
+      paginaHotel()
+    } catch (error) {
+      console.error("Erro na requisição:", error);
     }
   };
+  
 
+  // Para fazer o LOAD das comodidades já pertencentes ao hotel
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-spin h-8 w-8 text-rosa-4 mb-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+          <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>

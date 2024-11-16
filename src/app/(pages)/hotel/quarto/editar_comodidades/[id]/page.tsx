@@ -8,6 +8,7 @@ import api from "@/app/services/axios";
 import { useParams } from "next/navigation";
 
 export default function Comodidades() {
+  
   // Estado para armazenar as comodidades selecionadas
   const [selectedComodidades, setSelectedComodidades] = useState<number[]>([]);
 
