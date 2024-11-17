@@ -93,12 +93,12 @@ const LoggedHeader = () => {
   // Depurando o hotelData
   console.log(hotelData);
 
-  if (hotelData && hotelData.hotel.nome === null) {
-    links.push({ href: "/hotel", label: "Meu Hotel" });
+  if (hotelData && hotelData.hotel.postado === false ) {
+    links.push({ href: "/hotel/adicionarinfo/postar", label: "Meu Hotel" });
   } else if (hotelData && hotelData.hotel.postado === true) {
     links.push({ href: "/hotel/adicionarinfo/postar/confirmar/postado", label: "Meu Hotel" })
   } else {
-    links.push({ href: "/hotel/adicionarinfo/postar", label: "Meu Hotel" });
+    links.push({ href: "/hotel", label: "Meu Hotel" });
   }
 
   const toggleDropdown = () => {

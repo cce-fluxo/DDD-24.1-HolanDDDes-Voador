@@ -120,7 +120,7 @@ export default function Quarto() {
           <div className="flex flex-col xl:mt-0 mt-36 items-center justify-center xl:fixed max-w-md mx-auto overflow-hidden md:max-w-2xl">
             
           <div className="w-[430px] h-[466px] flex mb-6 items-center justify-center relative">
-               {quartoData &&  // garantir que não é nulo
+               {quartoData && quartoData.fotoAcomodacao && quartoData.fotoAcomodacao.length > 0 ? (  // garantir que não é nulo
               <>
                <Image
                 src={quartoData?.fotoAcomodacao[currentImageIndex]?.url_foto || '/hotel_image.png'}
@@ -135,7 +135,11 @@ export default function Quarto() {
                 {currentImageIndex + 1}/{quartoData && quartoData.fotoAcomodacao.length}
                 </div>
                 </>
-              }
+              ) : (
+                <div className="bg-branco-3 w-[430px] h-[400px] rounded-[10px] flex items-center justify-center mb-6">
+                    <Image src="/hotel_image.png" alt="Botar fotos" width={123.5} height={104.5} />
+                </div>
+              )}
           </div>
 
             <Link href={`/hotel/quarto/editar_foto_quarto/${id}`}>
@@ -194,8 +198,14 @@ export default function Quarto() {
             </li>
           </ul>
 
+          <Link href={`/hotel/quarto/editar_quarto/${id}` } passHref>
+                <button className="mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
+                Edite seu quarto!
+                </button>
+          </Link>
+
           <div className="flex flex-row items-top justify-center">
-            <div className="mt-[64px] w-[816px] h-[150px] flex flex-row items-center justify-center">
+            <div className="mt-[32px] w-[816px] h-[150px] flex flex-row items-center justify-center">
               <div className="w-[675px] h-[110px] gap-[40px] flex items-center justify-center">
                 <div className="bg-branco-2 w-[280px] h-[110px] rounded-[100px] py-[16px] px-[80px] gap-[64px] flex items-center justify-center">
                   <div className="w-[120px] h-[78px] gap-2 flex flex-col justify-center text-center">

@@ -166,23 +166,28 @@ const Hotel = () => {
       <div className="flex xl:flex-row flex-col">
       <div className="flex w-full ml-8 h-auto justify-around items-center flex-col">
           <div className="flex flex-col xl:mt-0 mt-36 items-center justify-center xl:fixed max-w-md mx-auto overflow-hidden md:max-w-2xl">
+
             <div className="w-[430px] h-[466px] flex mb-6 items-center justify-center relative">
-            
-              {hotelData &&  // garantir que não é nulo
-              <>
-               <Image
-                src={hotelData?.foto_hotel[currentImageIndex].url_foto}
-                alt={`Imagem ${currentImageIndex + 1}`}
-                fill
-                className="cursor-pointer max-w-[430px] max-h-[466px]"
-                onClick={handleClick}
-                onLoadingComplete={() => setIsLoading(false)} // Define isLoading como false quando a imagem carrega
-              />
-              <div className="absolute bottom-0 right-0 mb-2 mr-2 text-white bg-[#574A4DB2] bg-opacity-70 rounded-[10px] gap-[10px] p-[10px] font-poppins font-bold text-[16px] leading-6">
-                {currentImageIndex + 1}/{hotelData && hotelData.foto_hotel.length}
-                </div>
-                </>
-              }
+              {hotelData && hotelData.foto_hotel && hotelData.foto_hotel.length > 0 ?(  // garantir que não é nulo
+                <>
+                <Image
+                  src={hotelData?.foto_hotel[currentImageIndex].url_foto}
+                  alt={`Imagem ${currentImageIndex + 1}`}
+                  fill
+                  className="cursor-pointer max-w-[430px] max-h-[466px]"
+                  onClick={handleClick}
+                  loading="lazy" 
+                  onLoadingComplete={() => setIsLoading(false)} // Define isLoading como false quando a imagem carrega
+                />
+                <div className="absolute bottom-0 right-0 mb-2 mr-2 text-white bg-[#574A4DB2] bg-opacity-70 rounded-[10px] gap-[10px] p-[10px] font-poppins font-bold text-[16px] leading-6">
+                  {currentImageIndex + 1}/{hotelData && hotelData.foto_hotel.length}
+                  </div>
+                  </>
+                ) : (
+                  <div className="bg-branco-3 w-[430px] h-[400px] rounded-[10px] flex items-center justify-center mb-6">
+                    <Image src="/hotel_image.png" alt="Botar fotos" width={123.5} height={104.5} />
+                  </div>
+                )}
 
             </div>
               <button onClick={handleOpenModal} 
@@ -335,7 +340,7 @@ const Hotel = () => {
                 <h3 className=" w-[245px] h-[80px] font-poppins text-preto text-[32px] font-bold leading-[66px]"> Meus dados:</h3>
                 <div className="w-full ml-8">
                   <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">Descrição</h4>
-                  <h5 className="font-poppins font-normal text-[20px] text-cinza-2 whitespace-pre-wrap break-words">{hotelData?.hotel.descricao} </h5>
+                  <h5 className="font-poppins font-normal text-[20px] text-cinza-2 whitespace-pre-wrap break-words">{hotelData?.hotel.sobre} </h5>
                 </div>
               <div className="flex flex-row">
                 <div className="w-[520px] h-[56px] gap-[26px] flex items-center">

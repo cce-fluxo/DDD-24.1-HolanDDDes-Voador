@@ -84,6 +84,9 @@ const Perfil = () => {
   const salvarImagemHotel = async () => {
     try {
       setIsUploading(true); // inicia o estado de upload
+
+      const novasFotos: HotelData['foto_hotel'] = [];
+
       // Envia uma imagem por vez
       for (let i = 0; i < imagemHotel.length; i++) {
         const imagem = imagemHotel[i];
@@ -99,6 +102,15 @@ const Perfil = () => {
   
       // Após enviar todas as imagens, redireciona
       paginaHotel();
+
+      // Atualize o estado com as novas fotos adicionadas
+      setHotelData((prevData) => ({
+        ...prevData!,
+        foto_hotel: [...prevData!.foto_hotel, ...novasFotos],
+      }));
+    
+      // Limpe as imagens locais
+      setImagemHotel([]);
     } catch (error) {
       console.error('Erro ao enviar imagens:', error);
     } finally {

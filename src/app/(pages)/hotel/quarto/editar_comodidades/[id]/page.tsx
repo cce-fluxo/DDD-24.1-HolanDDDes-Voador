@@ -94,7 +94,7 @@ export default function Comodidades() {
       console.log("Alterações confirmadas!");
   
       // Redirecionar para a página do quarto
-      router.replace(`hotel/quarto/${id}`);
+      router.push(`/hotel/quarto/${id}`);
     } catch (error) {
       console.error('Erro na requisição:', error);
     }

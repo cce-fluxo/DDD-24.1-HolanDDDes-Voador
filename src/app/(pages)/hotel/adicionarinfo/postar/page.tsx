@@ -143,7 +143,7 @@ const Hotel = () => {
           <div className="flex flex-col xl:mt-0 mt-36 items-center justify-center xl:fixed max-w-md mx-auto overflow-hidden md:max-w-2xl">
             
           <div className="w-[430px] h-[466px] flex mb-6 items-center justify-center relative">
-               {hotelData &&  // garantir que não é nulo
+            {hotelData && hotelData.foto_hotel && hotelData.foto_hotel.length > 0 ?(  // garantir que não é nulo
               <>
                <Image
                 src={hotelData?.foto_hotel[currentImageIndex].url_foto}
@@ -158,7 +158,11 @@ const Hotel = () => {
                 {currentImageIndex + 1}/{hotelData && hotelData.foto_hotel.length}
                 </div>
                 </>
-              }
+              ) : (
+                <div className="bg-branco-3 w-[430px] h-[400px] rounded-[10px] flex items-center justify-center mb-6">
+                  <Image src="/hotel_image.png" alt="Botar fotos" width={123.5} height={104.5} />
+                </div>
+              )}
           </div>
 
             <Link href="/hotel/adicionarinfo/postar/confirmar">
@@ -326,7 +330,7 @@ const Hotel = () => {
                 <div className="w-full ml-8">
                   <h4 className="w-[245px] h-[66px] font-poppins text-preto text-[24px] font-medium leading-[66px]">Descrição</h4>
                   {hotelData ? (
-                  <h5 className="font-poppins font-normal text-[20px] text-cinza-2 whitespace-pre-wrap break-words">{hotelData.hotel.descricao} </h5>
+                  <h5 className="font-poppins font-normal text-[20px] text-cinza-2 whitespace-pre-wrap break-words">{hotelData.hotel.sobre} </h5>
                     ) : (
                     <p>Nenhum dado encontrado</p>
                   )}

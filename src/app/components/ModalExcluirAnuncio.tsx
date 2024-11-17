@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import CustomButton from "@/app/components/CustomButton";
 import Link from "next/link";
+import api from "@/app/services/axios";
 
 interface ModalProps {
   isOpen: boolean;
@@ -13,6 +14,21 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
+
+  // DELETE hotel
+  async function deleteHotel() {
+    try {
+      const response = await api.delete('hotels');
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleConfirm = () => {
+    deleteHotel()
+    onConfirm()
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -36,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm }) => {
             <div className="w-1/2">
               <CustomButton
                 text="Não"
-                handleClick={onClose} 
+                handleClick={handleConfirm} 
                 classnameButton="h-12 w-full bg-transparent border-2 border-rosa-4 rounded-lg text-rosa-4 hover:bg-rosa-4 hover:text-branco"
                 classnameText="text-2xl"
               />
