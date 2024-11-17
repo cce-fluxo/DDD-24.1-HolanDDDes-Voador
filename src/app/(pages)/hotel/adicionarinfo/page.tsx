@@ -1,4 +1,3 @@
-// Perfil.tsx
 "use client";
 
 import Image from "next/image";
@@ -331,7 +330,7 @@ const Hotel = () => {
                             <button
                               type="submit"
                               disabled={isSubmitting || !isValid}
-                              className={`mt-[32px] w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] -tracking-2 flex justify-center items-center ${
+                              className={` w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] -tracking-2 flex justify-center items-center ${
                                 !isValid || isSubmitting
                                   ? "bg-gray-300 cursor-not-allowed"
                                   : "bg-rosa-4 text-white hover:bg-[#F42C46]"
