@@ -85,11 +85,9 @@ const Hotel = () => {
                 height={104.5}
               />
             </div>
-            <Link href="/hotel/editar_foto_hotel">
-              <button className="py-4 px-8 bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2 flex justify-center items-center whitespace-nowrap">
+              <button className="py-4 px-8 bg-cinza-2 w-[340px] h-[57px] flex items-center justify-center gap-[10px] text-white whitespace-nowrap font-poppins text-[24px] font-normal rounded-[10px] -tracking-2 leading-9">
                 Editar Fotos
               </button>
-            </Link>
           </div>
         </div>
 
@@ -141,10 +139,8 @@ const Hotel = () => {
             </li>
           </ul>
 
-          <div className="flex flex-row items-top justify-center min-h-screen">
-            <div className="mt-[64px] w-[816px] h-[150px] flex flex-row items-center justify-center">
-              <div className="w-[675px] h-[110px] gap-[40px] flex items-center justify-center">
-                <div className="bg-branco-2 w-[280px] h-[110px] rounded-[100px] py-[16px] px-[80px] gap-[64px] flex items-center justify-center">
+          <div className="flex flex-row items-top justify-around mt-20 mb-16">
+                <div className="bg-branco-2 w-[280px] rounded-[100px] py-[16px] px-[80px] flex items-center justify-center">
                   <div className="w-[120px] h-[78px] gap-2 flex flex-col justify-center text-center">
                     <h3 className="font-readex-pro text-cinza-3 text-[32px] font-normal leading-10">
                       0
@@ -154,7 +150,7 @@ const Hotel = () => {
                     </h4>
                   </div>
                 </div>
-                <div className="bg-branco-2 w-[348px] h-[110px] rounded-[100px] py-[16px] px-[80px] gap-[64px] items-center justify-center">
+                <div className="bg-branco-2 w-[348px] h-[110px] rounded-[100px] py-[16px] px-[80px] items-center justify-center">
                   <div className="w-[188px] h-[78px] gap-2 flex flex-col justify-center text-center">
                     <h3 className="font-readex-pro text-cinza-3 text-[32px] font-normal leading-10">
                       0 dias
@@ -162,62 +158,12 @@ const Hotel = () => {
                     <h4 className="font-readex-pro text-cinza-2 text-[24px] font-normal leading-6">
                       de hospedagem
                     </h4>
-                  </div>
                 </div>
               </div>
-            </div>
           </div>
 
-          <div className="mt-[-500px] w-[188px] h-[498px] gap-[24px]">
-            <div className="w-[144px] h-[51px] gap-[16px] font-poppins font-semibold text-[34px] leading-[51px] -tracking-2 text-preto">
-              Quartos
-            </div>
-            <BoxQuarto quartos={[]} />
-            <div className="w-[854px] h-[423px]">
-              <div className="w-[400px] h-[432px] top-[2px] rounded-[10px] p-[32px] gap-[56px] bg-branco-2 flex flex-col justify-center items-end">
-                <div className="w-[336px] h-[359px] gap-[16px]">
-                  <div className="w-[336px] h-[287px] gap-[16px]">
-                    <div className="w-[336px] h-[235px] rounded-[10px] bg-[#D9D9D9] flex justify-center items-center">
-                      <div className="w-[243px] h-[36px] gap-[12px] flex justify-center items-center">
-                        <Image
-                          src="/hotel_image.png"
-                          width={123.5}
-                          height={104.5}
-                          alt="Hotel"
-                        />
-                      </div>
-                    </div>
-                      
-                      <h4 className="font-poppins text-[24px] font-medium leading-[66px] flex whitespace-nowrap text-preto">
-                        Adicione um Quarto
-                      </h4>
-                    <div className="mt-[-40px] w-[600px] h-[100px] gap-[4px] flex flex-col justify-end items-center">
-                      <p className="font-work-sans font-normal text-[10px] -tracking-2 leading-[11.73px] text-cinza-3">
-                        por noite:
-                      </p>
-                      <h3 className="font-readex-pro font-medium text-[32px] leading-10 text-cinza-2">
-                        R$ 0
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="w-[520px] h-[56px] gap-[32px] mt-[40px]">
-            <div className="w-[800px] h-[56px] gap-[26px]">
-              <div className="flex justify-center items-center">
-                <Link href="/hotel/editar-comodidades" passHref>
-                  <button className="mt-[32px] bg-rosa-4 text-white w-[340px] h-[57px] text-center gap-[10px] font-poppins text-[24px] font-normal leading-9 rounded-[10px] hover:bg-[#F42C46] -tracking-2">
-                    Editar Comodidades
-                  </button>
-                </Link>
-              </div>
-
-              <div className="mt-[60px] flex flex-col">
-                <h3 className=" w-[245px] h-[60px] font-poppins text-preto text-[32px] font-bold leading-[66px]">
-                  {" "}
+              <div className="flex flex-col">
+                <h3 className="font-poppins text-preto text-[32px] font-bold leading-[66px]">
                   Meus dados:
                 </h3>
 
@@ -353,8 +299,6 @@ const Hotel = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
       </div>
     </>
   );
