@@ -272,6 +272,20 @@ const Hotel = () => {
                             className="text-red-500"
                           />
 
+                        <div className="flex items-center mt-6">
+                          <Field
+                            type="checkbox"
+                            name="pet"
+                            className="w-5 h-5 mr-2 accent-rosa-4"
+                          />
+                          <label
+                            htmlFor="pet"
+                            className="font-poppins text-preto text-[18px] font-medium leading-[30px]"
+                          >
+                            Aceita pets
+                          </label>
+                        </div>
+
                           <div className="flex flex-row justify-around items-center mb-4 mt-4">
                             <button
                               type="submit"

@@ -115,7 +115,13 @@ const Hotel = () => {
   }, []);
 
   const rotaCerta = () => {
-    router.back()
+    if (hotelData && hotelData.hotel.postado === false ) {
+      router.push("/hotel/adicionarinfo/postar");
+    } else if (hotelData && hotelData.hotel.postado === true) {
+      router.push("/hotel/adicionarinfo/postar/confirmar/postado")
+    } else {
+      router.push("/hotel");
+    }
   }
 
   // Função para atualizar o hotel

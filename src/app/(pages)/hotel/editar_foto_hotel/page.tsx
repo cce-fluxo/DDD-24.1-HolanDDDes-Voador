@@ -62,14 +62,12 @@ const Perfil = () => {
       setImagemHotel((prevImagens) => [...prevImagens, ...novosArquivos]);
     }
   };
-  
 
   // Remoção das fotos
   const handleRemove = (index: number) => {
     const novasImagens = imagemHotel.filter((_, i) => i !== index);
     setImagemHotel(novasImagens);
   };
-
 
   const paginaHotel = () => {
     if (hotelData && hotelData.hotel.nome === null) {
@@ -223,7 +221,7 @@ const Perfil = () => {
                         X
                       </button>
                     </div>
-                ))}
+                ))} 
                 {/* Exibir fotos carregadas localmente */}
                 {imagemHotel.map((imagem, index) => (
                   <div key={index} className="relative flex flex-shrink-0 h-full items-center justify-center">

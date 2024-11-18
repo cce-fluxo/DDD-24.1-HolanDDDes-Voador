@@ -103,6 +103,32 @@ const Hotel = () => {
     { name: 'Piscina', icon: piscinaIcon }
   ]
 
+   // valor mínimo da diária
+   const calcularValorMinimoDiaria = (hotelData: HotelData | null): number | null => {
+    // Verifica se hotelData é válido e se há acomodações
+    if (hotelData && hotelData?.acomodacoes?.length > 0) {
+      // Flatten a lista de acomodações e retorna o valor mínimo das diárias
+      const valoresDiarias = hotelData.acomodacoes.flatMap(acomodacao => 
+        acomodacao.Acomodacao.map(a => a.valor_diaria)
+      );
+      
+      // Retorna o valor mínimo, ou null se não houver acomodações com valor de diária
+      return valoresDiarias.length > 0 ? Math.min(...valoresDiarias) : null;
+    }
+    
+    // Caso hotelData seja null ou não haja acomodações válidas
+    return null;
+  };  
+
+  const valorMinimo = calcularValorMinimoDiaria(hotelData);
+
+  if (valorMinimo !== null) {
+    console.log(`O valor mínimo da diária é: ${valorMinimo}`);
+  } else {
+    console.log("Dados do hotel não disponíveis ou sem acomodações.");
+  }
+
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -181,7 +207,7 @@ const Hotel = () => {
               ) : (
                 <p>Nenhum dado encontrado</p>
               )}
-              <h4 className="w-[255px] h-[48px] font-normal text-[24px] leading-9 text-[#2EC00A] whitespace-nowrap"> À partir de 920$ - diária </h4>
+              <h4 className="w-[255px] h-[48px] font-normal text-[24px] leading-9 text-[#2EC00A] whitespace-nowrap"> À partir de {valorMinimo}$ - diária </h4>
 
               <ul className="gap-[10px]">
                 <li className="flex items-center gap-[10px] mb-[10px] w-[669px] h-[50px] p-[10px] relative">

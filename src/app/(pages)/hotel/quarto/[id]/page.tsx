@@ -18,6 +18,9 @@ interface QuartoData {
   acomodacao: {
     id: number;
     titulo: string;
+    camas: number;
+    descricao: string; 
+    banheiro: number;
     valor_diaria: number; 
   };
   fotoAcomodacao: {
@@ -31,12 +34,17 @@ interface QuartoData {
   };
 }
 
+interface HotelData {
+  hotel: {
+    pet: boolean;
+  }
+}
+
 export default function Quarto() {
   const { id } = useParams(); // Captura o id da URL
 
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar o loading
   const [ quartoData, setQuartoData ] = useState<QuartoData | null>(null);
-
 
   async function getQuarto() {
     try {
@@ -61,6 +69,7 @@ export default function Quarto() {
       }
     }
   );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);  
   
   // Ícones da comodidade
@@ -78,6 +87,38 @@ export default function Quarto() {
 
   const handleClick = () => {
     setCurrentImageIndex((prevIndex) => quartoData ? (prevIndex + 1) % quartoData.fotoAcomodacao.length : prevIndex);
+  };
+
+  // HOTEL e permissão de pets
+  const [hotelData, setHotelData] = useState<HotelData | null>(null);
+
+  // GET Hotel
+  async function getHotel() {
+    try {	
+      // Recupera os dados do hotel
+      const response = await api.get("hotels/usuarioId");  
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  useEffect(() => {
+    getHotel().then((data) => {
+      if (data) {
+        setHotelData(data as HotelData);
+      }
+      setIsLoading(false);
+    }
+  );
+  }, []);
+
+  const permissaoPet = () => {
+    if (hotelData && hotelData.hotel.pet === false) {
+      return "Não é permitido animais";
+    } else {
+      return "Permitido animais";
+    }
   };
   
   if (isLoading) {
@@ -154,46 +195,46 @@ export default function Quarto() {
         <h1 className="w-[440px] h-[66px] mb-[7px] font-poppins text-preto text-[44px] font-bold leading-[66px] whitespace-nowrap"> 
           {quartoData?.acomodacao.titulo} 
           </h1>
-          <h4 className="w-[100px] flex flex-row h-[36px] font-normal text-[24px] leading-9 text-[#2EC00A]">
-            R$ {quartoData?.acomodacao.valor_diaria}
+          <h4 className="w-[100px] flex flex-row h-[36px] font-normal text-[24px] leading-9 text-[#2EC00A] whitespace-nowrap">
+            À partir de R$ {quartoData?.acomodacao.valor_diaria} a diária
           </h4>
 
           <ul className="gap-2">
             <li className="flex items-center gap-2 mb-2 p-2 relative">
               <span
-                className="bg-[url('/x.png')] w-[16px] h-[16px] bg-no-repeat bg-contain inline-block"
+                className="bg-[url('/cama.png')] w-[30px] h-[21px] bg-no-repeat bg-contain inline-block"
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                A
+                {quartoData?.acomodacao?.camas ? quartoData.acomodacao.camas + ' camas de casal' : 'Informação indisponível'}
               </h5>
             </li>
             <li className="flex items-center gap-2 mb-2 p-2 relative">
               <span
-                className="bg-[url('/x.png')] w-[16px] h-[16px] bg-no-repeat bg-contain inline-block"
+                className="bg-[url('/x.png')] w-[30px] h-[21px] bg-no-repeat bg-contain inline-block"
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                B
+                {quartoData?.acomodacao.descricao}
               </h5>
             </li>
             <li className="flex items-center gap-[10px] mb-[10px] w-[351px] h-[50px] p-[10px] relative">
               <span
-                className="bg-[url('/x.png')] w-[16px] h-[16px] bg-no-repeat bg-contain inline-block"
+                className="bg-[url('/pessoa.png')] w-[29px] h-[21px] bg-no-repeat bg-contain inline-block"
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                C
+                {quartoData?.acomodacao?.camas ? quartoData.acomodacao.camas * 2 + ' pessoas' : 'Informação indisponível'}
               </h5>
             </li>
 
-            <li className="flex items-center gap-[10px] w-[320px] h-[50px] p-[10px] relative">
+            <li className="flex items-center gap-[10px] mb-[10px] w-[351px] h-[50px] p-[10px] relative">
               <span
-                className="bg-[url('/x.png')] w-[16px] h-[16px] bg-no-repeat bg-contain inline-block"
+                className="bg-[url('/pet.png')] w-[29px] h-[21px] bg-no-repeat bg-contain inline-block"
                 aria-hidden="true"
               ></span>
               <h5 className="text-[20px] font-normal leading-[30px] font-poppins text-cinza-3">
-                D
+                {permissaoPet()}
               </h5>
             </li>
           </ul>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import CustomButton from "@/app/components/CustomButton";
 import Link from "next/link";
@@ -9,25 +9,29 @@ import api from "@/app/services/axios";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [isDeleting, setIsDeliting] = useState(false);
 
   // DELETE hotel
   async function deleteHotel() {
+    setIsDeliting(true)
     try {
       const response = await api.delete('hotels');
       console.log(response.data)
+      onClose() // fecha o modal
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsDeliting(false);
     }
   };
 
   const handleConfirm = () => {
     deleteHotel()
-    onConfirm()
   }
 
   return (
@@ -62,7 +66,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm }) => {
                 <div className="w-full">
                   <CustomButton
                     text="Sim"
-                    handleClick={onConfirm}
+                    handleClick={deleteHotel}
                     classnameButton="h-12 w-full bg-rosa-4 rounded-lg hover:bg-rosa-3"
                     classnameText="text-branco text-2xl"
                   />

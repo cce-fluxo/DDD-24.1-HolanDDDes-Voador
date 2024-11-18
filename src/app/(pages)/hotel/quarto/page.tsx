@@ -18,6 +18,7 @@ const QuartoSchema = Yup.object().shape({
     500,
     "Descrição não pode ter mais de 500 palavras"
   ),
+  camas: Yup.number(),
 });
 
 const Quarto = () => {
@@ -28,9 +29,9 @@ const Quarto = () => {
     titulo: "",
     valor_diaria: "",
     descricao: "",
-    banheiros: 0,
+    banheiros: 1,
     quartos: 0,
-    camas: 0,
+    camas: "",
     valor_pet: 200, // preço qualquer (não vai ser importante para a gente)
     complemento: "quarto bom", // inicializei assim, será mudado em outra página
     tipo_acomodacaoId: 1, // conectei a um tipo de acomodação já existente (são pré-setados pelo admin)
@@ -190,8 +191,7 @@ const Quarto = () => {
                             htmlFor="nome"
                             className="font-poppins text-preto text-[24px] font-medium leading-[66px]"
                           >
-                            {" "}
-                            Nome:{" "}
+                            Nome:
                           </label>
                           <Field
                             as="textarea"
@@ -213,8 +213,7 @@ const Quarto = () => {
                             htmlFor="preco"
                             className="font-poppins text-preto text-[24px] font-medium leading-[66px]"
                           >
-                            {" "}
-                            Preço:{" "}
+                            Preço:
                           </label>
                           <Field
                             type="number"
@@ -225,6 +224,28 @@ const Quarto = () => {
                         </div>
                         <ErrorMessage
                           name="valor_diaria"
+                          component="div"
+                          className="text-rosa-4 text-xs ml-4 w-[30%]"
+                        />
+
+                        {/* Campo de quantidade de camas */}
+
+                        <div className="relative w-full peer h-10 border border-cinza-3 rounded-[18px] px-4 placeholder-transparent flex items-center mt-10">
+                        <label
+                            htmlFor="camas"
+                            className="font-poppins text-preto text-[24px] font-medium leading-[66px]"
+                          >
+                            Camas:
+                          </label>
+                          <Field
+                            type="number"
+                            name="camas"
+                            className="ml-2 w-full h-full border-none bg-transparent font-poppins font-normal text-cinza-2 text-[24px] no-border focus:outline-none focus:text-preto"
+                            placeholder="Escreva aqui a quantidade de camas de casal no quarto"
+                          />
+                        </div>
+                        <ErrorMessage
+                          name="camas"
                           component="div"
                           className="text-rosa-4 text-xs ml-4 w-[30%]"
                         />
@@ -264,7 +285,3 @@ const Quarto = () => {
 };
 
 export default Quarto;
-
-function setSubmitting(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}

@@ -8,7 +8,6 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import api from "@/app/services/axios";
 import * as Yup from "yup";
 import { useRouter, useParams } from "next/navigation";
-import { patch } from "axios";
 
 interface QuartoData {
   acomodacao: {
@@ -95,7 +94,7 @@ const Quarto = () => {
       );
       console.log("Quarto mudado com sucesso!", response.data);
       setIsPostBom(true);
-      router.back()
+      router.push(`/hotel/quarto/${id}`)
       return response.data;
     } catch (error) {
       console.error("Erro ao postar quarto", error);
@@ -218,8 +217,7 @@ const Quarto = () => {
                             htmlFor="nome"
                             className="font-poppins text-preto text-[24px] font-medium leading-[66px]"
                           >
-                            {" "}
-                            Nome:{" "}
+                            Nome:
                           </label>
                           <Field
                             as="textarea"
@@ -241,8 +239,7 @@ const Quarto = () => {
                             htmlFor="preco"
                             className="font-poppins text-preto text-[24px] font-medium leading-[66px]"
                           >
-                            {" "}
-                            Preço:{" "}
+                            Preço:
                           </label>
                           <Field
                             type="number"
@@ -292,7 +289,3 @@ const Quarto = () => {
 };
 
 export default Quarto;
-
-function setSubmitting(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
