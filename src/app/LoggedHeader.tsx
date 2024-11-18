@@ -91,7 +91,7 @@ const LoggedHeader = () => {
   ];
 
   // Depurando o hotelData
-  console.log(hotelData);
+  // console.log(hotelData);
 
   if (hotelData && hotelData.hotel.postado === false ) {
     links.push({ href: "/hotel/adicionarinfo/postar", label: "Meu Hotel" });
