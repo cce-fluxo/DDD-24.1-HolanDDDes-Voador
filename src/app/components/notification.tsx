@@ -15,6 +15,7 @@ interface NotificationProps {
 }
 
 interface NotificationData {
+  id: number;
   titulo: string;
   mensagem?: string;
   usuarioId: number;
@@ -62,6 +63,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     if (userID) {
       try {
         const response = await api.get<NotificationData[]>(`notificacao/${userID}`);
+        console.log("resposta do request:", response.data)
         return response.data;
       } catch (error) {
         console.log("Erro ao buscar notificações: ", error);
@@ -71,6 +73,33 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       return null;
     }
   }
+
+  async function patchNotification(notification: NotificationData){
+    if (userID) {
+      try {
+        const response = await api.patch(`notificacao/${notification.id}`, {
+          titulo: notification.titulo,
+          mensagem: notification.mensagem,
+          usuarioId: notification.usuarioId,
+          leitura: notification.leitura,
+          data_criacao: notification.data_criacao,
+        })
+      } catch (error) {
+        console.log("Erro ao modificar notificações: ", error);
+        throw error;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    function closeModal(){
+      notifications.map(notification => patchNotification(notification))
+    };
+    if (!isOpen) closeModal();
+  }, [isOpen]);
+
 
   const handleMarkAsRead = () => {
     setNotifications((prevNotifications) =>
