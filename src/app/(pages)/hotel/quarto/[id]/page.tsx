@@ -22,6 +22,7 @@ interface QuartoData {
     descricao: string; 
     banheiro: number;
     valor_diaria: number; 
+    nota: number;
   };
   fotoAcomodacao: {
     url_foto: string;

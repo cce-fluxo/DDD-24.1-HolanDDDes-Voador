@@ -1,41 +1,51 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import Button from "@/app/components/Button";
 import api from "@/app/services/axios";
-import { useAuth } from "@/app/context/authContext";
 
 const RedefinirSenha3 = () => {
   const router = useRouter();
 
-  // Context para infos do usuário
-  const { user } = useAuth();
-
   const validationSchema = Yup.object({
-    senha: Yup.string().required("Campo obrigatorio"),
+    novaSenha: Yup.string().required("Campo obrigatório"),
     confirmarSenha: Yup.string()
-      .oneOf([Yup.ref("senha"), undefined], "As senhas precisam ser iguais")
+      .oneOf([Yup.ref("novaSenha"), undefined], "As senhas precisam ser iguais")
       .required("Campo obrigatório"),
   });
+
+  const [token, setToken] = useState<string | null>(null);
+
+  const [isPostBom, setIsPostBom] = useState(false);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken); // Recupera o token salvo no localStorage
+    } else {
+      console.error("Token não encontrado. Redirecionando...");
+      router.push("/"); // Redireciona para a página inicial ou de login se o token não estiver disponível
+    }
+  }, [router]);
 
   const alterarSenha = async (values: {
     novaSenha: string;
     confirmarSenha: string;
   }) => {
     try {
-      alert(JSON.stringify(values, null, 2));
-
-      const response = await api.patch(`/usuario/${user.Id}`, {
-        ...user,
-        senha: values.novaSenha,
+      const response = await api.patch(`auth/recuperar-senha/validar-token/${token}`, {
+        hash_senha: values.novaSenha,
       });
+
       console.log("Senha alterada com sucesso.", response.data);
-      router.push("/home");
+      setIsPostBom(true);
+      router.push("/login");
+      return response.data;
     } catch (error) {
       console.error("Erro ao alterar senha:", error);
     }

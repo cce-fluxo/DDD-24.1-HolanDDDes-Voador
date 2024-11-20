@@ -1,26 +1,62 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import Button from "@/app/components/Button";
+import api from "@/app/services/axios";
 
 const RedefinirSenha2 = () => {
   const router = useRouter();
 
   const validationSchema = Yup.object({
-    code: Yup.string().required("Campo obrigatorio"),
+    token: Yup.string().required("Campo obrigatorio"),
   });
 
-  const sendForm = (values: {code: string}) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      router.push('/redefinir-3');
-    }, 400);
-  
+  const [email, setEmail] = useState<string | null>(null);
+
+  const [isPostBom, setIsPostBom] = useState(false);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setEmail(storedEmail); // Recupera o e-mail salvo no localStorage
+    } else {
+      console.error("Email não encontrado. Redirecionando...");
+      router.push("/"); // Redireciona para a página inicial ou de login se o email não estiver disponível
+    }
+  }, [router]);
+
+
+  async function postValidarToken(data: any) {
+    try {
+      const response = await api.post("auth/recuperar-senha/validar-token", data);
+      console.log("Token enviado com sucesso!", response.data);
+      setIsPostBom(true);
+      router.push("/redefinir-3"); // Redireciona para a próxima etapa após sucesso
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao enviar token", error);
+      setIsPostBom(false);
+    } finally {
+      console.log("Token validado com sucesso!");
+    }
   }
+
+  const sendForm = async (values: { token: string }) => {
+    if (!email) {
+      console.error("Email não encontrado!");
+      return;
+    }
+    localStorage.setItem("token", values.token); // Salva no localStorage
+    const data = {
+      email,
+      token: values.token,
+    };
+    await postValidarToken(data);
+  };
 
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
@@ -30,7 +66,7 @@ const RedefinirSenha2 = () => {
           <span className="text-2xl text-preto font-semibold">Digite o código</span>
           
           <Formik
-            initialValues={{ code: "" }}
+            initialValues={{ token: "" }}
             validationSchema={validationSchema}
             onSubmit={(values) => sendForm(values)}>
             <Form className="flex flex-col gap-[40px] w-full items-center">
@@ -38,7 +74,7 @@ const RedefinirSenha2 = () => {
                 <p className="text-preto font-poppins font-normal text-lg leading-7 ">Verifique a caixa de entrada e insira o código de confirmação que enviamos no e-mail cadastrado.</p>
                 <InputText
                   label="Insira o código"
-                  name="code"
+                  name="token"
                   type="text"
                   placeholder="Código"
                   style=" border-2 h-14 rounded-xl p-4 border-black w-full text-black "

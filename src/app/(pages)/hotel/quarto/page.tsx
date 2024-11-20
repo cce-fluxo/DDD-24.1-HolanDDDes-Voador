@@ -30,6 +30,7 @@ const Quarto = () => {
     valor_diaria: "",
     descricao: "",
     banheiros: 1,
+    nota: 5,
     quartos: 0,
     camas: "",
     valor_pet: 200, // preço qualquer (não vai ser importante para a gente)

@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import Button from "@/app/components/Button";
+import api from "@/app/services/axios";
 
 const RedefinirSenha1 = () => {
   const router = useRouter();
@@ -14,13 +15,28 @@ const RedefinirSenha1 = () => {
     email: Yup.string().email("Insira um endereço de email válido").required("Campo obrigatorio"),
   });
 
-  const sendForm = (values: {email: string}) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      router.push('/redefinir-2');
-    }, 400);
-  
+  const [isPostBom, setIsPostBom] = useState(false);
+
+  async function patchEsqueciSenha(data: any) {
+    try {
+      const response = await api.patch("auth/recuperar-senha", data);
+      console.log("Email de recuperação enviado com sucesso!", response.data);
+      setIsPostBom(true);
+      router.push("/redefinir-2"); // Redireciona para a próxima etapa após sucesso
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao enviar email de recuperação", error);
+      setIsPostBom(false);
+    } finally {
+      console.log("Envio de email finalizado");
+    }
   }
+
+  const sendForm = async (values: { email: string }) => {
+    localStorage.setItem("email", values.email); // Salva no localStorage
+    await patchEsqueciSenha(values);
+  };
+
 
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
