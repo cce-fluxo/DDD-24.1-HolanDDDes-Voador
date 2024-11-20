@@ -93,6 +93,7 @@ interface Avaliacao {
   id: number;
   name: string;
   acomodacao: string;
+  nota: number;
   descricao: string;
   url_foto: string;
 }
@@ -101,7 +102,6 @@ export default function Avaliacoes() {
   const [avaliacoesData, setAvaliacoesData] = useState<Avaliacao[]>([]);
 
   function formatAvaliacoes(data: AvaliacoesData): Avaliacao[] {
-    console.log("Iniciando a formatação dos dados:", data);
     const avaliacoes: Avaliacao[] = [];
   
     data.avaliacoes_acomodacoes.forEach(ac => {
@@ -113,7 +113,6 @@ export default function Avaliacoes() {
             .flatMap(a => a.Avaliacao_acomodacao)
             .find(aa => aa.cliente.id === avaliacao.clienteId)?.cliente;
 
-          console.log("para a avaliação ", avaliacao.id, "foi encontrado o cliente: ", cliente)
           // Se o cliente não for encontrado, ignore a avaliação
           if (!cliente) return;
   
@@ -123,8 +122,6 @@ export default function Avaliacoes() {
             .flatMap(a => a.Avaliacao_acomodacao)
             .find(aa => aa.cliente.usuario.id === cliente.usuarioId)?.cliente.usuario;
 
-          
-          console.log("para a avaliação ", avaliacao.id, "foi encontrado o usuario: ", usuario)
           // Se o usuário não for encontrado, ignore a avaliação
           if (!usuario) return;
   
@@ -135,30 +132,24 @@ export default function Avaliacoes() {
             .flatMap(aa => aa.cliente.usuario.FotoUsuario)
             .find(foto => foto.usuarioId === usuario.id);
 
-          console.log("para a avaliação ", avaliacao.id, "foi encontrada a foto: ", fotoUsuario)
           // Encontrar o título da acomodação associada ao acomodacaoId
           const acomodacaoEncontrada = data.acomodacoes
             .flatMap(acom => acom.Acomodacao)
             .find(a => a.id === avaliacao.acomodacaoId);
-
-          console.log("para a avaliação ", avaliacao.id, "foi encontrada a acomodacao: ", acomodacaoEncontrada)
-          // Se a acomodação ou a foto do usuário não forem encontradas, ignore a avaliação
   
           // Criar o objeto Avaliacao
-
-          console.log("Formatando avaliação: ", "id:", avaliacao.id, "name:", usuario.nome, "acomodacao:", acomodacaoEncontrada?.titulo, "descricao:", avaliacao.comentario)
           avaliacoes.push({
             id: avaliacao.id,
             name: `${usuario.nome} ${usuario.sobrenome}`,
             acomodacao: acomodacaoEncontrada?.titulo || "Sem Nome",
+            nota: calcularNota(avaliacao),
             descricao: avaliacao.comentario || "",
-            url_foto: fotoUsuario?.url_foto || "/usuário.png", // Foto padrão se não houver foto
+            url_foto: fotoUsuario?.url_foto || "/google.png", // Foto padrão se não houver foto
           });
         });
       });
     });
 
-    console.log("Avaliações dentro da função de formatação", avaliacoes)
     return avaliacoes;
   }
   
@@ -166,33 +157,37 @@ export default function Avaliacoes() {
   async function getAvaliacoes(): Promise<AvaliacoesData> {
     try {
       const response = await api.get<AvaliacoesData>("avaliacao/avaliacoes");
-      console.log("Resposta do request: ", response.data);
       return response.data;
     } catch (error) {
       console.error("Erro ao buscar avaliações:", error);
       throw error; // Relançar o erro para o chamador lidar
     }
   }
-  
+
+  function calcularNota(avaliacao: any): number{
+    const soma = avaliacao.custo_beneficio + avaliacao.atendimento + avaliacao.comida + avaliacao.limpeza + avaliacao.conforto + avaliacao.localizacao
+    return Math.floor(soma/6)
+
+  }
+
+  function getMediaDasNotas(avaliacoes: Avaliacao[]){
+    let soma = 0;
+    avaliacoes.map(avaliacao => soma += avaliacao.nota);
+    return soma/avaliacoes.length;
+  }
 
   useEffect(() => {
     const fetchAvaliacoes = async () => {
       try {
-        console.log("Realizando o request ")
         const avaliacoes = await getAvaliacoes(); 
-        console.log("AvaliacoesData antes da formatação: ",avaliacoesData)
         setAvaliacoesData(formatAvaliacoes(avaliacoes)); 
-        console.log("AvaliacoesData após a formatação: ",avaliacoesData)
       } catch (error) {
         console.error("Erro ao definir avaliações:", error);
       }
     };
-
-    console.log("Padronizando as avaliações")
     fetchAvaliacoes();
   }, []);
   
-  console.log("AvaliacoesData final: ",avaliacoesData)
   return (
     // página
     <div> 
@@ -210,7 +205,7 @@ export default function Avaliacoes() {
             <p className="font-[500] text-[24px] leading-[36px] text-[#574A4D] font-sans">Nota geral do hotel</p>
             <div className="flex gap-[24px] justify-between items-center">
               <Image src="/star.svg" alt='star' height={71} width={80}/>
-              <p className="font-[700] text-[36px] leading-[54px] text-[#333333] self-center">4,6</p>
+              <p className="font-[700] text-[36px] leading-[54px] text-[#333333] self-center">{getMediaDasNotas(avaliacoesData) || "-"}</p>
             </div>
           </div>
 
@@ -229,7 +224,7 @@ export default function Avaliacoes() {
                 nome= {avaliacao.name}
                 quarto= {avaliacao.acomodacao}
                 descricao={avaliacao.descricao}
-                estrelas={5}
+                estrelas={avaliacao.nota}
               />
             ))}
           </div>
@@ -242,7 +237,7 @@ export default function Avaliacoes() {
 
           <div className="flex max-w-[90%] justify-between">
             <div className="flex flex-col gap-[16px]">
-              <p className="font-[900] text-[40px] leading-[30px] text-[#333333] font-sans max-w-full">9</p>
+              <p className="font-[900] text-[40px] leading-[30px] text-[#333333] font-sans max-w-full">-</p>
               <p className="font-[500] text-[20px] leading-[30px] text-[#333333] font-sans max-w-full">Visualizações nos últimos 30 dias</p>
             </div>
 

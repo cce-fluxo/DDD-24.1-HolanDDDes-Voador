@@ -28,11 +28,15 @@ const Avaliacao: React.FC<AvaliacaoProps> = ({
                         <p className="font-[500] text-[24px] leading-[36px] text-[#AB9C9F] font-sans">{nome}</p>
                         <p className="font-[500] text-[14px] leading-[21px] text-[#AB9C9F] font-sans">{quarto}</p>
                         <div className="flex gap-[5px] h-[21px] items-center">
-                            <Image src="/star.svg" alt='star' height={18} width={16}/>
-                            <Image src="/star.svg" alt='star' height={18} width={16}/>
-                            <Image src="/star.svg" alt='star' height={18} width={16}/>
-                            <Image src="/star.svg" alt='star' height={18} width={16}/>
-                            <Image src="/star.svg" alt='star' height={18} width={16}/>
+                            {Array.from({ length: estrelas }).map((_, index) => (
+                                <Image
+                                    key={index}
+                                    src="/star.svg"
+                                    alt="star"
+                                    height={18}
+                                    width={16}
+                                />
+                            ))}
                         </div>
                     </div>
                     <p className="font-[500] text-[16px] leading-[21px] text-[#333333] font-sans max-w-full">{descricao}</p>
