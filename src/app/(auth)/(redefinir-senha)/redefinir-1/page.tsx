@@ -41,7 +41,7 @@ const RedefinirSenha1 = () => {
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
 
-      <div className="flex flex-col justify-center py-[48px] px-[41px] items-center w-2/5 rounded-t-3xl z-50 bg-[#FFFFFF] drop-shadow-2xl">
+      <div className="flex flex-col justify-center py-[48px] px-[41px] items-center w-2/5 rounded-t-3xl z-60 bg-[#FFFFFF] drop-shadow-2xl">
         <div className="flex flex-col items-center gap-[42px] w-full">
           <div className="flex flex-col items-center">
             <span className="text-2xl text-[#F95F5B] font-semibold">Esqueceu a senha?</span>
