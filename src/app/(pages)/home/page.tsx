@@ -1,19 +1,30 @@
 "use client";
 
-import Checkin from "./checkin";
-import Checkout from "./checkout";
-import Reserva from "./reserva";
-import Quarto from "./quarto";
-import React from "react";
-import Hospede from "./hospede";
-import LoggedHeader from "@/app/LoggedHeader";
+import React, { useState } from "react";
 
-export default function Home() {
-  //const checkin = await fetch()
-  //const chackout = await fectch()
-  //const reservado = await fectch()
-  //const livres = await fectch()
-  //const hospedes = await fectch()
+import LoggedHeader from "@/app/LoggedHeader";
+import BoxCheckin from "../../components/BoxCheckin";
+import BoxCheckout from "../../components/BoxCheckout";
+import BoxHospede from "../../components/BoxHospede";
+import BoxReserva from "../../components/BoxReserva";
+import BoxQuarto from "../../components/BoxQuarto";
+
+//const checkin = await fetch()
+
+//const chackout = await fectch()
+
+//const reservado = await fectch()
+
+//const livres = await fectch()
+
+//const hospedes = await fectch()
+
+export default function Home({}) {
+  const [temCheckin, setTemCheckin] = useState(true);
+  const [temCheckout, setTemCheckout] = useState(false);
+  const [temQuartosReservados, setTemQuartosReservados] = useState(false);
+  const [temQuartosLivres, setTemQuartosLivres] = useState(false);
+  const [temHospedesNoMomento, setTemHospedesNoMomento] = useState(false);
 
   return (
     <>
@@ -35,7 +46,9 @@ export default function Home() {
                 Fazendo check in (1){}
               </p>
             </div>
-            <Checkin></Checkin>
+            <div className=" flex gap-[24px] overflow-x-auto">
+              <BoxCheckin temAlgo={false} />
+            </div>
           </div>
 
           <div className=" mb-[64px] overflow-x-auto">
@@ -44,7 +57,9 @@ export default function Home() {
                 Fazendo check out (1){}
               </p>
             </div>
-            <Checkout />
+            <div className=" flex gap-[24px] overflow-x-auto">
+              <BoxCheckout temAlgo={false} />
+            </div>
           </div>
 
           <div className=" mb-[64px] overflow-x-auto">
@@ -53,7 +68,9 @@ export default function Home() {
                 Quartos reservados nos últimos dias (1){}
               </p>
             </div>
-            <Reserva />
+            <div className=" flex gap-[24px] overflow-x-auto">
+              <BoxReserva temAlgo={false} />
+            </div>
           </div>
 
           <div className=" mb-[64px] overflow-x-auto">
@@ -62,7 +79,9 @@ export default function Home() {
                 Quartos livres (1){}
               </p>
             </div>
-            <Quarto />
+            <div className=" flex gap-[24px] overflow-x-auto">
+              <BoxQuarto temAlgo={false} />
+            </div>
           </div>
 
           <div className=" mb-[64px] overflow-x-auto">
@@ -71,7 +90,9 @@ export default function Home() {
                 Hóspedes no momento (1){}
               </p>
             </div>
-            <Hospede></Hospede>
+            <div className=" flex gap-[24px] overflow-x-auto">
+              <BoxHospede temAlgo={false} />
+            </div>
           </div>
         </div>
       </div>

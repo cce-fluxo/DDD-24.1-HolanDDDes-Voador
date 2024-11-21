@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Pessoa from "../../../../public/pessoa.png";
-import React, { useRef } from "react";
 
 export default function Box0checkin() {
   return (
