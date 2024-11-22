@@ -6,8 +6,8 @@ interface BoxReservaProps {
   temAlgo: boolean;
   nomeQuarto?: string;
   nomePessoa?: string;
-  acao1?: string;
-  acao2?: string;
+  dataCheckin?: string;
+  dataCheckout?: string;
   textoAusencia?: string;
 }
 
@@ -15,9 +15,8 @@ const BoxReserva: React.FC<BoxReservaProps> = ({
   temAlgo,
   nomeQuarto,
   nomePessoa,
-  acao1,
-  acao2,
-  textoAusencia,
+  dataCheckin,
+  dataCheckout,
 }) => {
   return (
     <>
@@ -27,8 +26,8 @@ const BoxReserva: React.FC<BoxReservaProps> = ({
           <div>
             <h1 className="text-[24px] mb-[24px] text-preto">{nomeQuarto}</h1>
             <p className="text-[20px] text-preto">{nomePessoa}</p>
-            <p className="text-preto">{acao1}</p>
-            <p className=" text-preto">{acao2}</p>
+            <p className="text-preto">Check in: {dataCheckin}</p>
+            <p className="text-preto">Check out: {dataCheckout}</p>
           </div>
         </div>
       ) : (
@@ -38,7 +37,7 @@ const BoxReserva: React.FC<BoxReservaProps> = ({
           </div>
           <div>
             <p className="text-[24px] font-sans text-cinza-4 font-normal">
-              {textoAusencia}
+              Nenhuma reserva
             </p>
           </div>
         </div>

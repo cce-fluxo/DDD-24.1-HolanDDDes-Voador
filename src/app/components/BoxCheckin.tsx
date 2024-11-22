@@ -6,7 +6,7 @@ interface BoxCheckinProps {
   temAlgo: boolean;
   nomeQuarto?: string;
   nomePessoa?: string;
-  acao?: string;
+  data?: string;
   telefone?: string;
   textoAusencia?: string;
 }
@@ -15,7 +15,7 @@ const BoxCheckin: React.FC<BoxCheckinProps> = ({
   temAlgo,
   nomeQuarto,
   nomePessoa,
-  acao,
+  data,
   telefone,
   textoAusencia,
 }) => {
@@ -27,7 +27,7 @@ const BoxCheckin: React.FC<BoxCheckinProps> = ({
           <div>
             <h1 className="text-[24px] mb-[24px] text-preto">{nomeQuarto}</h1>
             <p className="text-[20px] text-preto">{nomePessoa}</p>
-            <p className="text-preto">{acao}</p>
+            <p className="text-preto">Check in: {data}</p>
             <p className="text-preto">Telefone: {telefone}</p>
           </div>
         </div>
@@ -38,7 +38,7 @@ const BoxCheckin: React.FC<BoxCheckinProps> = ({
           </div>
           <div>
             <p className="text-[24px] font-sans text-cinza-4 font-normal">
-              {textoAusencia}
+              Nenhum check in
             </p>
           </div>
         </div>

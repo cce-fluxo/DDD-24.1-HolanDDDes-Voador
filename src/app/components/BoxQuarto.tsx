@@ -6,6 +6,8 @@ interface BoxQuartoProps {
   temAlgo: boolean;
   nomeQuarto?: string;
   nomePropriedade?: string;
+  dataCheckin?: string;
+  dataCheckout?: string;
   textoAusencia?: string;
 }
 
@@ -13,6 +15,8 @@ const BoxQuarto: React.FC<BoxQuartoProps> = ({
   temAlgo,
   nomeQuarto,
   nomePropriedade,
+  dataCheckin,
+  dataCheckout,
   textoAusencia,
 }) => {
   return (
@@ -23,6 +27,8 @@ const BoxQuarto: React.FC<BoxQuartoProps> = ({
           <div>
             <h1 className=" text-[24px] mb-[24px] text-preto">{nomeQuarto}</h1>
             <p className="text-preto">{nomePropriedade}</p>
+            <p className="text-preto">Check in: {dataCheckin}</p>
+            <p className="text-preto">Check out: {dataCheckout}</p>
           </div>
         </div>
       ) : (
@@ -32,7 +38,7 @@ const BoxQuarto: React.FC<BoxQuartoProps> = ({
           </div>
           <div>
             <p className="text-[24px] font-sans text-cinza-4 font-normal">
-              {textoAusencia}
+              Você não adicionou um quarto ainda
             </p>
           </div>
         </div>

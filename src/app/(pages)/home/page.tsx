@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import LoggedHeader from "@/app/LoggedHeader";
 import BoxCheckin from "../../components/BoxCheckin";
@@ -20,12 +20,6 @@ import BoxQuarto from "../../components/BoxQuarto";
 //const hospedes = await fectch()
 
 export default function Home({}) {
-  const [temCheckin, setTemCheckin] = useState(true);
-  const [temCheckout, setTemCheckout] = useState(false);
-  const [temQuartosReservados, setTemQuartosReservados] = useState(false);
-  const [temQuartosLivres, setTemQuartosLivres] = useState(false);
-  const [temHospedesNoMomento, setTemHospedesNoMomento] = useState(false);
-
   return (
     <>
       <div>
@@ -43,11 +37,11 @@ export default function Home({}) {
           <div className=" mb-[64px] overflow-x-auto">
             <div className=" mb-[24px]">
               <p className=" text-[22px] text-preto font-poppins">
-                Fazendo check in (1){}
+                Fazendo check in
               </p>
             </div>
             <div className=" flex gap-[24px] overflow-x-auto">
-              <BoxCheckin temAlgo={false} />
+              <BoxCheckin temAlgo={true} />
             </div>
           </div>
 
