@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { images } from "@/../../constants";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -12,11 +12,38 @@ import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
+import { useSignUp } from "@/app/context/signUpContext";
+
+interface User {
+  nome: string;
+  sobrenome: string;
+  nascimento: Date | string;
+  email: string;
+  senha: string;
+  endereco: string;
+  cidade: string;
+  pais: string;
+  celular: string;
+}
 
 const Cadastro1 = () => {
+  const [user, setUser] = useState<User>({
+    nome: "",
+    sobrenome: "",
+    nascimento: "",
+    email: "",
+    senha: "",
+    endereco: "",
+    cidade: "",
+    pais: "",
+    celular: "",
+  });
   const iconSize: number = 24;
   const iconSizeLoginOptions: number = 55;
   const router = useRouter();
+
+  const { updateSignUp } = useSignUp();
+
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
       <div className="h-full flex justify-center place-self-center items-center w-2/5">
@@ -86,6 +113,13 @@ const Cadastro1 = () => {
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                setUser(prevUser => ({
+                  ...prevUser, // preserva as propriedades anteriores
+                  nome: values.nome, // atualiza nome
+                  sobrenome: values.sobrenome, // atualiza sobrenome
+                  nascimento: values.dataNascimento, // atualiza nascimento
+                }));
+                updateSignUp(user);
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
                 router.push("/cadastro-2");
