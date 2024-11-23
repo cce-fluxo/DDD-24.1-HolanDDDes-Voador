@@ -8,10 +8,12 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import arrowLeft from "../../../../../public/arrow_left.png";
+import { useSignUp } from "@/app/context/signUpContext";
 
 const Cadastro2 = () => {
   const iconSize: number = 24;
   const router = useRouter();
+  const { user,  updateUser } = useSignUp();
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
       <div className="h-full flex place-self-center justify-center items-center w-2/5">
@@ -79,7 +81,10 @@ const Cadastro2 = () => {
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+
+                user.email = values.email;
+                user.hash_senha = values.senha;
+                updateUser(user);
                 setSubmitting(false);
                 router.push("/cadastro-3");
               }, 400);

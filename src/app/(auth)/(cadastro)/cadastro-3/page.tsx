@@ -6,10 +6,12 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import arrowLeft from "../../../../../public/arrow_left.png";
+import { useSignUp } from "@/app/context/signUpContext";
 
 const Cadastro3 = () => {
   const iconSize: number = 24;
   const router = useRouter();
+  const { user,  updateUser, signUp } = useSignUp();
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
       <div className="h-full flex place-self-center text-center items-center w-2/5">
@@ -48,13 +50,20 @@ const Cadastro3 = () => {
               endereco: Yup.string().required("Campo obrigatorio"),
               cidade: Yup.string().required("Campo obrigatorio"),
               regiao: Yup.string().required("Campo obrigatorio"),
-              telefone: Yup.string().required("Campo obrigatorio"),
+              telefone: Yup.string().required("Campo obrigatorio").matches(
+                /^\d{2}\s\d{4,5}-\d{4}$/,
+                "Telefone inválido. Use o formato XX XXXXX-XXXX ou XX XXXX-XXXX."
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                user.endereco = values.endereco;
+                user.cidade = values.cidade;
+                user.pais = values.regiao;
+                user.celular = values.telefone;
+                signUp(user);
                 setSubmitting(false);
-                router.push("/home");
+                router.push("/login");
               }, 400);
             }}
           >
