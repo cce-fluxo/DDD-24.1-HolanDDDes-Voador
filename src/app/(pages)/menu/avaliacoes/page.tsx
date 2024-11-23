@@ -207,7 +207,7 @@ export default function Avaliacoes() {
     oneMonthAgo.setMonth(today.getMonth() - 1);
   
     // Verifica se a data está no intervalo
-    return inputDate >= oneMonthAgo && inputDate <= today;
+    return inputDate.getMonth() >= oneMonthAgo.getMonth() && inputDate.getDate() <= today.getDate();
   };
 
   async function getReservasHotel(): Promise<ReservasData>{
@@ -227,9 +227,12 @@ export default function Avaliacoes() {
     reservas.forEach(r => {
       r.Acomodacao.forEach(a => {
         a.Reserva.forEach(reserva => {
-          if (isDateWithinLastMonth(reserva.data_check_in)) {
+          if ((reserva) => {
+            const dataReserva = new Date(reserva.data_check_in);
+            return (reserva.getMonth() == today.getMonth())
+          }) {
             const date = new Date(reserva.data_check_in);
-            const day = date.getDay();
+            const day = date.getDate() + 1;
             result[day] += 1;
           }
         });
@@ -345,7 +348,7 @@ export default function Avaliacoes() {
           
           <div className="w-full grid justify-items-center">
             <div className="h-[462px] w-[1361px] mb-12">
-              <LineChart lineWidth={4} lineColor="#DC143B" titulo={`Reservas em: ${today.getMonth()}/${today.getFullYear()}`} categorias={days} dados={graphValues || Array(31).fill(0)} />
+              <LineChart lineWidth={4} lineColor="#DC143B" titulo={`Reservas em: ${today.getMonth() + 1}/${today.getFullYear()}`} categorias={days} dados={graphValues || Array(31).fill(0)} />
             </div>
           </div>
         </div>
