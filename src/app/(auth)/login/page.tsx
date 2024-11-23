@@ -18,14 +18,13 @@ const Login = () => {
 
   const { signIn } = useAuth();
 
-
   async function login(data: any){
     try{
       const response = await api.post(
         'auth/login', //fazendo a requisição para essa rota
         data, //enviando esses dados no corpo da requisição
       );
-      //console.log("Token: ", response.data.access_token); // para debugar a resposta
+      console.log("Token: ", response.data.access_token); // para debugar a resposta
 
       await signIn(response.data.access_token, response.data.user); //preciso salvar o usuario tb? o endpoint só me retorna o token aparentemente
       console.log("Login realizado com sucesso!");
