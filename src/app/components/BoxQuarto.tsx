@@ -8,7 +8,6 @@ interface BoxQuartoProps {
   nomePropriedade?: string;
   dataCheckin?: string;
   dataCheckout?: string;
-  textoAusencia?: string;
 }
 
 const BoxQuarto: React.FC<BoxQuartoProps> = ({
@@ -17,7 +16,6 @@ const BoxQuarto: React.FC<BoxQuartoProps> = ({
   nomePropriedade,
   dataCheckin,
   dataCheckout,
-  textoAusencia,
 }) => {
   return (
     <>

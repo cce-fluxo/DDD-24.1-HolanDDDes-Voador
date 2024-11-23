@@ -8,7 +8,6 @@ interface BoxCheckoutProps {
   nomePessoa?: string;
   data?: string;
   telefone?: string;
-  textoAusencia?: string;
 }
 
 const BoxCheckout: React.FC<BoxCheckoutProps> = ({
@@ -17,7 +16,6 @@ const BoxCheckout: React.FC<BoxCheckoutProps> = ({
   nomePessoa,
   data,
   telefone,
-  textoAusencia,
 }) => {
   return (
     <>

@@ -11,13 +11,13 @@ import BoxQuarto from "../../components/BoxQuarto";
 
 //const checkin = await fetch()
 
-//const chackout = await fectch()
+//const checkout = await fetch()
 
-//const reservado = await fectch()
+//const reservado = await fetch()
 
-//const livres = await fectch()
+//const livres = await fetch()
 
-//const hospedes = await fectch()
+//const hospedes = await fetch()
 
 export default function Home({}) {
   return (
@@ -48,7 +48,7 @@ export default function Home({}) {
           <div className=" mb-[64px] overflow-x-auto">
             <div className=" mb-[24px]">
               <p className=" text-[22px] text-preto font-poppins">
-                Fazendo check out (1){}
+                Fazendo check out (1)
               </p>
             </div>
             <div className=" flex gap-[24px] overflow-x-auto">
@@ -59,7 +59,7 @@ export default function Home({}) {
           <div className=" mb-[64px] overflow-x-auto">
             <div className=" mb-[24px]">
               <p className=" text-[22px] text-preto font-poppins">
-                Quartos reservados nos últimos dias (1){}
+                Quartos reservados nos próximos dias (1)
               </p>
             </div>
             <div className=" flex gap-[24px] overflow-x-auto">
@@ -70,7 +70,7 @@ export default function Home({}) {
           <div className=" mb-[64px] overflow-x-auto">
             <div className=" mb-[24px]">
               <p className=" text-[22px] text-preto font-poppins">
-                Quartos livres (1){}
+                Quartos livres (1)
               </p>
             </div>
             <div className=" flex gap-[24px] overflow-x-auto">
@@ -81,7 +81,7 @@ export default function Home({}) {
           <div className=" mb-[64px] overflow-x-auto">
             <div className=" mb-[24px]">
               <p className=" text-[22px] text-preto font-poppins">
-                Hóspedes no momento (1){}
+                Hóspedes no momento (1)
               </p>
             </div>
             <div className=" flex gap-[24px] overflow-x-auto">
