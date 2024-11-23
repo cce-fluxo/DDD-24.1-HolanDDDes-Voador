@@ -103,7 +103,7 @@ const Login = () => {
                         ou
                       </span>
                       <div className="flex gap-14">
-                        <Link href={"/google"}>
+                        <Link href={"/login"}>
                           <Image
                             src={google}
                             className="rounded-[30px]"
@@ -112,7 +112,7 @@ const Login = () => {
                             alt="google logo"
                           />
                         </Link>
-                        <Link href={"/facebook"}>
+                        <Link href={"/login"}>
                           <Image
                             src={facebook}
                             width={iconSize}
@@ -120,7 +120,7 @@ const Login = () => {
                             alt="facebook logo"
                           />
                         </Link>
-                        <Link href={"/x"}>
+                        <Link href={"/login"}>
                           <Image
                             src={twitter}
                             width={iconSize}
