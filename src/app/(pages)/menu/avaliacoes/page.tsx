@@ -5,6 +5,7 @@ import Avaliacao from "@/app/components/Avaliacao";
 import LoggedHeader from "@/app/LoggedHeader";
 import { useEffect, useState } from "react";
 import api from "@/app/services/axios";
+import { list } from "postcss";
 
 interface AvaliacoesData {
   avaliacoes_acomodacoes: {
@@ -119,6 +120,9 @@ interface ReservasData {
 export default function Avaliacoes() {
   const [avaliacoesData, setAvaliacoesData] = useState<Avaliacao[]>([]);
   const [reservasLastMonth, setReservasLastMonth] = useState<number | null>(null);
+  const [graphValues, setGraphValues] = useState<number[] | null>(null)
+  const days = Array.from({ length: 32 }, (_, i) => i.toString());
+  const today = new Date();
 
   function formatAvaliacoes(data: AvaliacoesData): Avaliacao[] {
     const avaliacoes: Avaliacao[] = [];
@@ -217,6 +221,24 @@ export default function Avaliacoes() {
     }
   }
 
+  function getGraphData(data: ReservasData){
+    let result = Array(31).fill(0);
+    const { reservas } = data; 
+    reservas.forEach(r => {
+      r.Acomodacao.forEach(a => {
+        a.Reserva.forEach(reserva => {
+          if (isDateWithinLastMonth(reserva.data_check_in)) {
+            const date = new Date(reserva.data_check_in);
+            const day = date.getDay();
+            result[day] += 1;
+          }
+        });
+      });
+    });
+
+    return result;
+  };
+
   useEffect(() => {
     const fetchAvaliacoes = async () => {
       try {
@@ -230,6 +252,7 @@ export default function Avaliacoes() {
     const fetchReservas = async () => {
       try {
         const data = await getReservasHotel(); 
+        setGraphValues(getGraphData(data));
         const { reservas } = data; 
         if (!reservas || reservas.length === 0) {
           console.log("Nenhuma reserva encontrada.");
@@ -322,7 +345,7 @@ export default function Avaliacoes() {
           
           <div className="w-full grid justify-items-center">
             <div className="h-[462px] w-[1361px] mb-12">
-              <LineChart lineWidth={4} lineColor="#DC143B" titulo="Abril de 2024" categorias={["18", "19", "20", "21", "22", "23"]} dados={[-50, 100, -250, 1000, 75, 260]} />
+              <LineChart lineWidth={4} lineColor="#DC143B" titulo={`Reservas em: ${today.getMonth()}/${today.getFullYear()}`} categorias={days} dados={graphValues || Array(31).fill(0)} />
             </div>
           </div>
         </div>
