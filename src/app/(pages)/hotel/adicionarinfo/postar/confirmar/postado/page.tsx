@@ -276,12 +276,6 @@ const Hotel = () => {
                       <h4 className="font-readex-pro text-cinza-2 text-[24px] font-normal leading-6">avaliações</h4>
                     </div>
                   </div>
-                  <div className="bg-branco-2 w-[348px] h-[110px] rounded-[100px] py-[16px] px-[80px] gap-[64px] items-center justify-center">
-                    <div className="w-[188px] h-[78px] gap-2 flex flex-col justify-center text-center">
-                      <h3 className="font-readex-pro text-cinza-3 text-[32px] font-normal leading-10">0 dias</h3>
-                      <h4 className="font-readex-pro text-cinza-2 text-[24px] font-normal leading-6">de hospedagem</h4>
-                    </div>
-                  </div>
                 </div>
                 </div>
               </div>

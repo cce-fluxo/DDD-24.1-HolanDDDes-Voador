@@ -22,7 +22,6 @@ interface QuartoData {
     descricao: string; 
     banheiro: number;
     valor_diaria: number; 
-    nota: number;
   };
   fotoAcomodacao: {
     url_foto: string;
@@ -33,6 +32,27 @@ interface QuartoData {
       nome: string;
     }[];
   };
+  avaliacoes: {
+    Avaliacao_acomodacao: {
+      custo_beneficio: number;
+      atendimento: number;
+      comida: number;
+      limpeza: number;
+      conforto: number;
+      localizacao: number;
+      comentario: string;
+      cliente: {
+        usuario: {
+          nome: string;
+          sobrenome: string;
+          FotoUsuario: {
+            url_foto: string;
+            id: number;
+          }[]
+        }
+      }
+    }[]
+  }
 }
 
 interface HotelData {
@@ -122,6 +142,51 @@ export default function Quarto() {
     }
   };
   
+  // Função para contar o número de avaliações
+  function contarAvaliacoes(quarto: QuartoData | null): number {
+    if (!quarto || !quarto.avaliacoes?.Avaliacao_acomodacao) {
+      return 0;
+    }
+    return quarto.avaliacoes.Avaliacao_acomodacao.length;
+  }
+
+  function calcularNotaMedia(quarto: QuartoData | null): number {
+    if (!quarto || !quarto.avaliacoes?.Avaliacao_acomodacao.length) {
+      return 0; // Retorna 0 se não houver avaliações ou se o quarto for nulo
+    }
+  
+    const avaliacoes = quarto.avaliacoes.Avaliacao_acomodacao;
+  
+    // Soma a média de cada avaliação
+    const somaDasMedias = avaliacoes.reduce((total, avaliacao) => {
+      const mediaAvaliacao =
+        (avaliacao.custo_beneficio +
+          avaliacao.atendimento +
+          avaliacao.comida +
+          avaliacao.limpeza +
+          avaliacao.conforto +
+          avaliacao.localizacao) / 6; // Média de uma única avaliação
+  
+      return total + mediaAvaliacao;
+    }, 0);
+  
+    // Retorna a média geral das avaliações
+    return somaDasMedias / avaliacoes.length;
+  } 
+
+  const notaMedia = calcularNotaMedia(quartoData);
+
+  // Recomendação da nota (texto ao lado da nota)
+  function classificarNotaMedia(nota: number): string {
+    if (nota > 4) {
+      return "Muito bom";
+    } else if (nota >= 3 && nota <= 4) {
+      return "Razoável";
+    } else {
+      return "Quarto não recomendado";
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -151,6 +216,68 @@ export default function Quarto() {
       </div>
     );
   }
+
+  // Mostrando as avaliações na tela
+  const renderAvaliacoes = (quarto: QuartoData | null) => {
+    if (!quarto || !quarto.avaliacoes?.Avaliacao_acomodacao.length) {
+      return <p className="text-cinza-4">0 avaliações</p>; // Retorna mensagem se não houver avaliações
+    }
+  
+    return (
+      <div className="space-y-6">
+      {quarto.avaliacoes.Avaliacao_acomodacao.map((avaliacao, index) => {
+        // Verificar se Cliente e usuario existem
+        const cliente = avaliacao.cliente;
+        const usuario = cliente?.usuario;
+          // Capturar a foto ou usar a imagem padrão do google caso usuário não tenha foto
+          const fotoCliente =
+            usuario?.FotoUsuario?.length > 0
+              ? usuario.FotoUsuario[0].url_foto
+              : "/google.png";
+  
+          return (
+            <div key={index} className="flex flex-col">
+              <div className="flex items-start space-x-4">
+                {/* Foto do cliente */}
+                <Image
+                  src={fotoCliente}
+                  alt="Foto do cliente"
+                  className="w-12 h-12 rounded-full"
+                  width={48}
+                  height={48}
+                />
+    
+                {/* Dados do cliente e avaliação */}
+                <div>
+                  <h3 className="font-bold text-cinza-4">
+                    {usuario?.nome || "Usuário Anônimo"}{" "}
+                    {usuario?.sobrenome || ""}
+                  </h3>
+                  <div className="flex items-center text-rosa-4 space-x-1">
+                    {/* Estrelas */}
+                    {Array.from({ length: 5 }).map((_, starIndex) => (
+                      <svg
+                        key={starIndex}
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 fill-current"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                      </svg>
+                    ))}
+                </div>
+              </div>
+              
+            </div>
+            {/* Comentário do cliente */}
+              <p className="text-cinza-4 mt-2 ml-0">{avaliacao.comentario}</p>
+          </div>
+          );
+        })}
+      </div>
+    );
+  };
+  
 
   return (
     <>
@@ -252,7 +379,7 @@ export default function Quarto() {
                 <div className="bg-branco-2 w-[280px] h-[110px] rounded-[100px] py-[16px] px-[80px] gap-[64px] flex items-center justify-center">
                   <div className="w-[120px] h-[78px] gap-2 flex flex-col justify-center text-center">
                     <h3 className="font-readex-pro text-cinza-3 text-[32px] font-normal leading-10">
-                      0
+                      { contarAvaliacoes(quartoData) }
                     </h3>
                     <h4 className="font-readex-pro text-cinza-2 text-[24px] font-normal leading-6">
                       avaliações
@@ -299,6 +426,26 @@ export default function Quarto() {
                   </button>
                 </Link>
               </div>
+
+              <div className="w-[144px] h-[51px] gap-[16px] font-poppins font-semibold text-[34px] leading-[51px] -tracking-2 text-preto">
+                  Avaliações:
+              </div>
+              <div className="mt-8 flex flex-row"> 
+                <div className="w-14 h-14 bg-[#2EC00A] font-poppins font-bold text-xl rounded-full flex items-center justify-center">
+                  {notaMedia}
+                </div>
+                <div className="ml-4 font-poppins font-semibold text-xl leading-[51px] -tracking-2 text-preto"> 
+                  {classificarNotaMedia(notaMedia)}
+                </div>
+              </div>
+
+              <div className="mt-8 w-[144px] h-[51px] gap-[16px] font-poppins font-semibold text-[34px] leading-[51px] -tracking-2 text-preto">
+                  Comentários:
+              </div>
+              
+              {/* Avaliações */}
+              <div className="mt-8">{renderAvaliacoes(quartoData)}</div>
+
             </div>
           </div>
         </div>
