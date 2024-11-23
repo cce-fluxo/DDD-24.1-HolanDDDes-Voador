@@ -7,21 +7,22 @@ import React, {
     useContext,
     useState,
     useCallback,
-    useEffect,
     ReactNode,
   } from "react";
+import api from "../services/axios";
   
   interface SingUpContextData {
-    updateSignUp: (user: User) => void;
+    updateUser: (user: User) => void;
+    signUp: (user: User) => void;
     user: User;
   }
 
   interface User {
     nome: string;
     sobrenome: string;
-    nascimento: Date | string;
+    dataNascimento: Date | string;
     email: string;
-    senha: string;
+    hash_senha: string;
     endereco: string;
     cidade: string;
     pais: string;
@@ -33,9 +34,9 @@ import React, {
     const [user, setUser] = useState<User>({
       nome: "",
       sobrenome: "",
-      nascimento: "",
+      dataNascimento: "",
       email: "",
-      senha: "",
+      hash_senha: "",
       endereco: "",
       cidade: "",
       pais: "",
@@ -44,26 +45,50 @@ import React, {
 
     const router = useRouter();
   
-    const loadStoragedData = useCallback(async () => {
-      const userSignUp = await localStorage.getItem("@BonVoyage:signUp")
-
-      if (userSignUp) {
-        setUser(JSON.parse(userSignUp));
-      }
-    }, []);
-  
-    const updateSignUp = useCallback(async (user: User) => { //armazena o token e user no localStorage e no useState
+    const updateUser = useCallback(async (user: User) => { //armazena o token e user no localStorage e no useState
       setUser(user);
     }, []);
-  
-    useEffect(() => {
-      loadStoragedData();
-    }, []);
+
+    async function signUp(user: User){
+      try{
+        const response = await api.post(
+          'usuario', //fazendo a requisição para essa rota
+          {
+            nome: user.nome,
+            sobrenome: user.sobrenome,
+            hash_senha: user.hash_senha,
+            email: user.email,
+            telefone: user.celular,
+            data_nascimento: user.dataNascimento,
+            role: "proprietario"
+
+
+          }, //enviando esses dados no corpo da requisição
+        );
+        alert("Usuário cadastrado com sucesso! Realize o login.");
+        setUser({
+          nome: "",
+          sobrenome: "",
+          dataNascimento: "",
+          email: "",
+          hash_senha: "",
+          endereco: "",
+          cidade: "",
+          pais: "",
+          celular: "",
+        })
+        router.push('/login'); // redirecionando o usuario para a home
+      } catch (error){
+        alert("Erro ao realizar cadastro. Tente novamente.")
+
+      }
+    }
   
     return (
       <SingUpContext.Provider
         value={{
-          updateSignUp,
+          updateUser,
+          signUp,
           user,
         }}
       >

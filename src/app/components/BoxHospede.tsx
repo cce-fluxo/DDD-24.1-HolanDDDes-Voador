@@ -8,7 +8,6 @@ interface BoxHospedeProps {
   nomePessoa?: string;
   data?: string;
   telefone?: string;
-  textoAusencia?: string;
 }
 
 const BoxHospede: React.FC<BoxHospedeProps> = ({
@@ -17,7 +16,6 @@ const BoxHospede: React.FC<BoxHospedeProps> = ({
   nomePessoa,
   data,
   telefone,
-  textoAusencia,
 }) => {
   return (
     <>

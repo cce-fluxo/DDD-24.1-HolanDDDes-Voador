@@ -8,7 +8,6 @@ interface BoxCheckinProps {
   nomePessoa?: string;
   data?: string;
   telefone?: string;
-  textoAusencia?: string;
 }
 
 const BoxCheckin: React.FC<BoxCheckinProps> = ({
@@ -17,7 +16,6 @@ const BoxCheckin: React.FC<BoxCheckinProps> = ({
   nomePessoa,
   data,
   telefone,
-  textoAusencia,
 }) => {
   return (
     <>

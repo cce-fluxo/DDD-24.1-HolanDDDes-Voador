@@ -18,17 +18,12 @@ const Login = () => {
 
   const { signIn } = useAuth();
 
-
   async function login(data: any){
     try{
-      console.log(signIn);
       const response = await api.post(
         'auth/login', //fazendo a requisição para essa rota
         data, //enviando esses dados no corpo da requisição
       );
-
-      console.log("Resposta:", response.data); // para debugar a resposta
-      console.log("Usuario:", response.data.user); // para debugar a resposta
       console.log("Token: ", response.data.access_token); // para debugar a resposta
 
       await signIn(response.data.access_token, response.data.user); //preciso salvar o usuario tb? o endpoint só me retorna o token aparentemente
@@ -108,7 +103,7 @@ const Login = () => {
                         ou
                       </span>
                       <div className="flex gap-14">
-                        <Link href={"/google"}>
+                        <Link href={"/login"}>
                           <Image
                             src={google}
                             className="rounded-[30px]"
@@ -117,7 +112,7 @@ const Login = () => {
                             alt="google logo"
                           />
                         </Link>
-                        <Link href={"/facebook"}>
+                        <Link href={"/login"}>
                           <Image
                             src={facebook}
                             width={iconSize}
@@ -125,7 +120,7 @@ const Login = () => {
                             alt="facebook logo"
                           />
                         </Link>
-                        <Link href={"/x"}>
+                        <Link href={"/login"}>
                           <Image
                             src={twitter}
                             width={iconSize}

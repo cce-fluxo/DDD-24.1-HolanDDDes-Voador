@@ -8,7 +8,6 @@ interface BoxReservaProps {
   nomePessoa?: string;
   dataCheckin?: string;
   dataCheckout?: string;
-  textoAusencia?: string;
 }
 
 const BoxReserva: React.FC<BoxReservaProps> = ({

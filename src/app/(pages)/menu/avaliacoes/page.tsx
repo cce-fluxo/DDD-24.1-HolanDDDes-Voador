@@ -5,6 +5,7 @@ import Avaliacao from "@/app/components/Avaliacao";
 import LoggedHeader from "@/app/LoggedHeader";
 import { useEffect, useState } from "react";
 import api from "@/app/services/axios";
+import { list } from "postcss";
 
 interface AvaliacoesData {
   avaliacoes_acomodacoes: {
@@ -98,8 +99,30 @@ interface Avaliacao {
   url_foto: string;
 }
 
+interface ReservasData {
+  reservas: {
+    Acomodacao: {
+      Reserva: {
+        id: number;
+        data_check_in: string;
+        data_check_out: string;
+        quantidade_pessoas: number;
+        status: string;
+        aceita_pet: boolean;
+        clienteId: number;
+        acomodacaoId: number;
+        cupomId?: number | null;
+      }[]
+    }[]
+  }[]
+}
+
 export default function Avaliacoes() {
   const [avaliacoesData, setAvaliacoesData] = useState<Avaliacao[]>([]);
+  const [reservasLastMonth, setReservasLastMonth] = useState<number | null>(null);
+  const [graphValues, setGraphValues] = useState<number[] | null>(null)
+  const days = Array.from({ length: 32 }, (_, i) => i.toString());
+  const today = new Date();
 
   function formatAvaliacoes(data: AvaliacoesData): Avaliacao[] {
     const avaliacoes: Avaliacao[] = [];
@@ -152,8 +175,7 @@ export default function Avaliacoes() {
 
     return avaliacoes;
   }
-  
-  
+    
   async function getAvaliacoes(): Promise<AvaliacoesData> {
     try {
       const response = await api.get<AvaliacoesData>("avaliacao/avaliacoes");
@@ -176,6 +198,50 @@ export default function Avaliacoes() {
     return soma/avaliacoes.length;
   }
 
+  const isDateWithinLastMonth = (isoDateString: string): boolean => {
+    const inputDate = new Date(isoDateString);
+    const today = new Date();
+  
+    // Ajusta a data de um mês atrás
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(today.getMonth() - 1);
+  
+    // Verifica se a data está no intervalo
+    return inputDate.getMonth() >= oneMonthAgo.getMonth() && inputDate.getDate() <= today.getDate();
+  };
+
+  async function getReservasHotel(): Promise<ReservasData>{
+    try{
+      const response = await api.get<ReservasData>("reservas/hotel")
+      console.log("Reservas: ", response.data);
+      return response.data
+    } catch (error){
+      console.log("Erro ao resgatar as reservas: ", error);
+      throw error;
+    }
+  }
+
+  function getGraphData(data: ReservasData){
+    let result = Array(31).fill(0);
+    const { reservas } = data; 
+    reservas.forEach(r => {
+      r.Acomodacao.forEach(a => {
+        a.Reserva.forEach(reserva => {
+          if ((reserva) => {
+            const dataReserva = new Date(reserva.data_check_in);
+            return (reserva.getMonth() == today.getMonth())
+          }) {
+            const date = new Date(reserva.data_check_in);
+            const day = date.getDate() + 1;
+            result[day] += 1;
+          }
+        });
+      });
+    });
+
+    return result;
+  };
+
   useEffect(() => {
     const fetchAvaliacoes = async () => {
       try {
@@ -185,7 +251,35 @@ export default function Avaliacoes() {
         console.error("Erro ao definir avaliações:", error);
       }
     };
+
+    const fetchReservas = async () => {
+      try {
+        const data = await getReservasHotel(); 
+        setGraphValues(getGraphData(data));
+        const { reservas } = data; 
+        if (!reservas || reservas.length === 0) {
+          console.log("Nenhuma reserva encontrada.");
+          return;
+        }
+
+        let reservasFound = 0;
+        reservas.forEach(r => {
+          r.Acomodacao.forEach(a => {
+            a.Reserva.forEach(reserva => {
+              if (isDateWithinLastMonth(reserva.data_check_in)) {
+                reservasFound += 1;
+              }
+            });
+          });
+        });
+        setReservasLastMonth(reservasFound);
+      } catch (error) {
+        console.log("Erro ao definir as reservas do último mês: ", error);
+      }
+    };
+    
     fetchAvaliacoes();
+    fetchReservas();
   }, []);
   
   return (
@@ -242,19 +336,19 @@ export default function Avaliacoes() {
             </div>
 
             <div className="flex flex-col gap-[16px]">
-              <p className="font-[900] text-[40px] leading-[30px] text-[#333333] font-sans max-w-full">4</p>
+              <p className="font-[900] text-[40px] leading-[30px] text-[#333333] font-sans max-w-full">{reservasLastMonth || "-"}</p>
               <p className="font-[500] text-[20px] leading-[30px] text-[#333333] font-sans max-w-full">Reservas nos últimos 30 dias</p>
             </div>
 
             <div className="flex flex-col gap-[16px]">
-              <p className="font-[900] text-[40px] leading-[30px] text-[#333333] font-sans max-w-full">5%</p>
+              <p className="font-[900] text-[40px] leading-[30px] text-[#333333] font-sans max-w-full">-</p>
               <p className="font-[500] text-[20px] leading-[30px] text-[#333333] font-sans max-w-full">Taxa de reservas</p>
             </div>
           </div>
           
           <div className="w-full grid justify-items-center">
             <div className="h-[462px] w-[1361px] mb-12">
-              <LineChart lineWidth={4} lineColor="#DC143B" titulo="Abril de 2024" categorias={["18", "19", "20", "21", "22", "23"]} dados={[-50, 100, -250, 1000, 75, 260]} />
+              <LineChart lineWidth={4} lineColor="#DC143B" titulo={`Reservas em: ${today.getMonth() + 1}/${today.getFullYear()}`} categorias={days} dados={graphValues || Array(31).fill(0)} />
             </div>
           </div>
         </div>
