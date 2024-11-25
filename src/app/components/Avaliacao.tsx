@@ -22,7 +22,7 @@ const Avaliacao: React.FC<AvaliacaoProps> = ({
     return (
         <div className="w-full">
             <div className="w-full py-[26px] px-[68px] flex gap-[37px]">
-                <Image src={imagem} alt={nome} height={131} width={131} className="min-w-[131px]"/>
+                <Image src={imagem} alt={nome} height={131} width={131} className="min-w-[131px] min-h-[131px] rounded-full"/>
                 <div className="w-full gap-[16px] flex flex-col">
                     <div className="gap=[5px]">
                         <p className="font-[500] text-[24px] leading-[36px] text-[#AB9C9F] font-sans">{nome}</p>
