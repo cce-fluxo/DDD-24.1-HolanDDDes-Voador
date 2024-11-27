@@ -8,6 +8,7 @@ interface BoxHospedeProps {
   nomePessoa?: string;
   data?: string;
   telefone?: string | null;
+  imagem?: string;
 }
 
 const BoxHospede: React.FC<BoxHospedeProps> = ({
@@ -16,12 +17,13 @@ const BoxHospede: React.FC<BoxHospedeProps> = ({
   nomePessoa,
   data,
   telefone,
+  imagem = "/google.png"
 }) => {
   return (
     <>
       {temAlgo ? (
         <div className="flex min-w-[427px] min-h-[195px] shadow-lg pl-[10px] pt-[20px] pb-[20px] pr-[40px]">
-          <div className="bg-slate-500 h-[157px] w-[157px] mr-[24px] rounded-[5px]"></div>
+          <Image src={imagem} alt="" height={157} width={157} className="h-[157px] w-[157px] mr-[24px] rounded-[5px]"/>
           <div>
             <h1 className="text-[24px] mb-[24px] text-preto">{nomeQuarto}</h1>
             <p className="text-[20px] text-preto">{nomePessoa}</p>

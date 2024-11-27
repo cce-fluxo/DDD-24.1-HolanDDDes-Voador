@@ -218,7 +218,7 @@ export default function Home({}) {
               </p>
             </div>
             <div className="flex gap-[24px] overflow-x-auto">
-              {dados ? (
+              {dados?.checkInHoje && dados?.checkInHoje?.length > 0 ? (
                 dados.checkInHoje.map((item) =>
                   item.Reserva.map((checkin) => (
                     <BoxCheckin
@@ -277,6 +277,7 @@ export default function Home({}) {
               {dados?.quartosLivres.map((quarto) => (
                 <BoxQuarto
                   key={quarto.id}
+                  // imagem={""}
                   temAlgo={dados.quartosLivres.length > 0}
                   nomePropriedade={quarto.titulo}
                   nomeQuarto={quarto.titulo}
@@ -304,6 +305,7 @@ export default function Home({}) {
               {dados?.clientesNoMomento.map((cliente) => (
                 <BoxHospede
                   key={cliente.id}
+                  // imagem={""}
                   temAlgo={cliente.Reserva.length > 0}
                   nomeQuarto={cliente.usuario.nome}
                   nomePessoa={cliente.usuario.nome}
