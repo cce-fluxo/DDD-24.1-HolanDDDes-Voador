@@ -11,8 +11,21 @@ import BoxQuarto from "../../components/BoxQuarto";
 import api from "@/app/services/axios";
 
 interface quartosReservadosMes {
+  Reserva: {
+    id: number;
+    data_check_in: string;
+    data_check_out: string;
+    quantidade_pessoas: number;
+    status: string;
+    aceita_pet: boolean;
+    clienteId: number;
+    acomodacaoId: number;
+    cupomId: number | null;
+    cliente: { usuario: { nome: string; sobrenome: string } };
+  }[];
   id: number;
   data_check_in: string;
+  titulo: string;
   data_check_out: string;
   quantidade_pessoas: number;
   status: string;
@@ -20,10 +33,12 @@ interface quartosReservadosMes {
   clienteId: number;
   acomodacaoId: number;
   cupomId: number | null;
-  cliente: { usuario: { nome: string; sobrenome: string } };
 }
 
 interface quartosLivres {
+  FotoAcomodacao: {
+    url_foto: string;
+  };
   id: number;
   titulo: string;
   descricao: string;
@@ -64,7 +79,13 @@ interface checkInHoje {
     cliente: {
       id: number;
       usuarioId: number;
-      usuario: { nome: string; telefone: string | null };
+      usuario: { 
+        nome: string; 
+        telefone: string | null 
+        FotoUsuario: {
+          url_foto: string | null 
+        }[];
+      };
     };
   }[];
 }
@@ -95,7 +116,13 @@ interface checkOutHoje {
     cliente: {
       id: number;
       usuarioId: number;
-      usuario: { nome: string; telefone: string | null };
+      usuario: { 
+        nome: string; 
+        telefone: string | null 
+        FotoUsuario: {
+          url_foto: string | null 
+        }[];
+      };
     };
   }[];
 }
@@ -113,6 +140,12 @@ interface clientesNoMomento {
     clienteId: number;
     acomodacaoId: number;
     cupomId: number | null;
+    acomodacao: {
+      titulo: string;
+      FotoAcomodacao: {
+        url_foto: string;
+      }[];
+    }
   }[];
   usuario: {
     id: number;
@@ -125,6 +158,9 @@ interface clientesNoMomento {
     data_nascimento: string | null;
     vip: boolean;
     role: string;
+    FotoUsuario: {
+      url_foto: string;
+    }[]
   };
 }
 
@@ -144,6 +180,11 @@ export default function Home({}) {
       try {
         const response = await api.get<HotelData>("reservas/hotelaria/");
         console.log(response.data);
+        console.log(response.data.clientesNoMomento)
+        console.log(response.data.checkInHoje)
+        console.log(response.data.quartosLivres)
+        console.log(response.data.checkOutHoje)
+        console.log(response.data.quartosReservadosMes)
         setDados(response.data);
         setIsLoading(false);
         return response.data
@@ -262,8 +303,22 @@ export default function Home({}) {
                 {dados ? dados.quartosReservadosMes.length : 0})
               </p>
             </div>
-            <div className=" flex gap-[24px] overflow-x-auto">
-              <BoxReserva temAlgo={false} />
+            <div className="flex gap-[24px] overflow-x-auto">
+              {dados?.quartosReservadosMes && dados?.quartosReservadosMes.length > 0 ? (
+                dados?.quartosReservadosMes?.map((item) => {
+                  if (!item || typeof item !== "object") return null; // Ignorar dados inválidos
+                  return (
+                    <BoxCheckin
+                      key={item.id}
+                      temAlgo={true}
+                      nomeQuarto={item.titulo}
+                      data={item.data_check_in}
+                    />
+                  )}
+                )
+              ) : (
+                <BoxCheckin temAlgo={false} />
+              )}
             </div>
           </div>
 
@@ -277,7 +332,7 @@ export default function Home({}) {
               {dados?.quartosLivres.map((quarto) => (
                 <BoxQuarto
                   key={quarto.id}
-                  // imagem={""}
+                  imagem={quarto.FotoAcomodacao.url_foto}
                   temAlgo={dados.quartosLivres.length > 0}
                   nomePropriedade={quarto.titulo}
                   nomeQuarto={quarto.titulo}
@@ -288,35 +343,46 @@ export default function Home({}) {
             </div>
           </div>
 
-          <div className=" mb-[64px] overflow-x-auto">
-            <div className=" mb-[24px]">
-              <p className=" text-[22px] text-preto font-poppins">
-                Hóspedes no momento (
-                {dados
-                  ? dados.clientesNoMomento.reduce(
-                      (total, cliente) => total + cliente.Reserva.length,
-                      0
-                    )
-                  : 0}
-                )
-              </p>
-            </div>
-            <div className=" flex gap-[24px] overflow-x-auto">
-              {dados?.clientesNoMomento.map((cliente) => (
+          <div className="mb-[64px] overflow-x-auto">
+          <div className="mb-[24px]">
+            <p className="text-[22px] text-preto font-poppins">
+              Hóspedes no momento (
+              {dados
+                ? dados.clientesNoMomento?.reduce(
+                    (total, cliente) => total + (cliente.Reserva?.length || 0),
+                    0
+                  )
+                : 0}
+              )
+            </p>
+          </div>
+          <div className="flex gap-[24px] overflow-x-auto">
+            {dados && dados.clientesNoMomento.length > 0 ? (
+              dados.clientesNoMomento.map((cliente) => (
                 <BoxHospede
-                  key={cliente.id}
-                  // imagem={""}
-                  temAlgo={cliente.Reserva.length > 0}
-                  nomeQuarto={cliente.usuario.nome}
+                  key={cliente.usuario.id}
+                  imagem={cliente.usuario.FotoUsuario?.[0]?.url_foto || "/google.png"}
+                  temAlgo={cliente.Reserva && cliente.Reserva.length > 0}
+                  nomeQuarto={
+                    cliente.Reserva?.[0]?.acomodacao?.titulo
+                      ? `Quarto com ${cliente.Reserva[0].acomodacao.titulo}`
+                      : "Quarto não especificado"
+                  }
                   nomePessoa={cliente.usuario.nome}
                   data={
-                    cliente.Reserva[0]?.data_check_in || "Data não disponível"
+                    cliente.Reserva?.[0]?.data_check_in || "Data não disponível"
                   }
-                  telefone={cliente.usuario.telefone}
+                  telefone={cliente.usuario.telefone || "Telefone não disponível"}
                 />
-              ))}
-            </div>
+              ))
+            ) : (
+              <p className="text-[16px] text-gray-500">
+                Nenhum hóspede no momento.
+              </p>
+            )}
           </div>
+        </div>
+
         </div>
       </div>
     </>
