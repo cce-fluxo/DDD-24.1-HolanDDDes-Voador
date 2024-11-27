@@ -7,7 +7,7 @@ interface BoxCheckinProps {
   nomeQuarto?: string;
   nomePessoa?: string;
   data?: string;
-  telefone?: string;
+  telefone?: string | null;
 }
 
 const BoxCheckin: React.FC<BoxCheckinProps> = ({

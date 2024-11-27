@@ -7,7 +7,7 @@ interface BoxHospedeProps {
   nomeQuarto?: string;
   nomePessoa?: string;
   data?: string;
-  telefone?: string;
+  telefone?: string | null;
 }
 
 const BoxHospede: React.FC<BoxHospedeProps> = ({

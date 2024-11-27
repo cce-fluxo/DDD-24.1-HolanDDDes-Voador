@@ -1,0 +1,725 @@
+{
+  "checkInHoje": [],
+  "checkOutHoje": [],
+  "quartosReservadosMes": [
+    {
+      "id": 8,
+      "titulo": "DaisyRoom",
+      "descricao": "Quarto bom",
+      "banheiros": 0,
+      "quartos": 0,
+      "camas": 0,
+      "valor_diaria": 100,
+      "valor_pet": 200,
+      "complemento": "quarto bom",
+      "tipo_acomodacaoId": 1,
+      "hotelId": 6,
+      "nota": 5,
+      "Reserva": [
+        {
+          "id": 3,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-12-05T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "hospedado",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 4,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 5,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 6,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 7,
+          "data_check_in": "2024-01-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 8,
+          "data_check_in": "2024-01-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 9,
+          "data_check_in": "2024-11-05T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 10,
+          "data_check_in": "2024-11-06T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 11,
+          "data_check_in": "2024-11-19T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 12,
+          "data_check_in": "2024-11-19T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 13,
+          "data_check_in": "2024-11-19T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 14,
+          "data_check_in": "2024-11-18T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 15,
+          "data_check_in": "2024-11-18T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 16,
+          "data_check_in": "2024-11-18T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 17,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 18,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 19,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 20,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 21,
+          "data_check_in": "2024-11-16T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 22,
+          "data_check_in": "2024-11-16T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 23,
+          "data_check_in": "2024-11-16T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 1,
+          "data_check_in": "2024-11-25T00:00:00.000Z",
+          "data_check_out": "2024-12-05T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "hospedado",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        },
+        {
+          "id": 2,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-25T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "hospedado",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null,
+          "cliente": {
+            "id": 1,
+            "usuarioId": 4,
+            "usuario": {
+              "nome": "Cliente"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "quartosLivres": [
+    {
+      "id": 16,
+      "titulo": "Taylor's Room",
+      "descricao": "TS",
+      "banheiros": 1,
+      "quartos": 0,
+      "camas": 2,
+      "valor_diaria": 1000,
+      "valor_pet": 200,
+      "complemento": "quarto bom",
+      "tipo_acomodacaoId": 1,
+      "hotelId": 6,
+      "nota": 5
+    }
+  ],
+  "clientesNoMomento": [
+    {
+      "id": 1,
+      "usuarioId": 4,
+      "Reserva": [
+        {
+          "id": 3,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-12-05T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "hospedado",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 4,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 5,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 6,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 7,
+          "data_check_in": "2024-01-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 8,
+          "data_check_in": "2024-01-05T00:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 9,
+          "data_check_in": "2024-11-05T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 10,
+          "data_check_in": "2024-11-06T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 11,
+          "data_check_in": "2024-11-19T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 12,
+          "data_check_in": "2024-11-19T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 13,
+          "data_check_in": "2024-11-19T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 14,
+          "data_check_in": "2024-11-18T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 15,
+          "data_check_in": "2024-11-18T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 16,
+          "data_check_in": "2024-11-18T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 17,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 18,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 19,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 20,
+          "data_check_in": "2024-11-17T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 21,
+          "data_check_in": "2024-11-16T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 22,
+          "data_check_in": "2024-11-16T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 23,
+          "data_check_in": "2024-11-16T01:00:00.000Z",
+          "data_check_out": "2024-11-23T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "a",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 1,
+          "data_check_in": "2024-11-25T00:00:00.000Z",
+          "data_check_out": "2024-12-05T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "hospedado",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        },
+        {
+          "id": 2,
+          "data_check_in": "2024-11-05T00:00:00.000Z",
+          "data_check_out": "2024-11-25T00:00:00.000Z",
+          "quantidade_pessoas": 1,
+          "status": "hospedado",
+          "aceita_pet": true,
+          "clienteId": 1,
+          "acomodacaoId": 8,
+          "cupomId": null
+        }
+      ],
+      "usuario": {
+        "id": 4,
+        "nome": "Cliente",
+        "sobrenome": "Cliente",
+        "email": "cliente@cliente.com",
+        "hash_senha": "$2b$10$1xmu3V8UoRZYdfDesH5ei.sbekJQR2qSOGpgqeMn518hPWG002GSy",
+        "telefone": null,
+        "token_resetar_senha": null,
+        "data_nascimento": null,
+        "vip": false,
+        "role": "cliente"
+      }
+    }
+  ]
+}
