@@ -145,13 +145,50 @@ export default function Home({}) {
         const response = await api.get<HotelData>("reservas/hotelaria/");
         console.log(response.data);
         setDados(response.data);
+        setIsLoading(false);
+        return response.data
       } catch (error) {
         console.error("Erro ao buscar informações do hotel:", error);
+        setIsLoading(false);
       }
     };
 
     getHotelInfo();
   }, []);
+
+  //página carregando  
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar o loading
+
+  
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-spin h-8 w-8 text-rosa-4 mb-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+          <h1 className="text-rosa-4 font-semibold">Carregando...</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -171,7 +208,7 @@ export default function Home({}) {
             <div className="mb-[24px]">
               <p className="text-[22px] text-preto font-poppins">
                 Fazendo check-in (
-                {dados
+                {dados 
                   ? dados?.checkInHoje.reduce(
                       (total, item) => total + (item.Reserva?.length || 0),
                       0
