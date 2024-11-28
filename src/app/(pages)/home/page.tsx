@@ -220,6 +220,7 @@ export default function Home({}) {
                       temAlgo={true}
                       nomeQuarto={acomodacao.titulo}
                       data={acomodacao.Reserva[0].data_check_in}
+                      fotoAcomodacao={acomodacao.FotoAcomodacao[0].url_foto}
                     />
                   )}
                 )
