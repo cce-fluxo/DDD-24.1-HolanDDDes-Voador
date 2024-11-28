@@ -27,8 +27,12 @@ const BoxQuarto: React.FC<BoxQuartoProps> = ({
           <div>
             <h1 className=" text-[24px] mb-[24px] text-preto">{nomeQuarto}</h1>
             <p className="text-preto">{nomePropriedade}</p>
-            <p className="text-preto">Check in: {dataCheckin}</p>
-            <p className="text-preto">Check out: {dataCheckout}</p>
+            {dataCheckin && (
+              <p className="text-preto">Check in: {dataCheckin}</p>
+            )}
+            {dataCheckout && ( 
+              <p className="text-preto">Check out: {dataCheckout}</p>
+            )}
           </div>
         </div>
       ) : (

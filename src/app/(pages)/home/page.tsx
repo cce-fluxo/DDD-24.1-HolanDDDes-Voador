@@ -10,166 +10,73 @@ import BoxReserva from "../../components/BoxReserva";
 import BoxQuarto from "../../components/BoxQuarto";
 import api from "@/app/services/axios";
 
-interface quartosReservadosMes {
-  Reserva: {
-    id: number;
-    data_check_in: string;
-    data_check_out: string;
-    quantidade_pessoas: number;
-    status: string;
-    aceita_pet: boolean;
-    clienteId: number;
-    acomodacaoId: number;
-    cupomId: number | null;
-    cliente: { usuario: { nome: string; sobrenome: string } };
-  }[];
-  id: number;
-  data_check_in: string;
-  titulo: string;
-  data_check_out: string;
-  quantidade_pessoas: number;
-  status: string;
-  aceita_pet: boolean;
-  clienteId: number;
-  acomodacaoId: number;
-  cupomId: number | null;
+interface HotelData {
+  checkInHoje: CheckInOutData[];
+  checkOutHoje: CheckInOutData[];
+  quartosReservadosMes: QuartosReservadosMes[];
+  quartosLivres: QuartosLivres[];
+  clientesNoMomento: ClientesNoMomento[];
 }
 
-interface quartosLivres {
-  FotoAcomodacao: {
-    url_foto: string;
-  };
-  id: number;
+interface CheckInOutData {
   titulo: string;
-  descricao: string;
-  banheiros: number;
-  quartos: number;
-  camas: number;
-  valor_diaria: number;
-  valor_pet: number;
-  complemento: string;
-  tipo_acomodacaoId: number;
-  hotelId: number;
-  nota: number;
-}
-
-interface checkInHoje {
-  id: number;
-  titulo: string;
-  descricao: string;
-  banheiros: number;
-  quartos: number;
-  camas: number;
-  valor_diaria: number;
-  valor_pet: number;
-  complemento: string;
-  tipo_acomodacaoId: number;
-  hotelId: number;
-  nota: number;
+  FotoAcomodacao: { url_foto: string }[];
   Reserva: {
     id: number;
-    data_check_in: string;
-    data_check_out: string;
-    quantidade_pessoas: number;
-    status: string;
-    aceita_pet: boolean;
-    clienteId: number;
-    acomodacaoId: number;
-    cupomId: number | null;
+    data_check_in?: string;
+    data_check_out?: string;
     cliente: {
-      id: number;
-      usuarioId: number;
-      usuario: { 
-        nome: string; 
-        telefone: string | null 
-        FotoUsuario: {
-          url_foto: string | null 
-        }[];
+      usuario: {
+        nome: string;
+        telefone: string;
       };
     };
   }[];
 }
 
-interface checkOutHoje {
+interface QuartosReservadosMes {
   id: number;
   titulo: string;
-  descricao: string;
-  banheiros: number;
-  quartos: number;
-  camas: number;
-  valor_diaria: number;
-  valor_pet: number;
-  complemento: string;
-  tipo_acomodacaoId: number;
-  hotelId: number;
-  nota: number;
+  FotoAcomodacao: { url_foto: string }[];
   Reserva: {
-    id: number;
     data_check_in: string;
     data_check_out: string;
-    quantidade_pessoas: number;
-    status: string;
-    aceita_pet: boolean;
-    clienteId: number;
-    acomodacaoId: number;
-    cupomId: number | null;
     cliente: {
-      id: number;
-      usuarioId: number;
-      usuario: { 
-        nome: string; 
-        telefone: string | null 
-        FotoUsuario: {
-          url_foto: string | null 
-        }[];
+      usuario: {
+        nome: string;
       };
     };
   }[];
 }
 
-interface clientesNoMomento {
+interface QuartosLivres {
   id: number;
-  usuarioId: number;
-  Reserva: {
-    id: number;
-    data_check_in: string;
-    data_check_out: string;
-    quantidade_pessoas: number;
-    status: string;
-    aceita_pet: boolean;
-    clienteId: number;
-    acomodacaoId: number;
-    cupomId: number | null;
-    acomodacao: {
-      titulo: string;
-      FotoAcomodacao: {
-        url_foto: string;
-      }[];
-    }
-  }[];
+  titulo: string;
+  camas: number;
+  FotoAcomodacao: { url_foto: string }[];
+}
+
+interface ClientesNoMomento {
   usuario: {
     id: number;
     nome: string;
     sobrenome: string;
-    email: string;
-    hash_senha: string;
-    telefone: string | null;
-    token_resetar_senha: string | null;
-    data_nascimento: string | null;
-    vip: boolean;
-    role: string;
+    telefone: string;
+    Client: {
+      id: number;
+    };
     FotoUsuario: {
       url_foto: string;
-    }[]
+    }[];
   };
-}
-
-interface HotelData {
-  checkInHoje: checkInHoje[];
-  checkOutHoje: checkOutHoje[];
-  quartosReservadosMes: quartosReservadosMes[];
-  quartosLivres: quartosLivres[];
-  clientesNoMomento: clientesNoMomento[];
+  Reserva: {
+    clienteId: number;
+    data_check_in: string;
+    acomodacao: {
+      titulo: string;
+      FotoAcomodacao: { url_foto: string }[];
+    };
+  }[];
 }
 
 export default function Home({}) {
@@ -180,11 +87,11 @@ export default function Home({}) {
       try {
         const response = await api.get<HotelData>("reservas/hotelaria/");
         console.log(response.data);
-        console.log(response.data.clientesNoMomento)
         console.log(response.data.checkInHoje)
-        console.log(response.data.quartosLivres)
         console.log(response.data.checkOutHoje)
         console.log(response.data.quartosReservadosMes)
+        console.log(response.data.quartosLivres)
+        console.log(response.data.clientesNoMomento)
         setDados(response.data);
         setIsLoading(false);
         return response.data
@@ -260,15 +167,15 @@ export default function Home({}) {
             </div>
             <div className="flex gap-[24px] overflow-x-auto">
               {dados?.checkInHoje && dados?.checkInHoje?.length > 0 ? (
-                dados.checkInHoje.map((item) =>
-                  item.Reserva.map((checkin) => (
+                dados.checkInHoje.map((acomodacao) =>
+                  acomodacao.Reserva.map((reserva) => (
                     <BoxCheckin
-                      key={checkin.id}
+                      key={reserva.id}
                       temAlgo={true}
-                      nomeQuarto={item.titulo}
-                      nomePessoa={checkin.cliente.usuario.nome}
-                      data={checkin.data_check_in}
-                      telefone={checkin.cliente.usuario.telefone}
+                      nomeQuarto={acomodacao.titulo}
+                      nomePessoa={reserva.cliente.usuario.nome}
+                      data={reserva.data_check_in}
+                      telefone={reserva.cliente.usuario.telefone}
                     />
                   ))
                 )
@@ -305,14 +212,14 @@ export default function Home({}) {
             </div>
             <div className="flex gap-[24px] overflow-x-auto">
               {dados?.quartosReservadosMes && dados?.quartosReservadosMes.length > 0 ? (
-                dados?.quartosReservadosMes?.map((item) => {
-                  if (!item || typeof item !== "object") return null; // Ignorar dados inválidos
+                dados?.quartosReservadosMes?.map((acomodacao) => {
+                  if (!acomodacao || typeof acomodacao !== "object") return null; // Ignorar dados inválidos
                   return (
                     <BoxCheckin
-                      key={item.id}
+                      key={acomodacao.id}
                       temAlgo={true}
-                      nomeQuarto={item.titulo}
-                      data={item.data_check_in}
+                      nomeQuarto={acomodacao.titulo}
+                      data={acomodacao.Reserva[0].data_check_in}
                     />
                   )}
                 )
@@ -332,12 +239,10 @@ export default function Home({}) {
               {dados?.quartosLivres.map((quarto) => (
                 <BoxQuarto
                   key={quarto.id}
-                  imagem={quarto.FotoAcomodacao.url_foto}
+                  imagem={quarto.FotoAcomodacao?.[0]?.url_foto}
                   temAlgo={dados.quartosLivres.length > 0}
                   nomePropriedade={quarto.titulo}
-                  nomeQuarto={quarto.titulo}
-                  dataCheckin={quarto.descricao}
-                  dataCheckout={quarto.descricao}
+                  // nomeQuarto={quarto.titulo}
                 />
               ))}
             </div>

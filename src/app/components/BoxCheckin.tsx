@@ -8,6 +8,7 @@ interface BoxCheckinProps {
   nomePessoa?: string;
   data?: string;
   telefone?: string | null;
+  fotoAcomodacao?: string;
 }
 
 const BoxCheckin: React.FC<BoxCheckinProps> = ({
@@ -16,12 +17,13 @@ const BoxCheckin: React.FC<BoxCheckinProps> = ({
   nomePessoa,
   data,
   telefone,
+  fotoAcomodacao = "/google.png"
 }) => {
   return (
     <>
       {temAlgo ? (
         <div className="flex min-w-[427px] mb-5 min-h-[195px] shadow-xl pl-[10px] pt-[20px] pb-[20px] pr-[40px]">
-          <div className="bg-slate-500 h-[157px] w-[157px] mr-[24px] rounded-[5px]"></div>
+          <Image src={fotoAcomodacao} alt="Imagem da Acomodação" width={157} height={157} className="h-[157px] w-[157px] mr-[24px] rounded-[5px]"></Image>
           <div>
             <h1 className="text-[24px] mb-[24px] text-preto">{nomeQuarto}</h1>
             <p className="text-[20px] text-preto">{nomePessoa}</p>
