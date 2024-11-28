@@ -8,6 +8,9 @@ import Mala from "../../../../public/mala.png"
 import Foto1 from "../../../../public/Rectangle 160.png"
 import Foto2 from "../../../../public/Rectangle 161.png"
 import Foto3 from "../../../../public/Rectangle 162.png"
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import InputText from "@/app/components/InputText";
 
 export default function Editar(){
     return(
@@ -122,6 +125,58 @@ export default function Editar(){
                     <p className="font-readex-pro text-cinza-4 font-normal text-[20px] mb-3 ">Sobre</p>
                     <p className="font-readex-pro text-cinza-3 font-normal mb-10"> bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</p>
                 </div>
+                <Formik
+                    className="flex flex-col gap-2"
+                    initialValues={{ nome: "", sobrenome: "", dataNascimento: "" }}
+                    validationSchema={Yup.object({
+                    nome: Yup.string().required("Campo obrigatorio"),
+                    sobrenome: Yup.string().required("Campo obrigatorio"),
+                    dataNascimento: Yup.date()
+                        .required("Campo obrigatorio")
+                        .min(
+                        new Date(1900, 0, 1),
+                        "Nao é permitido datas anteriores a 1900"
+                        )
+                        .max(new Date(), "Nao é permitido data futura"),
+                    })}
+                    onSubmit={(values, { setSubmitting }) => {
+                    setTimeout(() => {
+                        alert(JSON.stringify(values, null, 2));
+                        setSubmitting(false);
+                    }, 400);
+                    }}
+                    
+
+                >
+                    <Form className="">
+                        <InputText
+                            label="nome"
+                            name="nome"
+                            type="text"
+                            placeholder="Nome: escreva aqui o seu nome"
+                            style=" pl-3 h-10 mb-10 border-preto border-2 w-full rounded-2xl "
+                        />
+                        <InputText
+                            label="email"
+                            name="email"
+                            type="email"
+                            placeholder="Email: escreva aqui o seu email"
+                            style=" pl-3 h-10 mb-10 border-preto border-2 w-full rounded-2xl "
+                        />
+                        <InputText
+                            label="telefone"
+                            name="telefone"
+                            type="text"
+                            placeholder="Telefone: escreva aqui o seu telefone"
+                            style=" pl-3 h-10 mb-10 border-preto border-2 w-full rounded-2xl "
+                        />
+
+                        <button className="w-4/5 h-12 mt-3 bg-rosa-4 rounded-lg place-self-center">
+                            <h1 className="text-branco text-2xl"> Continuar</h1>
+                        </button>
+                    </Form>
+
+                </Formik>
 
                 <input type="text" className=" pl-3 h-10 mb-10 border-preto border-2 w-full rounded-2xl" placeholder="Nome: escreva aqui o seu nome"/>
 
