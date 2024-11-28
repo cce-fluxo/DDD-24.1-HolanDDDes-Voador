@@ -6,14 +6,9 @@ import Coracao from "../../../public/coracao.png"
 import Medalha from "../../../public/medalha.png"
 import Estrela from "../../../public/estrela.png"
 import Mala from "../../../public/mala.png"
-import Foto1 from "../../../public/Rectangle 160.png"
-import Foto2 from "../../../public/Rectangle 161.png"
-import Foto3 from "../../../public/Rectangle 162.png"
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { usePathname, } from "next/navigation";
 import api from "../services/axios";
-import { useAuth } from "../context/authContext";
 import LoggedHeader from "@/app/LoggedHeader";
 import Interesse from "../components/interesse";
 
