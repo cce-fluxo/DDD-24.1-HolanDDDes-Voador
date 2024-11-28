@@ -89,7 +89,7 @@ export default function Home({}) {
         console.log(response.data);
         console.log(response.data.checkInHoje)
         console.log(response.data.checkOutHoje)
-        console.log(response.data.quartosReservadosMes)
+        console.log("proximos dias: ",response.data.quartosReservadosMes)
         console.log(response.data.quartosLivres)
         console.log(response.data.clientesNoMomento)
         setDados(response.data);
@@ -241,7 +241,7 @@ export default function Home({}) {
                   key={quarto.id}
                   imagem={quarto.FotoAcomodacao?.[0]?.url_foto}
                   temAlgo={dados.quartosLivres.length > 0}
-                  nomePropriedade={quarto.titulo}
+                  nomeQuarto={quarto.titulo}
                   // nomeQuarto={quarto.titulo}
                 />
               ))}
@@ -253,10 +253,7 @@ export default function Home({}) {
             <p className="text-[22px] text-preto font-poppins">
               Hóspedes no momento (
               {dados
-                ? dados.clientesNoMomento?.reduce(
-                    (total, cliente) => total + (cliente.Reserva?.length || 0),
-                    0
-                  )
+                ? dados.clientesNoMomento?.length
                 : 0}
               )
             </p>
