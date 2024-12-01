@@ -87,11 +87,11 @@ export default function Home({}) {
       try {
         const response = await api.get<HotelData>("reservas/hotelaria/");
         console.log(response.data);
-        console.log(response.data.checkInHoje)
-        console.log(response.data.checkOutHoje)
+        console.log("checkin: ",response.data.checkInHoje)
+        console.log("checkout: ",response.data.checkOutHoje)
         console.log("proximos dias: ",response.data.quartosReservadosMes)
-        console.log(response.data.quartosLivres)
-        console.log(response.data.clientesNoMomento)
+        console.log("quartos livres: ",response.data.quartosLivres)
+        console.log("clientes no momento: ",response.data.clientesNoMomento)
         setDados(response.data);
         setIsLoading(false);
         return response.data
@@ -171,7 +171,7 @@ export default function Home({}) {
                   acomodacao.Reserva.map((reserva) => (
                     <BoxCheckin
                       key={reserva.id}
-                      temAlgo={true}
+                      temAlgo={dados.checkInHoje?.length>0}
                       nomeQuarto={acomodacao.titulo}
                       nomePessoa={reserva.cliente.usuario.nome}
                       data={reserva.data_check_in}
@@ -217,7 +217,7 @@ export default function Home({}) {
                   return (
                     <BoxCheckin
                       key={acomodacao.id}
-                      temAlgo={true}
+                      temAlgo={dados.checkInHoje?.length>0}
                       nomeQuarto={acomodacao.titulo}
                       data={acomodacao.Reserva[0].data_check_in}
                       fotoAcomodacao={acomodacao.FotoAcomodacao[0].url_foto}
