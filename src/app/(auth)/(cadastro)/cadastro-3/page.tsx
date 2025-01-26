@@ -11,7 +11,7 @@ import { useSignUp } from "@/app/context/signUpContext";
 const Cadastro3 = () => {
   const iconSize: number = 24;
   const router = useRouter();
-  const { user,  updateUser, signUp } = useSignUp();
+  const { user , signUp } = useSignUp();
   return (
     <main className="flex justify-evenly h-screen items-end font-poppins">
       <div className="h-full flex place-self-center text-center items-center w-2/5">
