@@ -1,10 +1,9 @@
-import FotografiaIcon from "../public/cinema.svg";
+import { FotografiaIcon , CinemaIcon } from "../public/cinema.svg";
 import NaturezaIcon from "../public/natureza.svg";
 import ViagensIcon from "../public/viagens.svg";
 import PraiaIcon from "../public/praia.svg";
 import PetloverIcon from "../public/petlover.svg";
 import DecoracaoIcon from "../public/decoracao.svg";
-import CinemaIcon from "../public/cinema.svg";
 import LiteraturaIcon from "../public/literatura.svg";
 import MusicaIcon from "../public/musica.svg";
 import EsportesIcon from "../public/esportes.svg";
