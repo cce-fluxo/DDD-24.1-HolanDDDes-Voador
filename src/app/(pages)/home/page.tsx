@@ -138,155 +138,153 @@ export default function Home() {
   }
 
   return (
-    <>
-      <div>
-        <LoggedHeader />
-        <div className="mt-16">
-          <div className="flex justify-center pt-[64px] text-rosa-4 text-[30px]">
-            Bem vindo ao seu hotel
-          </div>
-          <div className="flex justify-center pb-[64px] text-cinza-1 text-[30px] ">
-            Controle totalmente o seu negócio!
-          </div>
+    <div>
+      <LoggedHeader />
+      <div className="mt-16">
+        <div className="flex justify-center pt-[64px] text-rosa-4 text-[30px]">
+          Bem vindo ao seu hotel
         </div>
+        <div className="flex justify-center pb-[64px] text-cinza-1 text-[30px] ">
+          Controle totalmente o seu negócio!
+        </div>
+      </div>
 
-        <div className="ml-[42.5px]">
-          <div className="mb-[64px] overflow-x-auto">
-            <div className="mb-[24px]">
-              <p className="text-[22px] text-preto font-poppins">
-                Fazendo check-in (
-                {dados 
-                  ? dados?.checkInHoje.reduce(
-                      (total, item) => total + (item.Reserva?.length || 0),
-                      0
-                    )
-                  : 0}
-                )
-              </p>
-            </div>
-            <div className="flex gap-[24px] overflow-x-auto">
-              {dados?.checkInHoje && dados?.checkInHoje?.length > 0 ? (
-                dados.checkInHoje.map((acomodacao) =>
-                  acomodacao.Reserva.map((reserva) => (
-                    <BoxCheckin
-                      key={reserva.id}
-                      temAlgo={dados.checkInHoje?.length>0}
-                      nomeQuarto={acomodacao.titulo}
-                      nomePessoa={reserva.cliente.usuario.nome}
-                      data={reserva.data_check_in}
-                      telefone={reserva.cliente.usuario.telefone}
-                    />
-                  ))
-                )
-              ) : (
-                <BoxCheckin temAlgo={false} />
-              )}
-            </div>
-          </div>
-
-          <div className=" mb-[64px] overflow-x-auto">
-            <div className=" mb-[24px]">
-              <p className=" text-[22px] text-preto font-poppins">
-                Fazendo check out (
-                {dados
-                  ? dados.checkOutHoje.reduce(
-                      (total, item) => total + (item.Reserva?.length || 0),
-                      0
-                    )
-                  : 0}
-                )
-              </p>
-            </div>
-            <div className=" flex gap-[24px] overflow-x-auto">
-              <BoxCheckout temAlgo={false} />
-            </div>
-          </div>
-
-          <div className=" mb-[64px] overflow-x-auto">
-            <div className=" mb-[24px]">
-              <p className=" text-[22px] text-preto font-poppins">
-                Quartos reservados nos próximos dias (
-                {dados ? dados.quartosReservadosMes.length : 0})
-              </p>
-            </div>
-            <div className="flex gap-[24px] overflow-x-auto">
-              {dados?.quartosReservadosMes && dados?.quartosReservadosMes.length > 0 ? (
-                dados?.quartosReservadosMes?.map((acomodacao) => {
-                  if (!acomodacao || typeof acomodacao !== "object") return null; // Ignorar dados inválidos
-                  return (
-                    <BoxCheckin
-                      key={acomodacao.id}
-                      temAlgo={dados.checkInHoje?.length>0}
-                      nomeQuarto={acomodacao.titulo}
-                      data={acomodacao.Reserva[0].data_check_in}
-                      fotoAcomodacao={acomodacao.FotoAcomodacao[0].url_foto}
-                    />
-                  )}
-                )
-              ) : (
-                <BoxCheckin temAlgo={false} />
-              )}
-            </div>
-          </div>
-
-          <div className=" mb-[64px] overflow-x-auto">
-            <div className=" mb-[24px]">
-              <p className=" text-[22px] text-preto font-poppins">
-                Quartos livres ({dados ? dados.quartosLivres.length : 0})
-              </p>
-            </div>
-            <div className=" flex gap-[24px] overflow-x-auto">
-              {dados?.quartosLivres.map((quarto) => (
-                <BoxQuarto
-                  key={quarto.id}
-                  imagem={quarto.FotoAcomodacao?.[0]?.url_foto}
-                  temAlgo={dados.quartosLivres.length > 0}
-                  nomeQuarto={quarto.titulo}
-                  // nomeQuarto={quarto.titulo}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="mb-[64px] overflow-x-auto">
+      <div className="ml-[42.5px]">
+        <div className="mb-[64px] overflow-x-auto">
           <div className="mb-[24px]">
             <p className="text-[22px] text-preto font-poppins">
-              Hóspedes no momento (
-              {dados
-                ? dados.clientesNoMomento?.length
+              Fazendo check-in (
+              {dados 
+                ? dados?.checkInHoje.reduce(
+                    (total, item) => total + (item.Reserva?.length || 0),
+                    0
+                  )
                 : 0}
               )
             </p>
           </div>
           <div className="flex gap-[24px] overflow-x-auto">
-            {dados && dados.clientesNoMomento.length > 0 ? (
-              dados.clientesNoMomento.map((cliente) => (
-                <BoxHospede
-                  key={cliente.usuario.id}
-                  imagem={cliente.usuario.FotoUsuario?.[0]?.url_foto || "/google.png"}
-                  temAlgo={cliente.Reserva && cliente.Reserva.length > 0}
-                  nomeQuarto={
-                    cliente.Reserva?.[0]?.acomodacao?.titulo
-                      ? `Quarto com ${cliente.Reserva[0].acomodacao.titulo}`
-                      : "Quarto não especificado"
-                  }
-                  nomePessoa={cliente.usuario.nome}
-                  data={
-                    cliente.Reserva?.[0]?.data_check_in || "Data não disponível"
-                  }
-                  telefone={cliente.usuario.telefone || "Telefone não disponível"}
-                />
-              ))
+            {dados?.checkInHoje && dados?.checkInHoje?.length > 0 ? (
+              dados.checkInHoje.map((acomodacao) =>
+                acomodacao.Reserva.map((reserva) => (
+                  <BoxCheckin
+                    key={reserva.id}
+                    temAlgo={dados.checkInHoje?.length>0}
+                    nomeQuarto={acomodacao.titulo}
+                    nomePessoa={reserva.cliente.usuario.nome}
+                    data={reserva.data_check_in}
+                    telefone={reserva.cliente.usuario.telefone}
+                  />
+                ))
+              )
             ) : (
-              <p className="text-[16px] text-gray-500">
-                Nenhum hóspede no momento.
-              </p>
+              <BoxCheckin temAlgo={false} />
             )}
           </div>
         </div>
 
+        <div className=" mb-[64px] overflow-x-auto">
+          <div className=" mb-[24px]">
+            <p className=" text-[22px] text-preto font-poppins">
+              Fazendo check out (
+              {dados
+                ? dados.checkOutHoje.reduce(
+                    (total, item) => total + (item.Reserva?.length || 0),
+                    0
+                  )
+                : 0}
+              )
+            </p>
+          </div>
+          <div className=" flex gap-[24px] overflow-x-auto">
+            <BoxCheckout temAlgo={false} />
+          </div>
+        </div>
+
+        <div className=" mb-[64px] overflow-x-auto">
+          <div className=" mb-[24px]">
+            <p className=" text-[22px] text-preto font-poppins">
+              Quartos reservados nos próximos dias (
+              {dados ? dados.quartosReservadosMes.length : 0})
+            </p>
+          </div>
+          <div className="flex gap-[24px] overflow-x-auto">
+            {dados?.quartosReservadosMes && dados?.quartosReservadosMes.length > 0 ? (
+              dados?.quartosReservadosMes?.map((acomodacao) => {
+                if (!acomodacao || typeof acomodacao !== "object") return null; // Ignorar dados inválidos
+                return (
+                  <BoxCheckin
+                    key={acomodacao.id}
+                    temAlgo={dados.checkInHoje?.length>0}
+                    nomeQuarto={acomodacao.titulo}
+                    data={acomodacao.Reserva[0].data_check_in}
+                    fotoAcomodacao={acomodacao.FotoAcomodacao[0].url_foto}
+                  />
+                )}
+              )
+            ) : (
+              <BoxCheckin temAlgo={false} />
+            )}
+          </div>
+        </div>
+
+        <div className=" mb-[64px] overflow-x-auto">
+          <div className=" mb-[24px]">
+            <p className=" text-[22px] text-preto font-poppins">
+              Quartos livres ({dados ? dados.quartosLivres.length : 0})
+            </p>
+          </div>
+          <div className=" flex gap-[24px] overflow-x-auto">
+            {dados?.quartosLivres.map((quarto) => (
+              <BoxQuarto
+                key={quarto.id}
+                imagem={quarto.FotoAcomodacao?.[0]?.url_foto}
+                temAlgo={dados.quartosLivres.length > 0}
+                nomeQuarto={quarto.titulo}
+                // nomeQuarto={quarto.titulo}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-[64px] overflow-x-auto">
+        <div className="mb-[24px]">
+          <p className="text-[22px] text-preto font-poppins">
+            Hóspedes no momento (
+            {dados
+              ? dados.clientesNoMomento?.length
+              : 0}
+            )
+          </p>
+        </div>
+        <div className="flex gap-[24px] overflow-x-auto">
+          {dados && dados.clientesNoMomento.length > 0 ? (
+            dados.clientesNoMomento.map((cliente) => (
+              <BoxHospede
+                key={cliente.usuario.id}
+                imagem={cliente.usuario.FotoUsuario?.[0]?.url_foto || "/google.png"}
+                temAlgo={cliente.Reserva && cliente.Reserva.length > 0}
+                nomeQuarto={
+                  cliente.Reserva?.[0]?.acomodacao?.titulo
+                    ? `Quarto com ${cliente.Reserva[0].acomodacao.titulo}`
+                    : "Quarto não especificado"
+                }
+                nomePessoa={cliente.usuario.nome}
+                data={
+                  cliente.Reserva?.[0]?.data_check_in || "Data não disponível"
+                }
+                telefone={cliente.usuario.telefone || "Telefone não disponível"}
+              />
+            ))
+          ) : (
+            <p className="text-[16px] text-gray-500">
+              Nenhum hóspede no momento.
+            </p>
+          )}
         </div>
       </div>
-    </>
+
+      </div>
+    </div>
   );
 }

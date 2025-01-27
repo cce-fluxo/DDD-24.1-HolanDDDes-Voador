@@ -6,7 +6,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import BoxQuarto from "@/app/components/box_quarto";
 import api from "@/app/services/axios";
 import { useRouter } from "next/navigation";
 

@@ -101,12 +101,6 @@ const Hotel = () => {
     setIsModalOpen(false);
   };
 
-  const handleConfirmDelete = () => {
-    // Lógica para excluir o anúncio
-    console.log('Anúncio excluído');
-    setIsModalOpen(false);
-  };
-
    // valor mínimo da diária
    const calcularValorMinimoDiaria = (hotelData: HotelData | null): number | null => {
     // Verifica se hotelData é válido e se há acomodações
