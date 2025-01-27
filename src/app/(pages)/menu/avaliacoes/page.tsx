@@ -163,10 +163,10 @@ export default function Avaliacoes() {
           avaliacoes.push({
             id: avaliacao.id,
             name: `${usuario.nome} ${usuario.sobrenome}`,
-            acomodacao: acomodacaoEncontrada?.titulo || "Sem Nome",
+            acomodacao: acomodacaoEncontrada?.titulo ?? "Sem Nome",
             nota: calcularNota(avaliacao),
-            descricao: avaliacao.comentario || "",
-            url_foto: fotoUsuario?.url_foto || "/google.png", // Foto padrão se não houver foto
+            descricao: avaliacao.comentario ?? "",
+            url_foto: fotoUsuario?.url_foto ?? "/google.png", // Foto padrão se não houver foto
           });
         });
       });
