@@ -191,11 +191,13 @@ export default function Avaliacoes() {
 
   }
 
-  function getMediaDasNotas(avaliacoes: Avaliacao[]){
+  function getMediaDasNotas(avaliacoes: Avaliacao[]) {
     let soma = 0;
-    avaliacoes.map(avaliacao => soma += avaliacao.nota);
-    return soma/avaliacoes.length;
-  }
+    avaliacoes.forEach(avaliacao => {
+      soma += avaliacao.nota;
+    });
+    return soma / avaliacoes.length;
+  }  
 
   const isDateWithinLastMonth = (isoDateString: string): boolean => {
     const inputDate = new Date(isoDateString);

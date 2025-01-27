@@ -73,7 +73,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     className={`flex flex-row w-full h-[56px] rounded-[10px] border-[1px] gap-[16px] items-center cursor-pointer
                       ${selectedItems.includes(item.name) ? 'bg-laranja' : 'bg-branco-2'}`}
                     onClick={() => handleItemClick(item)}
-                  >
+                  > 
                     <item.icon
                       className={`ml-2 w-10 h-10 ${selectedItems.includes(item.name) ? 'text-branco-2' : 'text-cinza-3'}`}
                     />
