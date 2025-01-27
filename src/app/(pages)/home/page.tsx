@@ -6,7 +6,6 @@ import LoggedHeader from "@/app/LoggedHeader";
 import BoxCheckin from "../../components/BoxCheckin";
 import BoxCheckout from "../../components/BoxCheckout";
 import BoxHospede from "../../components/BoxHospede";
-import BoxReserva from "../../components/BoxReserva";
 import BoxQuarto from "../../components/BoxQuarto";
 import api from "@/app/services/axios";
 
