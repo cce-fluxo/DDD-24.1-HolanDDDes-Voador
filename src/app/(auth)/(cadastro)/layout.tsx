@@ -5,11 +5,9 @@ import React from "react";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-        <SingUpContextProvider>
-            {children}
-        </SingUpContextProvider>
-    </>
+    <SingUpContextProvider>
+        {children}
+    </SingUpContextProvider>
   );
 };
 
