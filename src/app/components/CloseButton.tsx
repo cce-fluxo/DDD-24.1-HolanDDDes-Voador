@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-type CloseButtonProps = {
+type CloseButtonProps = Readonly<{
     handleClick: () => void;
-}
+}>
 
 export default function CloseButton({handleClick}: CloseButtonProps){
     return (

@@ -6,14 +6,10 @@ import Coracao from "../../../../public/coracao.png"
 import Medalha from "../../../../public/medalha.png"
 import Estrela from "../../../../public/estrela.png"
 import Mala from "../../../../public/mala.png"
-import Foto1 from "../../../../public/Rectangle 160.png"
-import Foto2 from "../../../../public/Rectangle 161.png"
-import Foto3 from "../../../../public/Rectangle 162.png"
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputText from "@/app/components/InputText";
 import LoggedHeader from "@/app/LoggedHeader";
-import Interesse from "../../components/interesse";
 import api from "../../services/axios";
 import React, { useEffect, useState } from "react";
 

@@ -38,7 +38,7 @@ const LoggedHeader = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // salvando nome do usuário  
-  const [username, setUsernameData] = useState<UserData | null>(null)
+  const [username, setUsernameData] = useState<UserData | null>(null);
 
   async function getUsername() {
     try {

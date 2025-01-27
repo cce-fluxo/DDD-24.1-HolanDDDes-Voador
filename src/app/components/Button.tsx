@@ -1,9 +1,9 @@
-type ButtonProps = {
+type ButtonProps = Readonly<{
     text: string;
     variant: 'primary' | 'secundary';
     type?: 'button' | 'submit'; 
     onClick?: () => void;
-}
+}>
 
 export default function Button({ text, variant = 'primary', type = "button", onClick}: ButtonProps){
     const baseStyle ="w-full py-[16px] rounded-[12px] text-xl font-normal leading-[24px] font-poppins "
