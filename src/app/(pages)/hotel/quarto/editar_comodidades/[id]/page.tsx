@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Link from 'next/link';
 import Comodidade from "@/app/components/Comodidade";
 import LoggedHeader from "@/app/LoggedHeader";
 import { useEffect, useState, useCallback } from "react";

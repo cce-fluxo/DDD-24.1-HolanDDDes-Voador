@@ -86,14 +86,14 @@ const Perfil = () => {
       const novasFotos: HotelData['foto_hotel'] = [];
 
       // Envia uma imagem por vez
-      for (let i = 0; i < imagemHotel.length; i++) {
-        const imagem = imagemHotel[i];
+      // Envia uma imagem por vez
+      for (const imagem of imagemHotel) {
         console.log("Imagem a ser enviada:", imagem);
-  
+
         // Mandando para o back
         const formData = new FormData();
         formData.append('file', imagem, imagem.name);
-  
+
         const response = await api.post('fotos-hoteis', formData);
         console.log("Imagem enviada com sucesso:", response.data);
       }

@@ -5,7 +5,6 @@ import Avaliacao from "@/app/components/Avaliacao";
 import LoggedHeader from "@/app/LoggedHeader";
 import { useEffect, useState } from "react";
 import api from "@/app/services/axios";
-import { list } from "postcss";
 
 interface AvaliacoesData {
   avaliacoes_acomodacoes: {
@@ -228,7 +227,6 @@ export default function Avaliacoes() {
       r.Acomodacao.forEach(a => {
         a.Reserva.forEach(reserva => {
           if ((reserva) => {
-            const dataReserva = new Date(reserva.data_check_in);
             return (reserva.getMonth() == today.getMonth())
           }) {
             const date = new Date(reserva.data_check_in);
